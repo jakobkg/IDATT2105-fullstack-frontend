@@ -1,17 +1,17 @@
 <template>
-  <a :href= pageLink>
-    <button>
+  <li>
+    <a :href=pageLink>
       <div>
         <img :src=imageLink alt="">
-        {{buttonText}}
+        <p>{{navText}}</p>
       </div>
-    </button>
-  </a>
-
+    </a>
+  </li>
 </template>
+
 <script setup>
 defineProps({
-  buttonText: {
+  navText: {
     type: String,
     required: true
   },
@@ -27,17 +27,36 @@ defineProps({
 </script>
 <script>
 export default {
-  name: "NavButton",
+  name: "NavElement",
 }
 </script>
 
 <style scoped>
-button {
-  border-radius: 0;
+li{
+  float: left;
+  margin-left: 0;
   display: inline-block;
-  vertical-align: middle;
+  padding: .5rem;
 }
-button:hover {
 
+a {
+  text-decoration: none;
+}
+
+div{
+  display: flex;
+  align-content: center;
+}
+
+li img {
+  float: left;
+}
+
+li p {
+  display: inline-block;
+}
+
+li:hover {
+  background-color: deeppink;
 }
 </style>

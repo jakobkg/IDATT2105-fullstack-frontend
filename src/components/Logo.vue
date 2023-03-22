@@ -1,5 +1,7 @@
 <template>
-  <img src="public/favicon.ico" alt="Website logo">
+  <a href="/">
+    <img src="public/favicon.ico" alt="Website logo">
+  </a>
 </template>
 
 <script>
@@ -9,4 +11,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

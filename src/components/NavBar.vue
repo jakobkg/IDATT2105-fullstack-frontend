@@ -1,31 +1,38 @@
 <template>
-  <div id = navbarWrapper>
-    <Logo />
-    <div>
-      <NavButton buttonText="Ny annonse" pageLink="/newListing" imageLink='public/favicon.ico'/>
-      <NavButton buttonText="Melding" pageLink="/messsages" imageLink="public/favicon.ico"/>
-      <NavButton buttonText="Profil" pageLink="/profile" imageLink="public/favicon.ico"/>
-    </div>
-  </div>
+  <nav>
+    <Logo/>
+    <ul>
+      <NavElement navText="Ny annonse" pageLink="/" imageLink='public/favicon.ico'/>
+      <NavElement navText="Melding" pageLink="/" imageLink="public/favicon.ico"/>
+      <NavElement navText="Profil" pageLink="/" imageLink="public/favicon.ico"/>
+    </ul>
+  </nav>
 
 </template>
 
 <script>
-import NavButton from "@/components/NavButton.vue";
+import NavElement from "@/components/NavElement.vue";
 import Logo from "@/components/Logo.vue";
 
 export default {
   name: "NavBar",
-  components: {Logo, NavButton}
+  components: {Logo, NavElement: NavElement}
 }
 </script>
 
 <style scoped>
 
-#navbarWrapper {
+nav {
   width: 100%;
   background-color: aqua;/*TODO*/
   display: flex;
   justify-content: space-between;
+}
+
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
 }
 </style>
