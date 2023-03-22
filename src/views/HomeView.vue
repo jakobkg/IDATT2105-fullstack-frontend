@@ -1,9 +1,12 @@
-<script setup lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue';
+<script setup>
+import ItemCard from '@/components/ItemCard.vue';
 </script>
 
 <template>
   <main>
-    <HelloWorld />
+    <ItemCard />
+    <ItemCard />
+    <ItemCard />
+    <ItemCard />
   </main>
 </template>
