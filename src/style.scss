@@ -93,4 +93,29 @@ button:focus-visible {
 
 /* OUR CUSTOM STYLES */
 
-$purple: #FF6978;
+//colors
+$pink: #FF6978;
+$indigo: #340068;
+$offWhite: #FFFCF9;
+
+//widths
+$desktop: 1010px;
+$phone: 768px;
+
+body {
+    background-color: $offWhite;
+}
+
+/*
+SCSS example:
+body {
+    .container {
+        p {
+            font-size: 16px;
+        }
+    }
+}
+*/
+
+
+
