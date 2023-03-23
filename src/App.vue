@@ -11,6 +11,6 @@ export default {};
   <RouterView />
 </template>
 
-<style scoped>
-
+<style lang="scss">
+  @import "@/style.scss";
 </style>

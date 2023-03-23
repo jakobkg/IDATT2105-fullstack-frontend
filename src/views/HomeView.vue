@@ -28,8 +28,20 @@
   </main>
 </template>
 
-<script setup>
+<script lang="ts">
   import ItemCard from '@/components/ItemCard.vue';
+
+  export default {
+    name: "HomeView",
+    data() {
+      return {
+        input: "",
+      }
+    },
+    components: {
+      ItemCard,
+    }
+  }
 
 
 
