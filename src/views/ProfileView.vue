@@ -1,4 +1,11 @@
-<script setup>
+<script>
+import { useAuthStore } from "@/store/authStore";
+import { mapState } from "pinia";
+export default {
+  computed: {
+    ...mapState(useAuthStore, ['user']),
+  }
+}
 </script>
 
 <template>
@@ -8,9 +15,9 @@
       <div class="profile">
 <!--        <figure style="background-image: url('/src/profile-img.jpg');"><img src="@/profile-img.jpg"/></figure>-->
         <div class="details">
-          <h2>Navn Etternavn</h2>
-          <p>Email</p>
-          <p>Adresse</p>
+          <h2>{{user.firstname}} {{user.lastname}}</h2>
+          <p>{{user.email}}</p>
+          <p>{{user.streetAddress}}, {{user.postCode}} {{user.city}}</p>
         </div>
       </div>
 
