@@ -6,10 +6,10 @@
       <input type="text" id="title" name="title"  required><br>
 
       <label for="description">Beskrivelse:</label><br>
-      <input type="text" id="description" name="desctiption" required><br>
+      <input type="textarea" id="description" name="desctiption" required><br>
 
-      <label for="email">Pris:</label><br>
-      <input type="text" id="email" name="email">
+      <label for="price">Pris:</label><br>
+      <input type="number" id="price" name="price"><br>
 
       <label for="category">Kategori:</label><br>
 
@@ -60,7 +60,10 @@ export default {
 
 <style scoped>
 #wrapper {
-
   text-align: left;
+}
+
+input[type="text"],input[type="textarea"],input[type="select"],input[type="number"] {
+  width:100%;
 }
 </style>
