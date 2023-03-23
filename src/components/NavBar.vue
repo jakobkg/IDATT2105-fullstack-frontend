@@ -2,9 +2,9 @@
   <nav>
     <Logo/>
     <ul>
-      <NavElement navText="Ny annonse" pageLink="/" imageLink='src/static/Icons/add.svg'/>
-      <NavElement navText="Melding" pageLink="/" imageLink="src/static/Icons/comment.svg"/>
-      <NavElement navText="Profil" pageLink="/" imageLink="src/static/Icons/user.svg"/>
+      <NavElement navText="Ny annonse" pageLink="/" imageLink='..\..\public\static\Icons\add.svg'/>
+      <NavElement navText="Melding" pageLink="/" imageLink="..\..\public\static\Icons\comment.svg"/>
+      <NavElement navText="Profil" pageLink="/" imageLink="..\..\public\static\Icons\user.svg"/>
     </ul>
 
   </nav>
