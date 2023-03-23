@@ -9,7 +9,7 @@
   </li>
 </template>
 
-<script setup>
+<script setup lang="ts">
 defineProps({
   navText: {
     type: String,
@@ -25,7 +25,7 @@ defineProps({
   }
 })
 </script>
-<script>
+<script lang="ts">
 export default {
   name: "NavElement",
 }

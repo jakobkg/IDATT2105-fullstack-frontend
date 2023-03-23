@@ -11,7 +11,7 @@
   <br>
 </template>
 
-<script>
+<script lang="ts">
 import NavElement from "@/components/NavElement.vue";
 import Logo from "@/components/Logo.vue";
 
