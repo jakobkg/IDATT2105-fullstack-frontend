@@ -31,7 +31,7 @@
             },
             label: {
                 type: String,
-                default: 'Hei jeg selger noe kult og dette er en litt lang tekst haha'
+                default: 'Hei jeg selger noe kult og dette er en litt lang tekst blablabla'
             },
             price: {
                 type: String,
@@ -54,8 +54,10 @@
 <style scoped>
 
     .content {
-        border-style: solid;
-        border-color: crimson;
+
+
+        border-bottom: solid 1px #999;
+
 
         display: flex;
         flex-direction: row;
