@@ -37,7 +37,7 @@ li{
   margin-left: 0;
   display: inline-block;
   padding: .5rem;
-  border-bottom: 2px solid $offWhite;
+  border-bottom: 2px solid base.$offWhite;
 }
 
 a {
@@ -66,7 +66,7 @@ img {
   object-fit: contain;
 }
 
-@media (max-width: $phone) {
+@media (max-width: base.$phone) {
   .navtext{
     display: none;
   }
@@ -77,6 +77,6 @@ li p {
 }
 
 li:hover {
-  border-bottom: 2px solid $pink;
+  border-bottom: 2px solid base.$pink;
 }
 </style>
