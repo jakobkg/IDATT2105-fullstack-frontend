@@ -10,6 +10,7 @@
             <h4>{{ location }} - {{ date }}</h4>
         </div>
 
+   
 
     </div>
 
@@ -26,24 +27,32 @@
         props: {
             image: {
                 type: String,
-                  default: 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-/*                default: 'https://images.unsplash.com/photo-1558637845-c8b7ead71a3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80'*/
+                required: true
             },
             label: {
                 type: String,
-                default: 'Hei jeg selger noe kult og dette er en litt lang tekst blablabla'
+                required: true
             },
             price: {
                 type: String,
-                default: "100kr"
+                required: true
             },
             location: {
                 type: String,
-                default: "Trondheim"
+                required: true
             },
             date: {
                 type: String,
-                default: "22.03.2022"
+                required: true
+            },
+            itemId: {
+                type: String,
+                required: true
+            },
+            isBookmarked: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         }
 
@@ -51,7 +60,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .content {
 
@@ -64,7 +73,7 @@
         flex-grow: 1;
         min-height: 130px;
         min-width: 270px;
-        max-height: 180px;
+        /* max-height: 180px; */
         max-width: 100%;
         border-radius: 5px;
 
@@ -75,17 +84,26 @@
         text-align: left;
     }
 
+    .content:hover {
+        background-color: #e4e2de;
+        
+    }
+
     .image {
-        width: 120px;
-        /*min-width: 120px;*/
-        height: 120px;
+        /* width: 120px; */
+        min-width: 150px;
+        width: 150px;
+        height: 150px;
+        height: 100%;
         margin-top: 15px;
     }
 
 
     img {
-        max-width: 120px;
-        max-height: 120px;
+        max-height: 150px;
+        min-height: 150px;
+        min-width: 150px;
+        max-width: 150px;
 
         height: 100%;
         width: 100%;
@@ -116,5 +134,19 @@
         margin-bottom: 0;
     }
 
+    @media (max-width: base.$phone) {
+        .image {
+            /* width: 120px; */
+            min-width: 30%;
+            width: 30%;
+     
+            margin-top: 15px;
+        }
+        img {
+            min-width: 100%;
+            min-height: 100%;
+
+        }
+}
 
 </style>
