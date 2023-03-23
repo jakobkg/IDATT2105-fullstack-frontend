@@ -6,8 +6,6 @@ import NavButton from "@/components/NavButton.vue";
 
 <template>
   <main>
-
     <HelloWorld />
-    <NavBar />
   </main>
 </template>

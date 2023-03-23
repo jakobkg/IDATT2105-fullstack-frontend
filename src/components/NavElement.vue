@@ -3,7 +3,7 @@
     <a :href=pageLink>
       <div>
         <img :src=imageLink alt="">
-        <p>{{navText}}</p>
+        <p class = "navtext">{{navText}}</p>
       </div>
     </a>
   </li>
@@ -31,17 +31,23 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 li{
   float: left;
   margin-left: 0;
   display: inline-block;
   padding: .5rem;
+  border-bottom: 2px solid $offWhite;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
+a:hover {
+  color: black;
+}
+
 
 div{
   display: flex;
@@ -60,11 +66,17 @@ img {
   object-fit: contain;
 }
 
+@media (max-width: $phone) {
+  .navtext{
+    display: none;
+  }
+}
+
 li p {
   display: inline-block;
 }
 
 li:hover {
-  border-bottom: 2px solid deeppink;
+  border-bottom: 2px solid $pink;
 }
 </style>
