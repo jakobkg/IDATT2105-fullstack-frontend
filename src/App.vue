@@ -12,6 +12,6 @@ export default {};
 </template>
 
 <style>
-@imort "@/style.scss";
+@import "@/style.scss";
 
 </style>
