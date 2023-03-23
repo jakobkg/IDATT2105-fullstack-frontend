@@ -8,6 +8,8 @@
   </p>
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+p {
+  color: base.$pink;
+}
 </style>
