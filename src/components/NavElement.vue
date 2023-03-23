@@ -52,6 +52,12 @@ li img {
   float: left;
 }
 
+img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 li p {
   display: inline-block;
 }
