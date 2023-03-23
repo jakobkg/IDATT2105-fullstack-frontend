@@ -26,7 +26,8 @@
         props: {
             image: {
                 type: String,
-                default: 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
+                  default: 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
+/*                default: 'https://images.unsplash.com/photo-1558637845-c8b7ead71a3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80'*/
             },
             label: {
                 type: String,
@@ -61,7 +62,6 @@
         flex-grow: 1;
         min-height: 130px;
         min-width: 270px;
-        max-height: 130px;
         max-height: 180px;
         max-width: 100%;
         border-radius: 5px;
@@ -69,17 +69,15 @@
         padding-bottom:15px;
         
         overflow: hidden;
-        
 
+        text-align: left;
     }
 
     .image {
         width: 120px;
-        min-width: 120px;
+        /*min-width: 120px;*/
         height: 120px;
         margin-top: 15px;
-       
-
     }
 
 
@@ -93,10 +91,6 @@
         border-radius: 5px;
 
         object-fit: cover;
-
-        
-
-        
     }
 
     .info {
@@ -117,7 +111,7 @@
 
     h4 {
         margin-top: 0;
-        margin-bottom: 15px;
+        margin-bottom: 0;
     }
 
 
