@@ -1,12 +1,13 @@
 <template>
   <nav>
-    <Logo/>
-    <ul>
-      <NavElement navText="Ny annonse" pageLink="/" imageLink='..\..\public\static\Icons\add.svg'/>
-      <NavElement navText="Melding" pageLink="/" imageLink="..\..\public\static\Icons\comment.svg"/>
-      <NavElement navText="Profil" pageLink="/" imageLink="..\..\public\static\Icons\user.svg"/>
-    </ul>
+    <Logo />
 
+    <ul v-if="token.length > 0">
+      <NavElement navText="Ny annonse" pageLink="/" imageLink='static/Icons/add.svg'/>
+      <NavElement navText="Melding" pageLink="/" imageLink="static/Icons/comment.svg"/>
+      <NavElement navText="Profil" pageLink="/profile" imageLink="static/Icons/user.svg"/>
+    </ul>
+    <NavElement v-else navText="Logg inn" pageLink="/login" imageLink="/static/Icons/login.svg" />
   </nav>
   <br>
 </template>
@@ -15,9 +16,15 @@
 import NavElement from "@/components/NavElement.vue";
 import Logo from "@/components/Logo.vue";
 
+import { useAuthStore } from "@/store/authStore";
+import { mapState } from "pinia";
+
 export default {
   name: "NavBar",
-  components: {Logo, NavElement: NavElement}
+  components: {Logo, NavElement},
+  computed: {
+    ...mapState(useAuthStore, ["token"])
+  }
 }
 </script>
 
