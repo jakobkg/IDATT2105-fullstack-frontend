@@ -55,6 +55,8 @@ li img {
 img {
   max-height: 100%;
   max-width: 100%;
+  width: 25px;
+  padding: 2px;
   object-fit: contain;
 }
 
@@ -63,6 +65,6 @@ li p {
 }
 
 li:hover {
-  background-color: deeppink;
+  border-bottom: 2px solid deeppink;
 }
 </style>

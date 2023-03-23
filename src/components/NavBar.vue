@@ -2,12 +2,13 @@
   <nav>
     <Logo/>
     <ul>
-      <NavElement navText="Ny annonse" pageLink="/" imageLink='public/favicon.ico'/>
-      <NavElement navText="Melding" pageLink="/" imageLink="public/favicon.ico"/>
-      <NavElement navText="Profil" pageLink="/" imageLink="public/favicon.ico"/>
+      <NavElement navText="Ny annonse" pageLink="/" imageLink='src/static/Icons/add.svg'/>
+      <NavElement navText="Melding" pageLink="/" imageLink="src/static/Icons/comment.svg"/>
+      <NavElement navText="Profil" pageLink="/" imageLink="src/static/Icons/user.svg"/>
     </ul>
-  </nav>
 
+  </nav>
+  <br>
 </template>
 
 <script>
@@ -20,11 +21,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 nav {
   width: 100%;
-  background-color: aqua;/*TODO*/
+  background-color: White;
   display: flex;
   justify-content: space-between;
 }

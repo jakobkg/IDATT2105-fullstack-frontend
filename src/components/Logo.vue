@@ -1,6 +1,6 @@
 <template>
   <a href="/">
-    <img src="public/favicon.ico" alt="Website logo">
+    <img src="src/static/Icons/home.svg" alt="Website logo">
   </a>
 </template>
 
@@ -13,5 +13,6 @@ export default {
 <style scoped>
 img{
   height: 100%;
+  width: 25px;
 }
 </style>
