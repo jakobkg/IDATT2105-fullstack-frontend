@@ -3,9 +3,9 @@ import { useAuthStore } from "@/store/authStore";
 import { mapState } from "pinia";
 export default {
   computed: {
-    ...mapState(useAuthStore, ['user']),
+    ...mapState(useAuthStore, ['user', 'token']),
     isLoggedIn() {
-      if (this.user.id != null) {
+      if (this.token.length > 0) {
         return true;
       } else {
         return false;
@@ -43,7 +43,7 @@ export default {
   </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   main {
     text-align: left;
     .profile-page {
@@ -75,6 +75,21 @@ export default {
         button {
           display: inline-block;
           margin: 0 10px;
+        }
+      }
+    }
+  }
+
+  @media(max-width: base.$phone) {
+    main {
+      .profile-page {
+        .buttons {
+          button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 10px;
+          }
         }
       }
     }
