@@ -24,7 +24,7 @@
           <ItemCard
             :image = "item.images"
             :label = "item.title"
-            :price = "item.price"
+            :price = "item.price + 'kr'"
             :location = "item.latitude"
             :date = "item.date"
             :itemId = "item.id"
@@ -34,11 +34,6 @@
       </div>
     </div>
   
-
-
-
-
-
   </main>
 </template>
 
@@ -62,16 +57,6 @@
       ItemCard,
     },
 
-  
-    // beforeMount() {
-    //   axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=1')
-    //   .then(response => {
-    //     this.items.push(response.data.content);
-    //     console.log(this.items);
-    //   })
-    //   .catch(err => console.log(err))
-    // }
-
     methods: {
       async loadData() {
         const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=1')
@@ -81,29 +66,14 @@
     mounted() {
       this.loadData();
     }
-
-    // async created() {
-    //   await this.loadData(3000);
-    //   this.dataLoaded = true;
-    // }
-
-
   }
 
 
 
 </script>
 
-<script setup lang="ts">
-
-
-  
-</script>
-
 <style lang="scss">
 
-
-  
   .search-bar {
     width: 100%;
     height: 35px;
@@ -144,9 +114,6 @@
     img {
       max-height: 20px;
     }
-
-
-
   }
 
 </style>
