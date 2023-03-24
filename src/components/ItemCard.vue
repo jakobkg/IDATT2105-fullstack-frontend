@@ -102,7 +102,9 @@
         width: 150px;
         height: 150px;
         height: 100%;
+        margin-left: 15px;
         margin-top: 15px;
+        
     }
 
 
