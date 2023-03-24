@@ -1,8 +1,9 @@
 <script lang="ts">
 import RouterView from 'vue-router';
 import NavBar from "@/components/NavBar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
-  components: {NavBar}
+  components: {Footer, NavBar}
 };
 </script>
 
@@ -10,6 +11,8 @@ export default {
   <NavBar/>
 
   <RouterView />
+
+  <Footer/>
 </template>
 
 <style lang="scss">
