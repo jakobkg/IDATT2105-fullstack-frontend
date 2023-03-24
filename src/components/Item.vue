@@ -50,8 +50,10 @@ export default {
     };
   },
   methods: {
-    addImageFromFile(){
+    addImageFromFile(event: any){
       console.log("Nytt bilde lagt inn.");
+      let file = event.target.File[0];
+      console.log(file.name)
       //Legg inn i itemImages
     }
   }
