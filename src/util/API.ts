@@ -115,5 +115,21 @@ export namespace API {
           throw new Error();
         });
     }
+
+    /**
+     * A function used for listing items. It only returns one page of max 24 items
+     * @param pageNumber The page number in the items list
+     * @returns an array of item objects from specified list
+     */
+    export async function listItems(pageNumber: number): Promise<any[]> {
+        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber)
+        .then((response: AxiosResponse) => {
+          return response.data.content;
+        }).catch(() => {
+          throw new Error();
+        })
+
+    }
+
   }
 }
