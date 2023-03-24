@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div v-if="noImages" id="emptyImage">
       <div id="img">
         <img src="public/static/icons/camera.svg" alt="Camera image">
@@ -7,12 +8,12 @@
       </div>
     </div>
     <div v-else id="imageAlbum">
-      <div id="img">
-        <img src="public/static/icons/camera.svg" alt="Camera image">
-        <h5>Masse bilder her</h5>
+      <div id="img" v-for="imageLink in albumImages" >
+          <img :src="imageLink" alt="">
       </div>
     </div>
   </div>
+  <h5>Lastet opp {{numOfImages}} bilder</h5>
 </template>
 
 <script>
@@ -25,7 +26,9 @@ export default {
   computed: {
     noImages(){
       return this.albumImages.length===0;
-      //return true;
+    },
+    numOfImages(){
+      return this.albumImages.length;
     }
   }
 };
