@@ -78,4 +78,8 @@ li p {
 li:hover {
   border-bottom: 2px solid base.$pink;
 }
+
+.navtext {
+  padding-left: 5px;
+}
 </style>
