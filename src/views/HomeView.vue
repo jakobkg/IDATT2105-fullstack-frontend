@@ -15,64 +15,21 @@
         <button>Filter</button>
       </div>
 
-      <div class="items">
-        <ItemCard
-          image = 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-          label = "Plante Plante Plante Plante Plante Plante Plante Plante"
-          price = '50kr'
-          location = 'Trondheim'
-          date = '22.03.2022'
-          itemId = '1'
-          isBookmarked
-        />
-
-        <ItemCard
-          image = 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-          label = "Plante Plante Plante Plante"
-          price = '50kr'
-          location = 'Trondheim'
-          date = '22.03.2022'
-          itemId = '1'
-
-        />
-        <ItemCard
-          image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Theodor_Kittelsen_-_Far%2C_far_away_Soria_Moria_Palace_shimmered_like_Gold_-_Google_Art_Project.jpg/1920px-Theodor_Kittelsen_-_Far%2C_far_away_Soria_Moria_Palace_shimmered_like_Gold_-_Google_Art_Project.jpg'
-          label = "Et maleri"
-          price = '700kr'
-          location = 'Oslo'
-          date = '19.03.2021'
-          itemId = '2'
-
-        />
-        <ItemCard
-          image = 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-          label = "Plante Plante Plante Plante Plante Plante Plante Plante Plante Plante Plante Plante"
-          price = '50kr'
-          location = 'Trondheim'
-          date = '22.03.2022'
-          itemId = '1'
-
-        />
-        <ItemCard
-          image = 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-          label = "Plante"
-          price = '50kr'
-          location = 'Trondheim'
-          date = '22.03.2022'
-          itemId = '1'
-
-        />
-        <ItemCard
-          image = 'https://media.houseandgarden.co.uk/photos/618944690a583de660124d52/master/w_1600%2Cc_limit/1-house-29mar17-Nick-Pope_b.jpg'
-          label = "Plante"
-          price = '50kr'
-          location = 'Trondheim'
-          date = '22.03.2022'
-          itemId = '1'
-
-        />
- 
-
+      <div v-if="!(items.length > 0)" class="items">
+        <p>Loading...</p>
+      </div>
+      <div v-else class="items">
+        <li style="list-style-type: none" v-for="item in items">
+        
+          <ItemCard
+            :image = "item.images"
+            :label = "item.title"
+            :price = "item.price"
+            :location = "item.latitude"
+            :date = "item.date"
+            :itemId = "item.id"
+          />
+        </li>
 
       </div>
     </div>
@@ -87,6 +44,8 @@
 
 <script lang="ts">
   import ItemCard from '@/components/ItemCard.vue';
+  import axios from 'axios';
+  
 
   export default {
     name: "HomeView",
@@ -94,16 +53,51 @@
       return {
         input: "",
         mapButtonText: "Vis kart",
-        searchPlaceholder: "Søk etter annonser..."
+        searchPlaceholder: "Søk etter annonser...",
+        items: [] as Array<{id: number, images: string, title: string, date: string, latitude: string, price: string }>,
+        dataLoaded: false
       }
     },
     components: {
       ItemCard,
+    },
+
+  
+    // beforeMount() {
+    //   axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=1')
+    //   .then(response => {
+    //     this.items.push(response.data.content);
+    //     console.log(this.items);
+    //   })
+    //   .catch(err => console.log(err))
+    // }
+
+    methods: {
+      async loadData() {
+        const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=1')
+        this.items = response.data.content;
+      }
+    },
+    mounted() {
+      this.loadData();
     }
+
+    // async created() {
+    //   await this.loadData(3000);
+    //   this.dataLoaded = true;
+    // }
+
+
   }
 
 
 
+</script>
+
+<script setup lang="ts">
+
+
+  
 </script>
 
 <style lang="scss">
@@ -140,10 +134,7 @@
 
     button {
       border-color: #999;
-      
     }
-
-    
 
     p {
       margin: 0 0;
