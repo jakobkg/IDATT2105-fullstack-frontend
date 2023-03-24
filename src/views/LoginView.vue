@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         async login() {
-            API.login(this.email, this.password)
+            API.Loftet.login(this.email, this.password)
                 .then(() => {
                     router.push("/profile");
                 })
