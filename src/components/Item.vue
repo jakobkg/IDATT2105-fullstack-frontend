@@ -1,18 +1,18 @@
 <template>
   <div id = wrapper>
     <h1>REDIGER ANNONSE</h1>
+
     <form>
       <label for="title">Annonsetittel:</label><br>
       <input type="text" id="title" name="title"  required><br>
 
       <label for="description">Beskrivelse:</label><br>
-      <input type="textarea" id="description" name="desctiption" required><br>
+      <textarea id="description" name="desctiption"></textarea>
 
       <label for="price">Pris:</label><br>
       <input type="number" id="price" name="price"><br>
 
       <label for="category">Kategori:</label><br>
-
       <select id="category" name="category">
         <option v-for="category in categories">
           {{ category.name }}
@@ -32,7 +32,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
 
 
 export default {
@@ -58,12 +58,29 @@ export default {
  **/
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #wrapper {
   text-align: left;
 }
 
-input[type="text"],input[type="textarea"],input[type="select"],input[type="number"] {
+form{
+  align-content: end;
+}
+
+input[type="text"],input[type="select"],input[type="number"] {
   width:100%;
+  padding: .5em;
+  outline-color: base.$pink;
+}
+
+textarea{
+  min-width: 100%;
+  resize: vertical;
+  padding: .5em;
+}
+
+input:focus-visible, textarea:focus-visible {
+  outline: 2px solid base.$pink;
+  border-radius: 3px;
 }
 </style>
