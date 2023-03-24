@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div v-if="noImages" id="emptyImage">
       <div id="img">
         <img src="public/static/icons/camera.svg" alt="Camera image">
@@ -13,7 +12,8 @@
       </div>
     </div>
   </div>
-  <h5>Lastet opp {{numOfImages}} bilder</h5>
+  <h5 v-if="numOfImages===1">Lastet opp {{numOfImages}} bilde</h5>
+  <h5 v-else>Lastet opp {{numOfImages}} bilder</h5>
 </template>
 
 <script>
