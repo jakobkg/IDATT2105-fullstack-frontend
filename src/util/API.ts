@@ -13,16 +13,13 @@ export namespace API {
      * @param password password to log in with
      * @returns a Result with whether the login attempt succeeded
      */
-    export async function login(
-      email: string,
-      password: string,
-    ): Promise<void> {
+    export async function login(request: LoginRequest): Promise<void> {
       const authStore = useAuthStore();
       let token: string;
 
       return axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/login`,
-        { email: email, password: password } as LoginRequest,
+        request,
       )
         .then(async (response: AxiosResponse<string>) => {
           token = response.data;
@@ -60,7 +57,7 @@ export namespace API {
     }
 
     /**
-     * API method to
+     * API method to create a new user
      * @param request Request object containing the user data to submit to the back-end server
      * @returns a promise that resolves to Success or Failure based on the response from the server
      */
@@ -89,6 +86,32 @@ export namespace API {
           return;
         })
         .catch(() => {
+          throw new Error();
+        });
+    }
+
+    export async function createItem(
+      request: CreateItemRequest,
+    ): Promise<Item> {
+      const authStore = useAuthStore();
+      if (!authStore.isLoggedIn()) {
+        throw new Error();
+      }
+
+      return axios.post(`${import.meta.env.VITE_BACKEND_URL}/item`, request, {
+        headers: { Authorization: `Bearer ${authStore.token}` },
+      }).then((response: AxiosResponse<Item>) => {
+        return response.data;
+      }).catch(() => {
+        throw new Error();
+      });
+    }
+    
+    export async function getCategories(): Promise<Category[]> {
+      return axios.get(`${import.meta.env.VITE_BACKEND_URL}/category`)
+        .then((response: AxiosResponse<Category[]>) => {
+          return response.data;
+        }).catch(() => {
           throw new Error();
         });
     }
