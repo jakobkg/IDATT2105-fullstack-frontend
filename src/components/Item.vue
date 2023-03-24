@@ -2,6 +2,8 @@
   <div id = wrapper>
     <h1>REDIGER ANNONSE</h1>
 
+    <Album/>
+
     <form>
       <label for="title">Annonsetittel:</label><br>
       <input type="text" id="title" name="title"  required><br>
@@ -35,8 +37,11 @@
 <script lang="ts">
 
 
+import Album from "@/components/Album.vue";
+
 export default {
   name: "Item",
+  components: { Album },
 
   data() {
     return {
