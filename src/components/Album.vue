@@ -24,8 +24,8 @@ export default {
   },
   computed: {
     noImages(){
-      //return this.albumImages.length===0;
-      return true;
+      return this.albumImages.length===0;
+      //return true;
     }
   }
 };

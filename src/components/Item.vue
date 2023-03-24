@@ -2,7 +2,7 @@
   <div id = wrapper>
     <h1>REDIGER ANNONSE</h1>
 
-    <Album :album-images=itemImages />
+    <Album :album-images= itemImages />
 
     <form>
       <label for="title">Annonsetittel:</label><br>
@@ -24,9 +24,11 @@
       <label for="address">Adresse:</label><br>
       <input type="text" id="address" name="address" required><br>
 
-      <label for="images">Last opp bilder:</label><br>
-      <input type="file" id="images" name="images" accept="image/jpeg, image/png, image/jpg" @change="addImageFromFile"><br>
-      <output></output>
+      <label for="images">Legg inn komma-separerte bildelenker:</label><br>
+      <input v-model="itemText" type="text" id="images" name="images"><br><br>
+      <button type="button" id="update" @click="loadImages">Oppdater bilder</button>
+      <br><br>
+
       <input type="submit" value="Lagre">
     </form>
 
@@ -35,8 +37,6 @@
 </template>
 
 <script lang="ts">
-
-
 import Album from "@/components/Album.vue";
 
 export default {
@@ -46,15 +46,15 @@ export default {
   data() {
     return {
       categories: [{ name: 'Foo' }, { name: 'Bar' }],
-      itemImages: [],
+      itemImages: [] as any[],
+      itemText:'',
     };
   },
   methods: {
-    addImageFromFile(event: any){
-      console.log("Nytt bilde lagt inn.");
-      let file = event.target.File[0];
-      console.log(file.name)
-      //Legg inn i itemImages
+    loadImages(){
+      this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
+      console.log("la inn bilder: ");
+      this.itemImages.forEach((item: any) => console.log(item))
     }
   }
 }
