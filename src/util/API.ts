@@ -1,6 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/authStore";
 import jwt_decode from "jwt-decode";
+import router from "@/router/index";
 
 export namespace API {
   export namespace Loftet {
@@ -128,7 +129,10 @@ export namespace API {
         }).catch(() => {
           throw new Error();
         })
+    }
 
+    export async function goToItem(id: number) {
+        router.push('/item/' + id);
     }
 
   }

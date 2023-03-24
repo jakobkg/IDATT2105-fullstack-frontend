@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue';
 import LoginView from "@/views/LoginView.vue";
 import ProfileView from '@/views/ProfileView.vue';
 import NewUserView from "@/views/NewUserView.vue";
+import ItemView from "@/views/ItemView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       name: 'profile',
       component: ProfileView
     },
+    {
+      path: '/item/:id',
+      name: 'item',
+      component: ItemView
+    }
   ]
 })
 

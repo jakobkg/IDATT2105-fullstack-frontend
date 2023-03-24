@@ -18,14 +18,17 @@
     components: {
       ItemCard,
     },
-    computed: {
+/*     computed: {
       ...mapState(useCategoryStore, ["categories"]),
-    },
+    }, */
 
     methods: {
       async loadData() {
         const response = await API.Loftet.listItems(1);
         this.items = response;
+      },
+      goToItem(id: number) {
+        API.Loftet.goToItem(id);
       }
     },
     mounted() {
@@ -53,7 +56,7 @@
         <p>Loading...</p>
       </div>
       <div v-else class="items">
-        <li style="list-style-type: none" v-for="item in items">
+        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
         
           <ItemCard
             :image = "item.images"
