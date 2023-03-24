@@ -9,9 +9,9 @@ export default {
 
 <template>
   <NavBar/>
-
-  <RouterView />
-
+  <div class="content-wrapper">
+    <RouterView />
+  </div>
   <Footer/>
 </template>
 
