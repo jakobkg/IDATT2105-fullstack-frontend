@@ -55,7 +55,10 @@ export default {
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
-    }
+    },
+    submit(){
+
+    },
   }
 }
 

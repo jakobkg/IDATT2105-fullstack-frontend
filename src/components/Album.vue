@@ -41,11 +41,14 @@ div div{
   justify-content: center;
 }
 
+
+
 #img{
   width: 15%;
   display: flex;
   justify-content: center;
   flex-direction: column;
+
 
 }
 

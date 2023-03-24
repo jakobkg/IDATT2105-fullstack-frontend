@@ -9,8 +9,8 @@ export default {
 
 <template>
   <NavBar/>
-  <Item />
   <RouterView />
+
 </template>
 
 <style lang="scss">
