@@ -1,16 +1,18 @@
 <script lang="ts">
 import RouterView from 'vue-router';
 import NavBar from "@/components/NavBar.vue";
-import Item from "@/components/Item.vue";
+import Footer from "@/components/Footer.vue";
 export default {
-  components: { Item, NavBar}
+  components: {Footer, NavBar}
 };
 </script>
 
 <template>
   <NavBar/>
-  <RouterView />
-
+  <div class="content-wrapper">
+    <RouterView />
+  </div>
+  <Footer/>
 </template>
 
 <style lang="scss">
