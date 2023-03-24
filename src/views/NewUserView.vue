@@ -9,7 +9,7 @@ export default {
     },
     methods: {
         createUser() {
-            API.createUser(this.newUser)
+            API.Loftet.createUser(this.newUser)
             .then(() => {
                 console.log("Bruker opprettet")
             }
@@ -50,3 +50,35 @@ export default {
         </div>
     </main>
 </template>
+<style lang="scss">
+$width: 15rem;
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: .66rem;
+    padding: 1rem;
+
+    border: 1px solid white;
+    border-radius: 1rem;
+}
+
+.field-container {
+    display: flex;
+    justify-content: space-between;
+
+    width: $width;
+
+    input {
+        width: 60%;
+    }
+}
+</style>
