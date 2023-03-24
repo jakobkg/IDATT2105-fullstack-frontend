@@ -1,24 +1,16 @@
 <script>
 import { useAuthStore } from "@/store/authStore";
-import { mapState } from "pinia";
+import { mapState, mapStores } from "pinia";
 export default {
   computed: {
-    ...mapState(useAuthStore, ['user', 'token']),
-    isLoggedIn() {
-      if (this.token.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['user'])
   }
-
 }
 </script>
-
 <template>
   <div></div>
-  <main v-if="isLoggedIn">
+  <main v-if="this.authStore.isLoggedIn()">
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
