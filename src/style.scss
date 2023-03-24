@@ -1,3 +1,4 @@
+/* STANDARD VUE STYLES */
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -87,5 +88,21 @@ button:focus-visible {
     }
     button {
         background-color: #f9f9f9;
+    }
+}
+
+/* OUR CUSTOM STYLES */
+
+$pink: #FF6978;
+$indigo: #340068;
+$offWhite: #FFFCF9;
+
+$desktop: 1010px;
+$phone: 768px;
+
+@media only screen and (max-width: $phone) {
+    /* For mobile phones: */
+    #app {
+        padding: 0;
     }
 }
