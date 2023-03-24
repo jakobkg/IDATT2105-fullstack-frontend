@@ -5,6 +5,7 @@ import ProfileView from '@/views/ProfileView.vue';
 import NewUserView from "@/views/NewUserView.vue";
 import ModifyItemView from "@/views/ModifyItemView.vue";
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -29,10 +30,11 @@ const router = createRouter({
       component: ProfileView
     },
     {
-      path: '/edititem',
-      name: 'edititem',
+      path: '/editItem',
+      name: 'editItem',
       component: ModifyItemView
-    }
+
+    },
   ]
 })
 

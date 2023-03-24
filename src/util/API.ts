@@ -92,5 +92,29 @@ export namespace API {
           throw new Error();
         });
     }
+
+    export async function createItem(request:CreateItemRequest):Promise<Item>{
+      const authStore = useAuthStore();
+      if (!authStore.isLoggedIn()) {
+        throw new Error();
+      }
+
+      return axios.post(`${import.meta.env.VITE_BACKEND_URL}/item`, request, {
+          headers: { Authorization: `Bearer ${authStore.token}` }
+        }
+      ).then((response:AxiosResponse<Item>)=> {
+        return response.data;
+      }).catch(() => {
+        throw new Error();
+      });
+    }
+    export async function getCategories(): Promise<Category[]>{
+      return axios.get(`${import.meta.env.VITE_BACKEND_URL}/category`)
+        .then((response:AxiosResponse<Category[]>)=>{
+        return response.data;
+      }).catch(()=> {
+        throw new Error();
+        });
+    }
   }
 }
