@@ -87,7 +87,8 @@
         overflow: hidden;
 
         text-align: left;
-        padding-right: 35px;
+        // padding-right: 35px;
+        margin-right: 35px;
     }
 
     .content:hover {
