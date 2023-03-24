@@ -123,7 +123,7 @@ export namespace API {
      */
     export async function listItems(pageNumber: number): Promise<any[]> {
         return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber)
-        .then((response: AxiosResponse<any[]>) => {
+        .then((response: AxiosResponse) => {
           return response.data.content;
         }).catch(() => {
           throw new Error();
