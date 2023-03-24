@@ -13,7 +13,7 @@
 defineProps({
   navText: {
     type: String,
-    required: true
+    required: false
   },
   imageLink: {
     type: String,
@@ -33,7 +33,6 @@ export default {
 
 <style scoped lang="scss">
 li{
-  float: left;
   margin-left: 0;
   display: inline-block;
   padding: .5rem;
