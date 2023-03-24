@@ -2,7 +2,7 @@
   <div id = wrapper>
     <h1>REDIGER ANNONSE</h1>
 
-    <Album/>
+    <Album :album-images=itemImages />
 
     <form>
       <label for="title">Annonsetittel:</label><br>
@@ -25,7 +25,7 @@
       <input type="text" id="address" name="address" required><br>
 
       <label for="images">Last opp bilder:</label><br>
-      <input type="file" id="images" name="images" accept="image/jpeg, image/png, image/jpg"><br>
+      <input type="file" id="images" name="images" accept="image/jpeg, image/png, image/jpg" @change="addImageFromFile"><br>
       <output></output>
       <input type="submit" value="Lagre">
     </form>
@@ -45,7 +45,14 @@ export default {
 
   data() {
     return {
-      categories: [{ name: 'Foo' }, { name: 'Bar' }]
+      categories: [{ name: 'Foo' }, { name: 'Bar' }],
+      itemImages: [],
+    };
+  },
+  methods: {
+    addImageFromFile(){
+      console.log("Nytt bilde lagt inn.");
+      //Legg inn i itemImages
     }
   }
 }
