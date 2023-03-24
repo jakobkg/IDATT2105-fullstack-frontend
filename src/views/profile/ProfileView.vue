@@ -4,16 +4,25 @@ import { mapState } from "pinia";
 export default {
   computed: {
     ...mapState(useAuthStore, ['user']),
+    isLoggedIn() {
+      if (this.user.id != null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
+
 }
 </script>
 
 <template>
-  <main>
+  <div></div>
+  <main v-if="isLoggedIn">
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
-<!--        <figure style="background-image: url('/src/profile-img.jpg');"><img src="@/profile-img.jpg"/></figure>-->
+        <figure style="background-image: url('/public/static/Icons/user.svg');"><img src="public/static/Icons/user.svg"/></figure>
         <div class="details">
           <h2>{{user.firstname}} {{user.lastname}}</h2>
           <p>{{user.email}}</p>
@@ -27,6 +36,10 @@ export default {
         <button>Mine bokmerker</button>
       </div>
     </div>
+  </main>
+
+  <main v-else>
+    <h1>Du er ikke innlogget.</h1>
   </main>
 </template>
 
@@ -61,7 +74,7 @@ export default {
         margin: 40px 0;
         button {
           display: inline-block;
-          margin: 0 auto;
+          margin: 0 10px;
         }
       }
     }
