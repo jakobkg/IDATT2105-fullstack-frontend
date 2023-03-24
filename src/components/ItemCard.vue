@@ -11,8 +11,8 @@
         </div>
 
         <div class="bookmark">
-            <img v-if="!isBookmarked" class="bookmark-img" src="static/Icons/bookmark.svg" alt="bookmark">
-            <img v-else class="bookmark-img" src="static/Icons/bookmark-dark.svg" alt="bookmark">
+            <img v-if="!isBookmarked" class="bookmark-img" src="..\..\public\static\Icons\bookmark.svg" alt="bookmark">
+            <img v-else class="bookmark-img" src="..\..\public\static\Icons\bookmark-dark.svg" alt="bookmark">
         </div>
 
    

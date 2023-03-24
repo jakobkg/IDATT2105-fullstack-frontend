@@ -1,24 +1,41 @@
 <script lang="ts">
-import HelloWorld from '@/components/HelloWorld.vue';
-import { useCategoryStore } from '@/store/categoryStore';
-import { mapState } from 'pinia';
+  import ItemCard from '@/components/ItemCard.vue';
+  import { useCategoryStore } from '@/store/categoryStore';
+  import { mapState } from 'pinia';
+  import { API } from '@/util/API';
 
-export default {
-  computed: {
-    ...mapState(useCategoryStore, ["categories"]),
-  },
-  components: {
-    HelloWorld
+  export default {
+    name: "HomeView",
+    data() {
+      return {
+        input: "",
+        mapButtonText: "Vis kart",
+        searchPlaceholder: "Søk etter annonser...",
+        items: [] as any,
+        dataLoaded: false
+      }
+    },
+    components: {
+      ItemCard,
+    },
+    computed: {
+      ...mapState(useCategoryStore, ["categories"]),
+    },
+
+    methods: {
+      async loadData() {
+        const response = await API.Loftet.listItems(1);
+        this.items = response;
+      }
+    },
+    mounted() {
+      this.loadData();
+    }
   }
-}
 </script>
 
 <template>
-  <main>
-    <ul>
-      <li v-for="category in categories"> {{ category.categoryName }}</li>
-    </ul>
-    
+  <main>    
     <div class="content">
       <div class="search-wrapper">
         <input class="search-bar" type="text" v-model="input" :placeholder=searchPlaceholder />
@@ -53,41 +70,6 @@ export default {
   
   </main>
 </template>
-
-<script lang="ts">
-  import ItemCard from '@/components/ItemCard.vue';
-  import axios from 'axios';
-  
-
-  export default {
-    name: "HomeView",
-    data() {
-      return {
-        input: "",
-        mapButtonText: "Vis kart",
-        searchPlaceholder: "Søk etter annonser...",
-        items: [] as Array<{id: number, images: string, title: string, date: string, latitude: string, price: string }>,
-        dataLoaded: false
-      }
-    },
-    components: {
-      ItemCard,
-    },
-
-    methods: {
-      async loadData() {
-        const response = await axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=1')
-        this.items = response.data.content;
-      }
-    },
-    mounted() {
-      this.loadData();
-    }
-  }
-
-
-
-</script>
 
 <style lang="scss">
 
