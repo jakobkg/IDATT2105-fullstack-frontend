@@ -96,6 +96,12 @@ button:focus-visible {
 $pink: #FF6978;
 $indigo: #340068;
 $offWhite: #FFFCF9;
+$kindablack: #000307;
+
+$background: $offWhite;
+$foreground: $kindablack;
+$accent-light: $pink;
+$accent-dark: $indigo;
 
 $desktop: 1010px;
 $phone: 768px;
