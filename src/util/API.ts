@@ -43,7 +43,7 @@ export namespace API {
 
     /**
      * API method to get a user by their ID
-     * @param id ID number of the user to retreive
+     * @param id ID number of the user to retrieve
      * @returns A promise that resolves to a User if the API call succeeds,
      * or is rejected if the API call fails
      */
@@ -66,6 +66,24 @@ export namespace API {
       request: CreateUserRequest,
     ): Promise<void> {
       return axios.post(`${import.meta.env.VITE_BACKEND_URL}/user`, request)
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
+
+    /**
+     * API method for updating user
+     * @param id
+     * @param request
+     */
+    export async function updateUser(
+      id: number,
+      request: UpdateUserRequest,
+    ): Promise<void> {
+      return axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, request)
         .then(() => {
           return;
         })
@@ -120,6 +138,8 @@ export namespace API {
     /**
      * A function used for listing items. It only returns one page of max 24 items
      * @param pageNumber The page number in the items list
+     * @param user id (optional)
+     * @param category id (optional)
      * @returns an array of item objects from specified list
      */
     export async function listItems(pageNumber: number): Promise<any[]> {
@@ -142,7 +162,37 @@ export namespace API {
       }).catch(() => {
         throw new Error();
       })
+    }
 
+    /**
+     * A function used for listing items based on user id. It only returns one page of max 24 items
+     * @param pageNumber The page number in the items list
+     * @param userId (optional)
+     * @returns an array of item objects from specified list
+     */
+
+    export async function listItemsBasedOnUserId(pageNumber: number, userId: number): Promise<any[]> {
+        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&userId=' + userId)
+        .then((response: AxiosResponse) => {
+          return response.data;
+        }).catch(() => {
+          throw new Error();
+        })
+    }
+
+    /**
+     * A function used for listing items based on category id. It only returns one page of max 24 items
+     * @param pageNumber The page number in the items list
+     * @param categoryId (optional)
+     * @returns an array of item objects from specified list
+     */
+    export async function listItemsBasedOnCategoryId(pageNumber: number, categoryId: number): Promise<any[]> {
+        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&categoryId=' + categoryId)
+        .then((response: AxiosResponse) => {
+          return response.data;
+        }).catch(() => {
+          throw new Error();
+        })
     }
 
   }

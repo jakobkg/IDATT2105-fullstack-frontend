@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue';
 import LoginView from "@/views/LoginView.vue";
-import ProfileView from '@/views/ProfileView.vue';
 import NewUserView from "@/views/NewUserView.vue";
+import ProfileView from '@/views/profile/ProfileView.vue';
+import MyItemsView from "@/views/profile/MyItemsView.vue";
 import ItemView from "@/views/ItemView.vue";
 
 const router = createRouter({
@@ -32,7 +33,12 @@ const router = createRouter({
       path: '/item/:id',
       name: 'item',
       component: ItemView
-    }
+    },
+    {
+      path: '/profile/my-items',
+      name: 'my items',
+      component: MyItemsView
+    },
   ]
 })
 
