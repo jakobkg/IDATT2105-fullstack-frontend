@@ -42,7 +42,7 @@ export namespace API {
 
     /**
      * API method to get a user by their ID
-     * @param id ID number of the user to retreive
+     * @param id ID number of the user to retrieve
      * @returns A promise that resolves to a User if the API call succeeds,
      * or is rejected if the API call fails
      */
@@ -65,6 +65,24 @@ export namespace API {
       request: CreateUserRequest,
     ): Promise<void> {
       return axios.post(`${import.meta.env.VITE_BACKEND_URL}/user`, request)
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
+
+    /**
+     * API method for updating user
+     * @param id
+     * @param request
+     */
+    export async function updateUser(
+      id: number,
+      request: UpdateUserRequest,
+    ): Promise<void> {
+      return axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, request)
         .then(() => {
           return;
         })
