@@ -4,13 +4,13 @@
       <div class="wrapper">
 
       <label for="firstname">Fornavn</label><ErrorMessage name="firstname" /><br>
-      <Field type="text" id="firstname" name="firstname" v-model="updatedUser.firstname" :rules="validateString"/><br>
+      <Field type="text" id="firstname" name="firstname" v-model="updatedUser.fname" :rules="validateString"/><br>
 
       <label for="lastname">Etternavn</label><ErrorMessage name="lastname" /><br>
-      <Field type="text" id="lastname" name="lastname" v-model="updatedUser.lastname" :rules="validateString" /><br>
+      <Field type="text" id="lastname" name="lastname" v-model="updatedUser.lname" :rules="validateString" /><br>
 
       <label for="email">E-post</label><ErrorMessage name="email" /><br>
-      <Field name="email" type="email" v-model="updatedUser.email" :rules="validateEmail" />
+      <Field name="email" type="email" v-model="updatedUser.mail" :rules="validateEmail" />
 
       <label for="password">Passord</label><ErrorMessage name="password" /><br>
       <Field type="password" name = "password" id="password" /><br>
@@ -34,13 +34,13 @@
 </template>
 
 
-<script>
+<script lang="ts">
 
 import { mapState } from "pinia";
 import { useAuthStore } from "@/store/authStore";
 import { Form, Field, ErrorMessage } from "vee-validate";
-
-
+import { API } from '@/util/API';
+import router from '@/router';
 
 
 export default {
@@ -54,20 +54,30 @@ export default {
     ...mapState(useAuthStore, ['user']),
   updatedUser() {
     return {
-      firstname: this.user.firstname,
-      lastname: this.user.lastname,
-      email: this.user.email,
+      fname: this.user.firstname,
+      lname: this.user.lastname,
+      mail: this.user.email,
       address: this.user.streetAddress,
       postcode: this.user.postCode,
       city: this.user.city,
       }
     },
   },
-  setup(){
-
-  },
   methods: {
-    onSubmit(value) {
+    onSubmit() {
+      const id = this.user.id;
+      API.Loftet.updateUser(id,{
+        firstname:this.updatedUser.fname,
+        lastname:this.updatedUser.lname,
+        email:this.updatedUser.mail,
+        streetAddress:this.updatedUser.address,
+        postCode:this.updatedUser.postcode,
+        city: this.updatedUser.city} as UpdateUserRequest).then(()=>{
+        router.push("/profile");
+      }).catch((Error)=> {
+        console.log("feil ved oppdatering av bruker")
+        console.log(Error.reason);
+      })
       alert("submitted ")
     },
     validateEmail(value) {
@@ -110,19 +120,6 @@ export default {
       }
       return true;
     },
-      /*
-      axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/{id}`, {
-        values
-      }).then(resp => {
-        console.log(resp.data);
-      }).catch(error => {
-        console.log(error);
-      });
-      alert("Du har oppdatert din brukerinformasjon");
-    },*/
-    validateForm() {
-
-    }
   },
 };
 </script>
