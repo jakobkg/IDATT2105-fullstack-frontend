@@ -1,19 +1,20 @@
 <script>
 import { useAuthStore } from "@/store/authStore";
-import { mapState } from "pinia";
+import { mapState, mapStores } from "pinia";
 export default {
   computed: {
-    ...mapState(useAuthStore, ['user']),
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['user'])
   }
 }
 </script>
-
 <template>
-  <main>
+  <div></div>
+  <main v-if="this.authStore.isLoggedIn()">
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
-<!--        <figure style="background-image: url('/src/profile-img.jpg');"><img src="@/profile-img.jpg"/></figure>-->
+        <figure style="background-image: url('/public/static/Icons/user.svg');"><img src=""/></figure> <!--Add valid path to profile image-->
         <div class="details">
           <h2>{{user.firstname}} {{user.lastname}}</h2>
           <p>{{user.email}}</p>
@@ -28,9 +29,13 @@ export default {
       </div>
     </div>
   </main>
+
+  <main v-else>
+    <h1>Du er ikke innlogget.</h1>
+  </main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   main {
     text-align: left;
     .profile-page {
@@ -61,7 +66,22 @@ export default {
         margin: 40px 0;
         button {
           display: inline-block;
-          margin: 0 auto;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+
+  @media(max-width: base.$phone) {
+    main {
+      .profile-page {
+        .buttons {
+          button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 10px;
+          }
         }
       }
     }
