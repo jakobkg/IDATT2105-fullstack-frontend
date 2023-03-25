@@ -23,9 +23,9 @@ export default {
       </div>
 
       <div class="buttons">
-        <button>Rediger profilen</button>
-        <button>Mine annonser</button>
-        <button>Mine bokmerker</button>
+        <a class="btn">Rediger profilen</a>
+        <a href="/profile/my-items" class="btn">Mine annonser</a>
+        <a class="btn">Mine bokmerker</a>
       </div>
     </div>
   </main>
