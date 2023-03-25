@@ -11,8 +11,8 @@ export default {
         }
     },
     methods: {
-        async login() {
-            API.Loftet.login(this.email, this.password)
+        login() {
+            API.Loftet.login({email: this.email, password: this.password} as LoginRequest)
                 .then(() => {
                     router.push("/profile");
                 })
