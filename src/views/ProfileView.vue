@@ -22,7 +22,7 @@ export default {
       </div>
 
       <div class="buttons">
-        <button>Rediger profilen</button>
+        <button><a href="/profile/edit">Rediger profil</a></button>
         <button>Mine annonser</button>
         <button>Mine bokmerker</button>
       </div>
