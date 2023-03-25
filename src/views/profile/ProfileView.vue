@@ -14,7 +14,7 @@ export default {
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
-        <figure style="background-image: url('/public/static/Icons/user.svg');"><img src="public/static/Icons/user.svg"/></figure>
+        <figure style="background-image: url('/public/static/Icons/user.svg');"><img src=""/></figure> <!--Add valid path to profile image-->
         <div class="details">
           <h2>{{user.firstname}} {{user.lastname}}</h2>
           <p>{{user.email}}</p>
