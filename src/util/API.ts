@@ -140,9 +140,9 @@ export namespace API {
      */
 
     export async function listItemsBasedOnUserId(pageNumber: number, userId: number): Promise<any[]> {
-        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '?userId=' + userId)
+        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&userId=' + userId)
         .then((response: AxiosResponse) => {
-          return response.data.content;
+          return response.data;
         }).catch(() => {
           throw new Error();
         })
@@ -155,9 +155,9 @@ export namespace API {
      * @returns an array of item objects from specified list
      */
     export async function listItemsBasedOnCategoryId(pageNumber: number, categoryId: number): Promise<any[]> {
-        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '?categoryId=' + categoryId)
+        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&categoryId=' + categoryId)
         .then((response: AxiosResponse) => {
-          return response.data.content;
+          return response.data;
         }).catch(() => {
           throw new Error();
         })
