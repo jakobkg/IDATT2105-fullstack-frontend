@@ -46,7 +46,7 @@
 
       <div class="filter">
         <button class="map-button">
-          <img src='..\..\public\static\Icons\marker.svg'/>
+          <img src='\static\Icons\marker.svg'/>
           <p>{{ mapButtonText }}</p>
         </button>
         <button>Filter</button>
