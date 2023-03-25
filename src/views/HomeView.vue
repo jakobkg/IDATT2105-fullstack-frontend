@@ -18,9 +18,9 @@
     components: {
       ItemCard,
     },
-/*     computed: {
-      ...mapState(useCategoryStore, ["categories"]),
-    }, */
+    //  computed: {
+    //   ...mapState(useCategoryStore, ['categories']),
+    // }, 
 
     methods: {
       async loadData() {
@@ -104,10 +104,6 @@
     
     .map-button {
       display: flex;
-    }
-
-    button {
-      border-color: #999;
     }
 
     p {

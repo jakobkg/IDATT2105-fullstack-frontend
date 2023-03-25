@@ -135,5 +135,15 @@ export namespace API {
         router.push('/item/' + id);
     }
 
+    export async function getItem(id: number): Promise<Item> {
+      return axios.get(import.meta.env.VITE_BACKEND_URL + '/item/' + id)
+      .then((response: AxiosResponse) => {
+        return response.data;
+      }).catch(() => {
+        throw new Error();
+      })
+
+    }
+
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <div class="image">
-            <img class="thumbnail" :src="image" alt="image">
+            <img class="thumbnail" :src="thumbnail" alt="image">
         </div>
         
         <div class="info">
@@ -15,15 +15,9 @@
             <img v-else class="bookmark-img" src="..\..\public\static\Icons\bookmark-dark.svg" alt="bookmark">
         </div>
 
-   
-
     </div>
 
-
 </template>
-
-
-
 
 
 <script lang="ts">
@@ -58,6 +52,12 @@
                 type: Boolean,
                 required: false,
                 default: false
+            }
+        },
+
+        data() {
+            return {
+                thumbnail: this.image.split(",").shift()
             }
         }
 
