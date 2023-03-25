@@ -30,7 +30,7 @@ const router = createRouter({
       component: ProfileView
     },
     {
-      path: '/editItem',
+      path: '/item/edit/:id',
       name: 'editItem',
       component: ModifyItemView
 
