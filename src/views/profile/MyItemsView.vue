@@ -47,9 +47,9 @@ export default {
           :location = "item.latitude"
           :date = "item.date"
           :itemId = "item.id"
+          :userId = "item.userId"
         />
       </li>
-
     </div>
   </main>
 

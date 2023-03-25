@@ -9,27 +9,35 @@
             <h3> {{ price }}</h3>
             <h4>{{ location }} - {{ date }}</h4>
         </div>
+        <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+          <a href="" class="edit-link"><img src="..\..\public\static\Icons\pencil.svg" alt="edit"></a>
+        </div>
+
+      <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+        <a href="" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+      </div>
 
         <div class="bookmark">
             <img v-if="!isBookmarked" class="bookmark-img" src="..\..\public\static\Icons\bookmark.svg" alt="bookmark">
             <img v-else class="bookmark-img" src="..\..\public\static\Icons\bookmark-dark.svg" alt="bookmark">
         </div>
-
-   
-
     </div>
-
-
 </template>
-
-
-
-
-
 <script lang="ts">
-    export default {
+import { mapState, mapStores } from "pinia";
+import { useAuthStore } from "@/store/authStore";
+
+export default {
         name: "ItemCard",
+        computed: {
+          ...mapStores(useAuthStore),
+          ...mapState(useAuthStore, ['user'])
+        },
         props: {
+            userId: {
+              type: Number,
+              required: false,
+            },
             image: {
                 type: String,
                 required: true
@@ -66,13 +74,33 @@
 </script>
 
 <style scoped lang="scss">
+    .edit-link {
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      cursor: pointer;
+      img {
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+      }
+    }
 
+
+    .delete-link {
+      width: 25px;
+      height: 25px;
+      display: inline-block;
+      cursor: pointer;
+      img {
+        width: 25px;
+        height: 25px;
+        padding: 5px;
+      }
+    }
     .content {
-
         position: relative;
         border-bottom: solid 1px #999;
-
-
         display: flex;
         flex-direction: row;
         flex-grow: 1;
@@ -81,19 +109,14 @@
         /* max-height: 180px; */
         max-width: 100%;
         border-radius: 5px;
-
         padding-bottom:15px;
-        
         overflow: hidden;
-
         text-align: left;
         // padding-right: 35px;
         margin-right: 35px;
-    }
-
-    .content:hover {
+      &:hover {
         background-color: #e4e2de;
-        
+      }
     }
 
     .image {
@@ -104,7 +127,6 @@
         height: 100%;
         margin-top: 15px;
     }
-
 
     .thumbnail {
         max-height: 150px;
@@ -122,7 +144,6 @@
 
     .info {
        margin-left: 15px;
-        
     }
 
     .label {
