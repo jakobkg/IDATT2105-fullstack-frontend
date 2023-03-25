@@ -1,39 +1,61 @@
 <template>
-
     <h1>Rediger bruker</h1>
-    <form action="">
+    <form  @submit.prevent="onSubmit">
       <div class="wrapper">
       <label for="firstname">Fornavn:</label><br>
-      <input type="text" id="firstname" ><br>
+      <input type="text" id="firstname" v-model="updatedUser.firstname"><br>
 
       <label for="lastname">Etternavn</label><br>
-      <input type="text" id="lastname" ><br>
+      <input type="text" id="lastname" v-model="updatedUser.lastname"><br>
 
       <label for="email">E-post</label><br>
-      <input type="email" id="email" ><br>
+      <input type="email" id="email" v-model="updatedUser.email"><br>
 
       <label for="password">Passord</label><br>
       <input type="password" id="password"><br>
 
       <label for="address">Adresse</label><br>
-      <input type="text" id="address" ><br>
+      <input type="text" id="address" v-model="updatedUser.address"><br>
 
       <label for="postcode">Postnummer</label><br>
-      <input type="number" id="postcode" ><br>
+      <input type="number" id="postcode" v-model="updatedUser.postcode"><br>
 
       <label for="citys">By</label><br>
-      <input type="text" id="city" ><br>
-
+      <input type="text" id="city" v-model="updatedUser.city"><br>
       <br><br>
+     <input type="submit" value="Lagre endringer">
       </div>
-      <input type="submit" value="Lagre endringer">
     </form>
 
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useAuthStore } from "@/store/authStore";
+
 export default {
-  name: "EditProfileView"
+  name: "EditProfileView",
+  computed: {
+    ...mapState(useAuthStore, ['user']),
+  updatedUser() {
+    return {
+      firstname: this.user.firstname,
+      lastname: this.user.lastname,
+      email: this.user.email,
+      address: this.user.streetAddress,
+      postcode: this.user.postCode,
+      city: this.user.city,
+    }
+  },
+  },
+  methods: {
+    onSubmit() {
+      //TODO: handle form
+    }
+  },
+  data () {
+    //TODO: FORM VALIDERING
+}
 };
 </script>
 
