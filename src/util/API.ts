@@ -64,10 +64,10 @@ export namespace API {
      */
     export async function createUser(
       request: CreateUserRequest,
-    ): Promise<void> {
+    ): Promise<User> {
       return axios.post(`${import.meta.env.VITE_BACKEND_URL}/user`, request)
-        .then(() => {
-          return;
+        .then((response: AxiosResponse<User>) => {
+          return response.data;
         })
         .catch(() => {
           throw new Error();
@@ -82,7 +82,7 @@ export namespace API {
     export async function updateUser(
       id: number,
       request: UpdateUserRequest,
-    ): Promise<void> {
+    ): Promise<User> {
 
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) {
@@ -95,8 +95,8 @@ export namespace API {
           headers: { Authorization: `Bearer ${authStore.token}` },
         }
       )
-        .then(() => {
-          return;
+        .then((response: AxiosResponse<User>) => {
+          return response.data;
         })
         .catch(() => {
           throw new Error();
@@ -255,6 +255,22 @@ export namespace API {
         }).catch(() => {
           throw new Error();
         });
+    }
+
+    /**
+     * Performs a full-text search in the titles and descriptions of items stored in the database
+     * @param searchterm the term to search for
+     * @param pagenumber the page in the search results to retreive
+     * @returns a list of items baserd on the provided parameters
+     */
+    export async function searchItems(searchterm: string, pagenumber: number = 1): Promise<Item[]> {
+      return axios.get(`${import.meta.env.VITE_BACKEND_URL}/item/search/${searchterm}?page=${pagenumber}`)
+      .then((response: AxiosResponse<Item[]>) => {
+        return response.data;
+      })
+      .catch(() => {
+        throw new Error();
+      })
     }
   }
   export namespace Location {

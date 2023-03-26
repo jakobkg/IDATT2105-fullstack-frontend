@@ -32,6 +32,17 @@
       },
       goToItem(id: number) {
         API.Loftet.goToItem(id);
+      },
+      async search(searchterm: string) {
+        if (searchterm.length === 0) {
+          API.Loftet.listItems(1).then((items: Item[]) => {
+            this.items = items;
+          })
+        } else {
+          API.Loftet.searchItems(searchterm).then((searchresult: Item[]) => {
+            this.items = searchresult;
+          });
+        }
       }
     },
     mounted() {
@@ -44,7 +55,7 @@
   <main>    
     <div class="content">
       <div class="search-wrapper">
-        <input class="search-bar" type="text" v-model="input" :placeholder=searchPlaceholder />
+        <input class="search-bar" type="text" v-model="input" @change="search(input)" :placeholder=searchPlaceholder />
       </div>
 
       <div class="filter">

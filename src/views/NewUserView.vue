@@ -1,22 +1,28 @@
 <script lang="ts">
+import router from '@/router';
+import { useAuthStore } from '@/store/authStore';
 import { API } from '@/util/API';
 
 export default {
     data: () => {
         return {
-            newUser: {} as CreateUserRequest
+            newUser: {} as CreateUserRequest,
+            creationFailed: false,
         }
     },
     methods: {
         createUser() {
             API.Loftet.createUser(this.newUser)
-            .then(() => {
-                console.log("Bruker opprettet")
-            }
-            )
-            .catch(() => {
-                console.log("OOF")
-            })
+                .then((createdUser: User) => {
+                    API.Loftet.login({ email: createdUser.email, password: this.newUser.password })
+                        .then(() => {
+                            router.push("/profile");
+                        })
+                }
+                )
+                .catch(() => {
+                    this.creationFailed = true;
+                })
         }
     }
 }
@@ -47,6 +53,8 @@ export default {
             <input type="text" v-model="newUser.city">
 
             <button @click="createUser()">Opprett bruker</button>
+
+            <p v-if="creationFailed">Kunne ikke opprette bruker</p>
         </div>
     </main>
 </template>
