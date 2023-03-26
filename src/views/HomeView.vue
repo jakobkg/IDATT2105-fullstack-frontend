@@ -3,11 +3,13 @@
   import { useCategoryStore } from '@/store/categoryStore';
   import { mapState } from 'pinia';
   import { API } from '@/util/API';
+  import Map from "@/components/Map.vue";
 
   export default {
     name: "HomeView",
     data() {
       return {
+        showMap: false,
         input: "",
         mapButtonText: "Vis kart",
         searchPlaceholder: "Søk etter annonser...",
@@ -16,6 +18,7 @@
       }
     },
     components: {
+      Map,
       ItemCard,
     },
     //  computed: {
@@ -45,13 +48,14 @@
       </div>
 
       <div class="filter">
-        <button class="map-button">
+        <button @click="()=> {showMap = !showMap}" class="map-button">
           <img src='\static\Icons\marker.svg'/>
           <p>{{ mapButtonText }}</p>
         </button>
+
         <button>Filter</button>
       </div>
-
+      <Map v-if="showMap" :items=items />
       <div v-if="!(items.length > 0)" class="items">
         <p>Loading...</p>
       </div>
