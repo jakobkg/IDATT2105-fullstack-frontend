@@ -31,17 +31,17 @@ export default {
 
             <div class="field-container">
                 <label for="email">E-post</label>
-                <input type="text" v-model="email">
+                <input id="email-input" type="text" v-model="email">
             </div>
 
             <div class="field-container">
                 <label for="passord">Passord</label>
-                <input type="password" v-model="password">
+                <input id="password-input" type="password" v-model="password">
             </div>
 
-            <p>{{ errormsg }}</p>
+            <p id="error-message">{{ errormsg }}</p>
 
-            <button @click="() => { login() }">LOGG INN</button>
+            <button id="login-button" @click="() => { login() }">LOGG INN</button>
 
             <p><RouterLink to="/newuser">Ny bruker</RouterLink> - <a href="#">Glemt passord?</a></p>
         </div>
