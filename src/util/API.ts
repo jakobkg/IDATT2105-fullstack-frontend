@@ -182,7 +182,7 @@ export namespace API {
      * @param category id (optional)
      * @returns an array of item objects from specified list
      */
-    export async function listItems(pageNumber: number): Promise<any[]> {
+    export async function listItems(pageNumber: number=1): Promise<any[]> {
       return axios.get(
         import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber,
       )
