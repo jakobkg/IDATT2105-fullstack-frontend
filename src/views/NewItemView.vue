@@ -69,7 +69,7 @@ export default {
 
 <template>
   <div id = "wrapper">
-    <h1>REDIGER ANNONSE</h1>
+    <h1>OPPRETT ANNONSE</h1>
 
     <Album :album-images= itemImages />
 
