@@ -2,6 +2,7 @@
 import RouterView from 'vue-router';
 import NavBar from "@/components/NavBar.vue";
 import Footer from "@/components/Footer.vue";
+import { useCategoryStore } from './store/categoryStore';
 export default {
   components: {Footer, NavBar},
   beforeMount: () => {

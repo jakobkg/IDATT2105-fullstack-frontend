@@ -5,7 +5,7 @@ import { API } from '@/util/API';
 import router from "@/router";
 import { mapState } from "pinia";
 import { useCategoryStore } from "@/store/categoryStore";
-
+import { useAuthStore } from "@/store/authStore";
 export default {
   name: "ModifyItemView",
   components: { Album },
@@ -14,15 +14,18 @@ export default {
     return {
       itemImages: [] as any[],
       itemText:'',
-    };
-  },
-  computed: {
-    ...mapState(useCategoryStore,["categories"]),
       itemTitle: "",
+      itemName:"",
       description: "",
       price: "",
       category: "",
       address: "",
+    };
+  },
+  computed: {
+    ...mapState(useCategoryStore,["categories"]),
+    ...mapState(useAuthStore, ['user']),
+
   },
   methods: {
     loadImages(){
@@ -32,17 +35,31 @@ export default {
     },
     submit(){
         const img = this.itemText;
-        const categoryId = category.categoryId;
+        const categoryId = this.category.categoryId;
+        console.log(categoryId);
+        const today = new Date();
+        const long = "66";
+        const lat = "99";
+        const userID = this.user.id;
 
-        API.Loftet.createItem({title:this.itemTitle, description: this.description,price:this.price,latitude:"56", longitude:"99", categoryId:"1",images:img})
+        API.Loftet.createItem({
+          title: this.itemTitle,
+          description: this.description,
+          price: this.price,
+          latitude: long,
+          longitude: lat,
+          categoryId: categoryId,
+          images: img,
+          date: today.toString(),
+          id: userID,
+        })
           .then((item:Item) => {
-            router.push("/item/"+item.id);
+            //router.push("/item/"+item.id);
+            router.push("/");
           })
           .catch(() => {
-            //TODO
             console.log("feil ved opprettelse av annonse");
-            alert("Det oppsto en feil")
-            //this.errormsg = "Kunne ikke logge inn! Sjekk brukernavn og passord, og prøv igjen";
+            alert("Det oppsto en feil ved endring av annonsen")
           });
 
     },
@@ -62,20 +79,20 @@ export default {
       <input type="text" v-model="itemTitle" id="title" name="title"  required><br>
 
       <label for="description">Beskrivelse:</label><br>
-      <textarea id="description" v-bind= "description" name="desctiption" required></textarea>
+      <textarea id="description" v-model= "description" name="desctiption" required></textarea>
 
       <label for="price">Pris:</label><br>
-      <input type="number" id="price" v-bind="price" name="price" min="0" required><br>
+      <input type="number" id="price" v-model="price" name="price" min="0" required><br>
 
       <label for="category">Kategori:</label><br>
-      <select id="category" v-bind="category" name="category">
+      <select id="category" v-model="category" name="category">
         <option v-for="category in categories">
           {{ category.categoryName }}
         </option>
       </select><br>
 
       <label for="address">Adresse:</label><br>
-      <input type="text" id="address" v-bind="address" name="address" required><br>
+      <input type="text" id="address" v-model="address" name="address" required><br>
 
       <label for="images">Legg inn komma-separerte bildelenker:</label><br>
       <input v-model="itemText" type="text" id="images" name="images"><br><br>
