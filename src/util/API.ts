@@ -256,6 +256,27 @@ export namespace API {
           throw new Error();
         });
     }
+
+
+    export async function addToBookmarks(itemId: number): Promise<any[]> {
+      const authStore = useAuthStore();
+
+      if (!authStore.isLoggedIn) throw new Error();
+      
+      return axios.post((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
+        headers: { Authorization: "Bearer " + authStore.token},
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(() => {
+        throw new Error();
+      });
+    }
+
+
+
+
   }
   export namespace Location {
     /**

@@ -16,7 +16,7 @@
                 <h2 class="price"> {{ item.price }}kr</h2>
             </div>
             <div class="right">
-                <button class="bookmark">Bokmerke</button>
+                <button class="bookmark" @click=addToBookmarks>Bokmerke</button>
                 <button class="contact" @click=mailSeller>Kontakt selger</button>
             </div>
         </div>
@@ -72,7 +72,7 @@
                     this.image = this.images[0];
                     this.imageIndex = 1;
                 } else {
-                    this.image = this.images[this.imageIndex]; //index + 1 også oppdater index
+                    this.image = this.images[this.imageIndex];
                     this.imageIndex += 1;
                 }
 
@@ -83,7 +83,7 @@
                     this.image = this.images[this.images.length - 1];
                     this.imageIndex = this.images.length;
                 } else {
-                    this.image = this.images[this.imageIndex - 2]; //index + 1 også oppdater index
+                    this.image = this.images[this.imageIndex - 2];
                     this.imageIndex -= 1;
                 }
             },
@@ -91,6 +91,11 @@
             mailSeller() {
                 console.log("mailto:" + this.seller.email);
                 return location.href="mailto:" + this.seller.email;
+            },
+
+            async addToBookmarks() {
+                const bookmarkResponse = await API.Loftet.addToBookmarks((Number(this.id)));
+                console.log(bookmarkResponse);
             }
         },
 
