@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import "leaflet/dist/leaflet.css";
 import 'leaflet';
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
@@ -30,7 +30,7 @@ export default {
     LPopup
   },
   props: {
-    items: Array,
+    items: [] as Item[],
   },
   data() {
     return {
