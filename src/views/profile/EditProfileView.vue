@@ -9,9 +9,6 @@
       <label for="lastname">Etternavn</label><ErrorMessage name="lastname" /><br>
       <Field type="text" id="lastname" name="lastname" v-model="updatedUser.lname" :rules="validateString" /><br>
 
-      <label for="email">E-post</label><ErrorMessage name="email" /><br>
-      <Field name="email" type="email" v-model="updatedUser.mail" :rules="validateEmail" />
-
       <label for="password">Passord</label><ErrorMessage name="password" /><br>
       <Field type="password" name = "password" id="password" /><br>
 
@@ -56,7 +53,6 @@ export default {
     return {
       fname: this.user.firstname,
       lname: this.user.lastname,
-      mail: this.user.email,
       address: this.user.streetAddress,
       postcode: this.user.postCode,
       city: this.user.city,
@@ -69,7 +65,6 @@ export default {
       API.Loftet.updateUser(id,{
         firstname:this.updatedUser.fname,
         lastname:this.updatedUser.lname,
-        email:this.updatedUser.mail,
         streetAddress:this.updatedUser.address,
         postCode:this.updatedUser.postcode,
         city: this.updatedUser.city}).then(()=>{
@@ -79,16 +74,6 @@ export default {
         console.log(Error.reason);
       })
       alert("submitted ")
-    },
-    validateEmail(value) {
-      if (!value) {
-        return ' - 🔺Obligatorisk felt🔺';
-      }
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return ' - 🔺 Feltet må inneholde en gyldig epost 🔺';
-      }
-      return true;
     },
     validateString(value) {
       if (!value) {
