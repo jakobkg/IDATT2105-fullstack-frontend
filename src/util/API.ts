@@ -263,7 +263,7 @@ export namespace API {
 
       if (!authStore.isLoggedIn) throw new Error();
       
-      return axios.post((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
+      return axios.post((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), '', {
         headers: { Authorization: "Bearer " + authStore.token},
       })
       .then(response => {
@@ -272,6 +272,37 @@ export namespace API {
       .catch(() => {
         throw new Error();
       });
+    }
+
+    export async function deleteBookmark(itemId: number): Promise<any[]> {
+      const authStore = useAuthStore();
+
+      if (!authStore.isLoggedIn) throw new Error();
+      
+      return axios.delete((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
+        headers: { Authorization: "Bearer " + authStore.token},
+      })
+      .then(response => {
+        return response.data;
+      })
+      .catch(() => {
+        throw new Error();
+      });
+    }
+
+    export async function isBookmarked(itemId: number): Promise<boolean> {
+        const authStore = useAuthStore();
+
+        if (!authStore.isLoggedIn) throw new Error();
+        return axios.get((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
+          headers: { Authorization: "Bearer " + authStore.token}
+        })
+        .then (() => {
+          return true;
+        }).catch(() => {
+          return false;
+        })
+
     }
 
 
