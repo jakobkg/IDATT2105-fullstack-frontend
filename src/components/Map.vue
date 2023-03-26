@@ -6,23 +6,20 @@
         layer-type="base"
         name="OpenStreetMap"
       ></l-tile-layer>
-      <l-marker v-for="marker in markers" :lat-lng="marker">
-        <l-popup>lol</l-popup>
+      <l-marker v-for="item in items" :lat-lng="[item.latitude, item.longitude]">
+        <l-popup>
+          <RouterLink :to="`/item/${item.id}`">{{item.title}}</RouterLink>
+          <br>
+          {{item.price}}kr
+        </l-popup>
       </l-marker>
     </l-map>
   </div>
 </template>
 
-<script setup>
-// TODO get location data as well as some item data from api and put those in here
-let markers = [
-  [
-    63.43168323054608, 10.396156216943767 //example
-  ]
-];
-</script>
 <script>
 import "leaflet/dist/leaflet.css";
+import 'leaflet';
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 
 export default {
@@ -32,9 +29,12 @@ export default {
     LMarker,
     LPopup
   },
+  props: {
+    items: Array,
+  },
   data() {
     return {
-      zoom: 5,
+      zoom:5,
     };
   },
 };

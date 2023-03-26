@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import NewUserView from "@/views/NewUserView.vue";
 import ProfileView from '@/views/profile/ProfileView.vue';
 import MyItemsView from "@/views/profile/MyItemsView.vue";
+import ItemView from "@/views/ItemView.vue";
 import EditProfileView from "@/views/EditProfileView.vue";
 
 const router = createRouter({
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/item/:id',
+      name: 'item',
+      component: ItemView
     },
     {
       path: '/profile/my-items',
