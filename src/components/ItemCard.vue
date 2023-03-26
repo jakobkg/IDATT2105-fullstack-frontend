@@ -1,14 +1,23 @@
 <template>
-    <div class="content">
-        <div class="image">
-            <img class="thumbnail" :src="thumbnail" alt="image">
-        </div>
-        
-        <div class="info">
-            <h3 class="label">{{ label }}</h3>
-            <h3> {{ price }}</h3>
-            <h4>{{ location }} - {{ date }}</h4>
-        </div>
+  <div class="content">
+    <div class="image">
+      <img class="thumbnail" :src="thumbnail" alt="image">
+    </div>
+
+    <div class="info">
+      <h3 class="label">{{ label }}</h3>
+      <h3> {{ price }}</h3>
+      <h4>{{ location }} - {{ date }}</h4>
+    </div>
+    <div v-if="authStore.isLoggedIn() && user.id === userId">
+      <a :href="'/item/edit/'+itemId" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
+    </div>
+
+    <!--
+    Delete button - needs frontend api
+    <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+      <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+    </div>-->
 
         <div class="bookmark">
             <img v-if="!isBookmarked" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
@@ -18,83 +27,108 @@
     </div>
 
 </template>
-
-
 <script lang="ts">
-    export default {
-        name: "ItemCard",
-        props: {
-            image: {
-                type: String,
-                required: true
-            },
-            label: {
-                type: String,
-                required: true
-            },
-            price: {
-                type: String,
-                required: true
-            },
-            location: {
-                type: String,
-                required: true
-            },
-            date: {
-                type: String,
-                required: true
-            },
-            itemId: {
-                type: Number,
-                required: true
-            },
-            isBookmarked: {
-                type: Boolean,
-                required: false,
-                default: false
-            }
+import { mapState, mapStores } from "pinia";
+import { useAuthStore } from "@/store/authStore";
+
+export default {
+  name: "ItemCard",
+  computed: {
+    ...mapStores(useAuthStore),
+    ...mapState(useAuthStore, ['user'])
+  },
+  props: {
+    userId: {
+      type: Number,
+      required: false,
+    },
+    image: {
+      type: String,
+      required: true
+    },
+    label: {
+      type: String,
+      required: true
+    },
+    price: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: String,
+      required: true
+    },
+    itemId: {
+      type: Number,
+      required: true
+    },
+    isBookmarked: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
         },
 
         data() {
             return {
                 thumbnail: this.image.split(",").shift()
             }
-        }
+  }
 
 
-    }
+}
 </script>
 
 <style scoped lang="scss">
+.edit-link {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 5px;
+  img {
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+  }
+}
 
-    .content {
 
-        position: relative;
-        border-bottom: solid 1px #999;
-
-
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        min-height: 130px;
-        min-width: 270px;
-        /* max-height: 180px; */
-        max-width: 100%;
-        border-radius: 5px;
-
-        padding-bottom:15px;
-        
-        overflow: hidden;
-
-        text-align: left;
-        // padding-right: 35px;
-        margin-right: 35px;
-    }
-
-    .content:hover {
-        background-color: #e4e2de;
-        
-    }
+.delete-link {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  cursor: pointer;
+  img {
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+  }
+}
+.content {
+  position: relative;
+  border-bottom: solid 1px #999;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  min-height: 130px;
+  min-width: 270px;
+  /* max-height: 180px; */
+  max-width: 100%;
+  border-radius: 5px;
+  padding-bottom:15px;
+  overflow: hidden;
+  text-align: left;
+  // padding-right: 35px;
+  margin-right: 35px;
+  &:hover {
+    background-color: #e4e2de;
+  }
+}
 
     .image {
         /* width: 120px; */
@@ -108,68 +142,67 @@
     }
 
 
-    .thumbnail {
-        max-height: 150px;
-        min-height: 150px;
-        min-width: 150px;
-        max-width: 150px;
+.thumbnail {
+  max-height: 150px;
+  min-height: 150px;
+  min-width: 150px;
+  max-width: 150px;
 
-        height: 100%;
-        width: 100%;
-        
-        border-radius: 5px;
+  height: 100%;
+  width: 100%;
 
-        object-fit: cover;
-    }
+  border-radius: 5px;
 
-    .info {
-       margin-left: 15px;
-        
-    }
+  object-fit: cover;
+}
 
-    .label {
-        margin-top: 15px;
-        padding-bottom: 36px;
-        margin-bottom: 0;
-    }
+.info {
+  margin-left: 15px;
+}
 
-    h3 {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
+.label {
+  margin-top: 15px;
+  padding-bottom: 36px;
+  margin-bottom: 0;
+}
 
-    h4 {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
+h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
 
-    .bookmark-img {
-        position: absolute;
-        top: 0px;
-        right: 0px;
+.bookmark-img {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 
-        max-height: 100%;
-        max-width: 100%;
-        width: 25px;
-        
-        padding: 5px
-        
-    }
+  max-height: 100%;
+  max-width: 100%;
+  width: 25px;
 
-    @media (max-width: base.$phone) {
-        .image {
-            /* width: 120px; */
-            min-width: 30%;
-            width: 30%;
-     
-            margin-top: 15px;
-        }
-        .thumbnail {
-            min-width: 100%;
-            min-height: 100%;
+  padding: 5px
 
-        }
+}
+
+@media (max-width: base.$phone) {
+  .image {
+    /* width: 120px; */
+    min-width: 30%;
+    width: 30%;
+
+    margin-top: 15px;
+  }
+  .thumbnail {
+    min-width: 100%;
+    min-height: 100%;
+
+  }
 }
 
 </style>
