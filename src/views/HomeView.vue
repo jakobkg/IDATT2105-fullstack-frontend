@@ -62,7 +62,8 @@
             :image = "item.images"
             :label = "item.title"
             :price = "item.price + 'kr'"
-            :location = "item.latitude"
+            :latitude = "item.latitude"
+            :longitude = "item.longitude"
             :date = "item.date"
             :itemId = "item.id"
           />

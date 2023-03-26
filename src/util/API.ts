@@ -248,5 +248,31 @@ export namespace API {
           throw new Error();
         });
     }
+
+    /**
+     * Uses an external OpenStreetMap API to perform a GPS lookup and get the city name/postcode
+     * of a given location
+     * @param latitude GPS latitude of the place to look up (represented as a string to avoid floating point shenanigans)
+     * @param longitude GPS longitude of the place to look up (represented as a string)
+     * @returns the city and post code of the location, in the format "1234 Cityville"
+     */
+    export async function cityToCoords(
+      address: string
+    ): Promise<string> {
+      return axios.get(
+        `https://nominatim.openstreetmap.org/search?q=${address}&format=json`,
+        {
+          headers: {
+            "User-Agent": "loftet.no v1" // Header added to allow OSM to keep stats/limit usage if needed
+          }
+        }
+      )
+        .then((response: AxiosResponse) => {
+          return `${response.data[0].lat} ${response.data[0].lon}`;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
   }
 }

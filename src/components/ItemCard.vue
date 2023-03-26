@@ -13,16 +13,16 @@
       <a :href="'/item/edit/'+itemId" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
     </div>
 
-    <!--
-    Delete button - needs frontend api
-    <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-      <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-    </div>-->
+      <!--
+      Delete button - needs frontend api
+      <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+        <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+      </div>-->
 
-        <div class="bookmark">
-            <img v-if="!isBookmarked" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
-            <img v-else class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
-        </div>
+      <div class="bookmark">
+          <img v-if="!isBookmarked" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
+          <img v-else class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
+      </div>
 
     </div>
 
@@ -30,12 +30,17 @@
 <script lang="ts">
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
+import { API } from '@/util/API';
 
 export default {
   name: "ItemCard",
+  mounted() {
+    API.Location.coordsToCity(this.latitude,this.longitude).then((location)=>{this.location = location})
+  },
   computed: {
     ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['user'])
+    ...mapState(useAuthStore, ['user']),
+
   },
   props: {
     userId: {
@@ -54,7 +59,11 @@ export default {
       type: String,
       required: true
     },
-    location: {
+    latitude: {
+      type: String,
+      required: true
+    },
+    longitude: {
       type: String,
       required: true
     },
@@ -71,15 +80,14 @@ export default {
       required: false,
       default: false
     }
-        },
+  },
 
-        data() {
-            return {
-                thumbnail: this.image.split(",").shift()
-            }
-  }
-
-
+    data() {
+        return {
+            thumbnail: this.image.split(",").shift(),
+            location: ""
+        }
+    }
 }
 </script>
 
