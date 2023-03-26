@@ -5,10 +5,7 @@ import Footer from "@/components/Footer.vue";
 import { useCategoryStore } from './store/categoryStore';
 export default {
   components: {Footer, NavBar},
-  beforeMount: () => {
-    const categoryStore = useCategoryStore();
-    categoryStore.populate();
-  }
+
 };
 </script>
 
