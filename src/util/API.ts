@@ -1,6 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/authStore";
 import jwt_decode from "jwt-decode";
+import router from "@/router/index";
 
 export namespace API {
   export namespace Loftet {
@@ -148,6 +149,29 @@ export namespace API {
         }).catch(() => {
           throw new Error();
         })
+    }
+
+
+    /**
+     * Goes to a detailed view of an item
+     * @param id the id of the item
+     */
+    export async function goToItem(id: number) {
+        router.push('/item/' + id);
+    }
+
+    /**
+     * Gets information about a specified item
+     * @param id the id of the item
+     * @returns the item or an error if it fails
+     */
+    export async function getItem(id: number): Promise<Item> {
+      return axios.get(import.meta.env.VITE_BACKEND_URL + '/item/' + id)
+      .then((response: AxiosResponse) => {
+        return response.data;
+      }).catch(() => {
+        throw new Error();
+      })
     }
 
     /**

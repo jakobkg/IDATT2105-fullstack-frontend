@@ -18,14 +18,17 @@
     components: {
       ItemCard,
     },
-    computed: {
-      ...mapState(useCategoryStore, ["categories"]),
-    },
+    //  computed: {
+    //   ...mapState(useCategoryStore, ['categories']),
+    // }, 
 
     methods: {
       async loadData() {
         const response = await API.Loftet.listItems(1);
         this.items = response;
+      },
+      goToItem(id: number) {
+        API.Loftet.goToItem(id);
       }
     },
     mounted() {
@@ -43,7 +46,7 @@
 
       <div class="filter">
         <button class="map-button">
-          <img src='..\..\public\static\Icons\marker.svg'/>
+          <img src='\static\Icons\marker.svg'/>
           <p>{{ mapButtonText }}</p>
         </button>
         <button>Filter</button>
@@ -53,7 +56,7 @@
         <p>Loading...</p>
       </div>
       <div v-else class="items">
-        <li style="list-style-type: none" v-for="item in items">
+        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
         
           <ItemCard
             :image = "item.images"
@@ -101,10 +104,6 @@
     
     .map-button {
       display: flex;
-    }
-
-    button {
-      border-color: #999;
     }
 
     p {
