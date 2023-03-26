@@ -8,13 +8,14 @@ export default {
   }
 }
 </script>
+
 <template>
   <div></div>
   <main v-if="this.authStore.isLoggedIn()">
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
-        <figure><img src=""/></figure> <!--Add valid path to profile image-->
+        <figure style="background-image: url('/static/Icons/user.svg')"><img src="/static/Icons/user.svg" alt="Brukerikon"/></figure> <!--Add valid path to profile image-->
         <div class="details">
           <h2>{{user.firstname}} {{user.lastname}}</h2>
           <p>{{user.email}}</p>
@@ -23,9 +24,9 @@ export default {
       </div>
 
       <div class="buttons">
-        <a class="btn">Rediger profilen</a>
-        <a href="/profile/my-items" class="btn">Mine annonser</a>
-        <a class="btn">Mine bokmerker</a>
+        <button><a href="/profile/edit">Rediger profilen</a></button>
+        <button><a href="/profile/my-items" >Mine annonser</a></button>
+        <button><a href="/profile/bookmarks">Mine bokmerker</a></button>
       </div>
     </div>
   </main>
@@ -36,56 +37,56 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+main {
+  text-align: left;
+  .profile-page {
+    .profile {
+      display: flex;
+      align-items: center;
+
+      figure {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+        }
+      }
+
+      .details {
+
+      }
+    }
+
+    .buttons {
+      margin: 40px 0;
+      button {
+        display: inline-block;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+@media(max-width: base.$phone) {
   main {
-    text-align: left;
     .profile-page {
-      .profile {
-        display: flex;
-        align-items: center;
-
-        figure {
-          width: 150px;
-          height: 150px;
-          border-radius: 50%;
-          background-position: center;
-          background-size: cover;
-          position: relative;
-          img {
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-          }
-        }
-
-        .details {
-
-        }
-      }
-
       .buttons {
-        margin: 40px 0;
         button {
-          display: inline-block;
-          margin: 0 10px;
+          display: block;
+          width: 100%;
+          max-width: 300px;
+          margin: 0 auto 10px;
         }
       }
     }
   }
-
-  @media(max-width: base.$phone) {
-    main {
-      .profile-page {
-        .buttons {
-          button {
-            display: block;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 10px;
-          }
-        }
-      }
-    }
-  }
+}
 
 
 
