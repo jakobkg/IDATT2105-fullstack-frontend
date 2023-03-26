@@ -4,8 +4,8 @@
 
     <ul v-if="isLoggedIn">
       <NavElement navText="Ny annonse" pageLink="/newItem" imageLink='\static\Icons\add.svg'/>
-      <NavElement navText="Melding" pageLink="/" imageLink="\static\Icons\comment.svg"/>
       <NavElement navText="Profil" pageLink="/profile" imageLink="\static\Icons\user.svg"/>
+      <NavElement navText="Logg ut" pageLink="/" imageLink="\static\Icons\Logout.png"/>
     </ul>
     <NavElement v-else navText="Logg inn" pageLink="/login" imageLink="\static\Icons\login.svg" />
   </nav>
