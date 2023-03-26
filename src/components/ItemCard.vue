@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="image">
-      <img class="thumbnail" :src="image" alt="image">
+      <img class="thumbnail" :src="thumbnail" alt="image">
     </div>
 
     <div class="info">
@@ -10,30 +10,37 @@
       <h4>{{ location }} - {{ date }}</h4>
     </div>
     <div v-if="authStore.isLoggedIn() && user.id === userId">
-      <a :href="'/item/edit/'+itemId" class="edit-link"><img src="..\..\public\static\Icons\pencil.svg" alt="edit"></a>
+      <a :href="'/item/edit/'+itemId" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
     </div>
 
-    <!--
-    Delete button - needs frontend api
-    <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-      <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-    </div>-->
+      <!--
+      Delete button - needs frontend api
+      <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+        <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+      </div>-->
 
-    <div class="bookmark">
-      <img v-if="!isBookmarked" class="bookmark-img" src="..\..\public\static\Icons\bookmark.svg" alt="bookmark">
-      <img v-else class="bookmark-img" src="..\..\public\static\Icons\bookmark-dark.svg" alt="bookmark">
+      <div class="bookmark">
+          <img v-if="!isBookmarked" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
+          <img v-else class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
+      </div>
+
     </div>
-  </div>
+
 </template>
 <script lang="ts">
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
+import { API } from '@/util/API';
 
 export default {
   name: "ItemCard",
+  mounted() {
+    API.Location.coordsToCity(this.latitude,this.longitude).then((location)=>{this.location = location})
+  },
   computed: {
     ...mapStores(useAuthStore),
-    ...mapState(useAuthStore, ['user'])
+    ...mapState(useAuthStore, ['user']),
+
   },
   props: {
     userId: {
@@ -52,7 +59,11 @@ export default {
       type: String,
       required: true
     },
-    location: {
+    latitude: {
+      type: String,
+      required: true
+    },
+    longitude: {
       type: String,
       required: true
     },
@@ -69,9 +80,14 @@ export default {
       required: false,
       default: false
     }
-  }
+  },
 
-
+    data() {
+        return {
+            thumbnail: this.image.split(",").shift(),
+            location: ""
+        }
+    }
 }
 </script>
 
@@ -81,11 +97,24 @@ export default {
   height: 25px;
   display: inline-block;
   cursor: pointer;
-  margin-right: 5px;
+
+  position: absolute;
+  top: 0px;
+  right: 35px;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 5px;
+
   img {
     width: 25px;
     height: 25px;
     padding: 5px;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    max-height: 100%;
+    max-width: 100%;
   }
 }
 
@@ -95,10 +124,24 @@ export default {
   height: 25px;
   display: inline-block;
   cursor: pointer;
+
+  position: absolute;
+  top: 0px;
+  right: 70px;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 5px;
+
   img {
     width: 25px;
     height: 25px;
     padding: 5px;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    max-height: 100%;
+    max-width: 100%;
   }
 }
 .content {
@@ -122,14 +165,17 @@ export default {
   }
 }
 
-.image {
-  /* width: 120px; */
-  min-width: 150px;
-  width: 150px;
-  height: 150px;
-  height: 100%;
-  margin-top: 15px;
-}
+    .image {
+        /* width: 120px; */
+        min-width: 150px;
+        width: 150px;
+        height: 150px;
+        height: 100%;
+        margin-left: 15px;
+        margin-top: 15px;
+        
+    }
+
 
 .thumbnail {
   max-height: 150px;
@@ -176,6 +222,17 @@ h4 {
   width: 25px;
 
   padding: 5px
+
+}
+
+.edit-link {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    max-height: 100%;
+    max-width: 100%;
+    width: 25px;
+    padding: 5px
 
 }
 

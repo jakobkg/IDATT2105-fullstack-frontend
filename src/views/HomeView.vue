@@ -3,11 +3,13 @@
   import { useCategoryStore } from '@/store/categoryStore';
   import { mapState } from 'pinia';
   import { API } from '@/util/API';
+  import Map from "@/components/Map.vue";
 
   export default {
     name: "HomeView",
     data() {
       return {
+        showMap: false,
         input: "",
         mapButtonText: "Vis kart",
         searchPlaceholder: "Søk etter annonser...",
@@ -16,16 +18,20 @@
       }
     },
     components: {
+      Map,
       ItemCard,
     },
-    computed: {
-      ...mapState(useCategoryStore, ["categories"]),
-    },
+    //  computed: {
+    //   ...mapState(useCategoryStore, ['categories']),
+    // }, 
 
     methods: {
       async loadData() {
         const response = await API.Loftet.listItems(1);
         this.items = response;
+      },
+      goToItem(id: number) {
+        API.Loftet.goToItem(id);
       }
     },
     mounted() {
@@ -42,24 +48,26 @@
       </div>
 
       <div class="filter">
-        <button class="map-button">
-          <img src='..\..\public\static\Icons\marker.svg'/>
+        <button @click="()=> {showMap = !showMap}" class="map-button">
+          <img src='\static\Icons\marker.svg'/>
           <p>{{ mapButtonText }}</p>
         </button>
+
         <button>Filter</button>
       </div>
-
+      <Map v-if="showMap" :items=items />
       <div v-if="!(items.length > 0)" class="items">
         <p>Loading...</p>
       </div>
       <div v-else class="items">
-        <li style="list-style-type: none" v-for="item in items">
+        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
         
           <ItemCard
             :image = "item.images"
             :label = "item.title"
             :price = "item.price + 'kr'"
-            :location = "item.latitude"
+            :latitude = "item.latitude"
+            :longitude = "item.longitude"
             :date = "item.date"
             :itemId = "item.id"
           />
@@ -101,10 +109,6 @@
     
     .map-button {
       display: flex;
-    }
-
-    button {
-      border-color: #999;
     }
 
     p {

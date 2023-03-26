@@ -27,6 +27,7 @@ export default {
         <button><a href="/profile/edit">Rediger profilen</a></button>
         <button><a href="/profile/my-items" >Mine annonser</a></button>
         <button><a href="/profile/bookmarks">Mine bokmerker</a></button>
+        <button @click="authStore.logout()"><a href="/">Logg ut</a></button>
       </div>
     </div>
   </main>
