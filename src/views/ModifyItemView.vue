@@ -71,8 +71,7 @@ export default {
           id: userID,
         })
           .then((item:Item) => {
-            //router.push("/item/"+item.id);
-            router.push("/");
+            router.push("/item/"+itemId);
           })
           .catch(() => {
             console.log("feil ved opprettelse av annonse");
