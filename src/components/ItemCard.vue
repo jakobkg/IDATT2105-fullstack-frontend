@@ -9,7 +9,7 @@
       <h3> {{ price }}</h3>
       <h4>{{ location }} - {{ date }}</h4>
     </div>
-    <div v-if="authStore.isLoggedIn() && user.id === userId">
+    <div v-if="authStore.isLoggedIn && user.id === userId">
       <a :href="'/item/edit/'+itemId" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
     </div>
 

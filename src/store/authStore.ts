@@ -9,6 +9,11 @@ export const useAuthStore = defineStore("auth", {
   persist: {
     storage: localStorage
   },
+  getters: {
+    isLoggedIn(): boolean {
+      return this.token.length > 0
+    }
+  },
   actions: {
     setToken(token: string) {
       this.token = token;
@@ -18,9 +23,6 @@ export const useAuthStore = defineStore("auth", {
     },
     logout() {
       this.$reset();
-    },
-    isLoggedIn(): boolean {
-      return this.token.length > 0;
     }
   }
 });

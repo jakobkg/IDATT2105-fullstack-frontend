@@ -30,19 +30,19 @@ export default {
           <form @submit.prevent="login">
             <div class="field-container">
               <label for="email">E-post</label>
-              <input name="email" type="text" v-model="email" />
+              <input id="email-input" name="email" type="text" v-model="email" />
             </div>
             <br>
             <div class="field-container">
               <label for="password">Passord</label>
-              <input name="password" type="password" v-model="password" />
+              <input id="password-input" name="password" type="password" v-model="password" />
             </div>
             <br>
             <br>
 
-            <p>{{ errormsg }}</p>
+            <p id="error-message">{{ errormsg }}</p>
 
-            <button @click="() => { login() }">LOGG INN</button>
+            <button id="login-button" @click="() => { login() }">LOGG INN</button>
           </form>
 
             <p><RouterLink to="/newuser">Ny bruker</RouterLink> - <a href="#">Glemt passord?</a></p>

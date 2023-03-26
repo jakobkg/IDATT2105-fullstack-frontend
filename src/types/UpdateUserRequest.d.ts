@@ -1,5 +1,4 @@
 declare type UpdateUserRequest = {
-  email: string;
   password: string;
   firstname: string;
   lastname: string;

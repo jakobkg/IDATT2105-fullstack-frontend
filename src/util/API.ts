@@ -85,13 +85,15 @@ export namespace API {
     ): Promise<void> {
 
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
       return axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/user/${id}`,
-        request,
+        request, {
+          headers: { Authorization: `Bearer ${authStore.token}` },
+        }
       )
         .then(() => {
           return;
@@ -103,7 +105,7 @@ export namespace API {
 
     export async function deleteUser(id: number): Promise<void> {
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
@@ -122,7 +124,7 @@ export namespace API {
       request: CreateItemRequest,
     ): Promise<Item> {
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
@@ -146,13 +148,15 @@ export namespace API {
     ): Promise<void> {
 
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
       return axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/item/${id}`,
-        request,
+        request, {
+          headers: { Authorization: `Bearer ${authStore.token}` },
+        }
       )
         .then(() => {
           return;
@@ -223,8 +227,7 @@ export namespace API {
       userId: number,
     ): Promise<any[]> {
       return axios.get(
-        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber +
-          "&userId=" + userId,
+        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber + "&userId=" + userId,
       )
         .then((response: AxiosResponse) => {
           return response.data;

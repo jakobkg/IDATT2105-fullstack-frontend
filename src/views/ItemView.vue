@@ -12,7 +12,7 @@
         <div class="info">
             <div class="left">
                 <p class="date-text"> {{ item.date }} </p>
-                <h2 class="title"> {{ item.title }}ffj dskfjsd afkjds fjsdkl fdsjk fjdf djsakfsaj k</h2>
+                <h2 class="title"> {{ item.title }}</h2>
                 <h2 class="price"> {{ item.price }}kr</h2>
             </div>
             <div class="right">
