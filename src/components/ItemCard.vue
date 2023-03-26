@@ -89,11 +89,24 @@ export default {
   height: 25px;
   display: inline-block;
   cursor: pointer;
-  margin-right: 5px;
+
+  position: absolute;
+  top: 0px;
+  right: 35px;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 5px;
+
   img {
     width: 25px;
     height: 25px;
     padding: 5px;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    max-height: 100%;
+    max-width: 100%;
   }
 }
 
@@ -103,10 +116,24 @@ export default {
   height: 25px;
   display: inline-block;
   cursor: pointer;
+
+  position: absolute;
+  top: 0px;
+  right: 70px;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 5px;
+
   img {
     width: 25px;
     height: 25px;
     padding: 5px;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    max-height: 100%;
+    max-width: 100%;
   }
 }
 .content {
@@ -187,6 +214,17 @@ h4 {
   width: 25px;
 
   padding: 5px
+
+}
+
+.edit-link {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    max-height: 100%;
+    max-width: 100%;
+    width: 25px;
+    padding: 5px
 
 }
 
