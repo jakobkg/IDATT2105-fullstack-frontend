@@ -56,18 +56,22 @@ export default {
         const categoryId = this.category.categoryId;
         console.log(categoryId);
         const today = new Date();
-        const long = "66";
-        const lat = "99";
+
+        let latLong = API.Location.cityToCoords(this.address).toString().split(" ");
+
+        const lat = latLong[0];
+        const long = latLong[1];
+
         const itemId = this.item.id;
 
         API.Loftet.updateItem(itemId, {
           title: this.itemTitle,
           description: this.description,
           price: this.price,
-          latitude: long,
+          latitude: lat,
           date:today.toString(),
-          longitude: lat,
-          categoryId: 3,
+          longitude: long,
+          categoryId: 3,//TODO
           images: img,
 
         })
