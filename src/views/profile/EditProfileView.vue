@@ -67,13 +67,15 @@ export default {
         lastname:this.updatedUser.lname,
         streetAddress:this.updatedUser.address,
         postCode:this.updatedUser.postcode,
-        city: this.updatedUser.city}).then(()=>{
+        city: this.updatedUser.city})
+      .then((savedUser)=>{
+        useAuthStore().setUser(savedUser);
         router.push("/profile");
-      }).catch((Error)=> {
+      })
+      .catch((Error)=> {
         console.log("feil ved oppdatering av bruker")
         console.log(Error.reason);
-      })
-      alert("submitted ")
+      });
     },
     validateString(value) {
       if (!value) {
