@@ -57,6 +57,8 @@ export default {
         //console.log(categoryId);
         const today = new Date();
 
+
+        //TODO
         let latLong = API.Location.cityToCoords(this.address).toString().split(" ");
 
         const lat = latLong[0];

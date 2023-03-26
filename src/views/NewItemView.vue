@@ -37,7 +37,12 @@ export default {
       const img = this.itemText;
       //const categoryId = this.category.categoryId;
       //console.log(categoryId);
-      const today = new Date();
+
+      const today = new Date().getDay();
+
+
+
+
       const long = "66";
       const lat = "99";
       const userID = this.user.id;
@@ -49,6 +54,7 @@ export default {
         latitude: long,
         longitude: lat,
         date: today.toString(),
+        //categoryId: 4,
         categoryId: 4,
         images: img,
         userId: userID,
