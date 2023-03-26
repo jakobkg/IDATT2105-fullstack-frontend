@@ -31,7 +31,7 @@ export default {
 </script>
 <template>
   <div></div>
-  <main v-if="this.authStore.isLoggedIn()">
+  <main v-if="this.authStore.isLoggedIn">
     <h1>Mine annonser</h1>
     <a href="/profile">Gå tilbake til profilsiden</a>
     <div v-if="!(items.length > 0)" class="items">

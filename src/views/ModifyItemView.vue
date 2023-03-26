@@ -58,17 +58,18 @@ export default {
         const today = new Date();
         const long = "66";
         const lat = "99";
-        const userID = this.user.id;
+        const itemId = this.item.id;
 
-        API.Loftet.updateItem(userID, {
+        API.Loftet.updateItem(itemId, {
           title: this.itemTitle,
           description: this.description,
           price: this.price,
           latitude: long,
           date:today.toString(),
           longitude: lat,
-          categoryId: categoryId,
+          categoryId: 3,
           images: img,
+
         })
           .then((item:Item) => {
             router.push("/item/"+itemId);
