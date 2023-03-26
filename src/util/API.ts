@@ -83,7 +83,10 @@ export namespace API {
       id: number,
       request: UpdateUserRequest,
     ): Promise<void> {
-      return axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, request)
+      return axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/user/${id}`,
+        request,
+      )
         .then(() => {
           return;
         })
@@ -125,7 +128,7 @@ export namespace API {
         throw new Error();
       });
     }
-    
+
     export async function getCategories(): Promise<Category[]> {
       return axios.get(`${import.meta.env.VITE_BACKEND_URL}/category`)
         .then((response: AxiosResponse<Category[]>) => {
@@ -143,21 +146,22 @@ export namespace API {
      * @returns an array of item objects from specified list
      */
     export async function listItems(pageNumber: number): Promise<any[]> {
-        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber)
+      return axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber,
+      )
         .then((response: AxiosResponse) => {
           return response.data.content;
         }).catch(() => {
           throw new Error();
-        })
+        });
     }
-
 
     /**
      * Goes to a detailed view of an item
      * @param id the id of the item
      */
     export async function goToItem(id: number) {
-        router.push('/item/' + id);
+      router.push("/item/" + id);
     }
 
     /**
@@ -166,12 +170,12 @@ export namespace API {
      * @returns the item or an error if it fails
      */
     export async function getItem(id: number): Promise<Item> {
-      return axios.get(import.meta.env.VITE_BACKEND_URL + '/item/' + id)
-      .then((response: AxiosResponse) => {
-        return response.data;
-      }).catch(() => {
-        throw new Error();
-      })
+      return axios.get(import.meta.env.VITE_BACKEND_URL + "/item/" + id)
+        .then((response: AxiosResponse) => {
+          return response.data;
+        }).catch(() => {
+          throw new Error();
+        });
     }
 
     /**
@@ -181,13 +185,19 @@ export namespace API {
      * @returns an array of item objects from specified list
      */
 
-    export async function listItemsBasedOnUserId(pageNumber: number, userId: number): Promise<any[]> {
-        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&userId=' + userId)
+    export async function listItemsBasedOnUserId(
+      pageNumber: number,
+      userId: number,
+    ): Promise<any[]> {
+      return axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber +
+          "&userId=" + userId,
+      )
         .then((response: AxiosResponse) => {
           return response.data;
         }).catch(() => {
           throw new Error();
-        })
+        });
     }
 
     /**
@@ -196,14 +206,47 @@ export namespace API {
      * @param categoryId (optional)
      * @returns an array of item objects from specified list
      */
-    export async function listItemsBasedOnCategoryId(pageNumber: number, categoryId: number): Promise<any[]> {
-        return axios.get(import.meta.env.VITE_BACKEND_URL + '/item?page=' + pageNumber + '&categoryId=' + categoryId)
+    export async function listItemsBasedOnCategoryId(
+      pageNumber: number,
+      categoryId: number,
+    ): Promise<any[]> {
+      return axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber +
+          "&categoryId=" + categoryId,
+      )
         .then((response: AxiosResponse) => {
           return response.data;
         }).catch(() => {
           throw new Error();
-        })
+        });
     }
-
+  }
+  export namespace Location {
+    /**
+     * Uses an external OpenStreetMap API to perform a GPS lookup and get the city name/postcode
+     * of a given location
+     * @param latitude GPS latitude of the place to look up (represented as a string to avoid floating point shenanigans)
+     * @param longitude GPS longitude of the place to look up (represented as a string)
+     * @returns the city and post code of the location, in the format "1234 Cityville"
+     */
+    export async function coordsToCity(
+      latitude: string,
+      longitude: string,
+    ): Promise<string> {
+      return axios.get(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+        {
+          headers: {
+            "User-Agent": "loftet.no v1" // Header added to allow OSM to keep stats/limit uasge if needed
+          }
+        }
+      )
+        .then((response: AxiosResponse<CityLookupResponse>) => {
+          return `${response.data.address.postcode} ${response.data.address.city}`;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
   }
 }
