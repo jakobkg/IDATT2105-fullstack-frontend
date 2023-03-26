@@ -60,15 +60,15 @@ export default {
         const lat = "99";
         const userID = this.user.id;
 
-        API.Loftet.UpdateItem({
+        API.Loftet.updateItem(userID, {
           title: this.itemTitle,
           description: this.description,
           price: this.price,
           latitude: long,
+          date:today.toString(),
           longitude: lat,
           categoryId: categoryId,
           images: img,
-          id: userID,
         })
           .then((item:Item) => {
             router.push("/item/"+itemId);
