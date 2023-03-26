@@ -15,7 +15,7 @@ export default {
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
-        <figure><img src=""/></figure> <!--Add valid path to profile image-->
+        <figure style="background-image: url('/static/Icons/user.svg')"><img src="/static/Icons/user.svg" alt="Brukerikon"/></figure> <!--Add valid path to profile image-->
         <div class="details">
           <h2>{{user.firstname}} {{user.lastname}}</h2>
           <p>{{user.email}}</p>
@@ -24,9 +24,9 @@ export default {
       </div>
 
       <div class="buttons">
-        <button><a class="btn">Rediger profilen</a></button>
-        <button><a href="/profile/my-items" class="btn">Mine annonser</a></button>
-        <button><a class="btn">Mine bokmerker</a></button>
+        <button><a href="/profile/edit">Rediger profilen</a></button>
+        <button><a href="/profile/my-items" >Mine annonser</a></button>
+        <button><a href="/profile/bookmarks">Mine bokmerker</a></button>
       </div>
     </div>
   </main>
