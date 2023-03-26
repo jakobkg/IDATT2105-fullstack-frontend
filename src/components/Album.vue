@@ -2,7 +2,7 @@
   <div>
     <div v-if="noImages" id="emptyImage">
       <div id="img">
-        <img src="public/static/icons/camera.svg" alt="Camera image">
+        <img src="/static/Icons/camera.svg" alt="Camera image">
         <h5>Ingen bilder er lagt inn</h5>
       </div>
     </div>
