@@ -2,7 +2,7 @@
   <nav>
     <Logo />
 
-    <ul v-if="token.length > 0">
+    <ul v-if="isLoggedIn">
       <NavElement navText="Ny annonse" pageLink="/" imageLink='\static\Icons\add.svg'/>
       <NavElement navText="Melding" pageLink="/" imageLink="\static\Icons\comment.svg"/>
       <NavElement navText="Profil" pageLink="/profile" imageLink="\static\Icons\user.svg"/>
@@ -23,7 +23,7 @@ export default {
   name: "NavBar",
   components: {Logo, NavElement},
   computed: {
-    ...mapState(useAuthStore, ["token"])
+    ...mapState(useAuthStore, ["isLoggedIn"])
   }
 }
 </script>

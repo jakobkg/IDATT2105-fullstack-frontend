@@ -1,17 +1,46 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NavBar from '../NavBar.vue'
-import { beforeEach } from "node:test";
-import { setActivePinia, createPinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import persistedState from "pinia-plugin-persistedstate";
+import { useAuthStore } from '@/store/authStore';
 
 describe('NavBar', () => {
-    beforeEach(() => {
-        setActivePinia(createPinia());
-        
+
+  it('renders properly when not logged in', () => {
+    const wrapper = mount(NavBar, {
+      global: {
+        plugins: [createTestingPinia({
+          stubActions: false,
+          createSpy: vi.fn,
+          plugins: [persistedState],
+        })],
+      },
     });
 
-  it('renders properly', () => {
-    const wrapper = mount(NavBar);
+    // The initial state of the auth store is not logged in, so the navbar should only have the login button
+    useAuthStore();
+    expect(wrapper.text()).toContain('Logg inn');
+  });
+
+  it('renders properly when logged in', () => {
+    const wrapper = mount(NavBar, {
+      global: {
+        plugins: [createTestingPinia({
+          stubActions: false,
+          createSpy: vi.fn,
+          plugins: [persistedState],
+          initialState: {
+            auth: {
+              token: "non-empty test token"
+            }
+          }
+        })],
+      },
+    });
+
+    // The initial state of the auth store has been set to contain a token, so the nav bar should be populated
+    useAuthStore();
     expect(wrapper.text()).toContain('Profil');
   })
 })

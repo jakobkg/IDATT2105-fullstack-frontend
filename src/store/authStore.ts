@@ -9,15 +9,17 @@ export const useAuthStore = defineStore("auth", {
   persist: {
     storage: localStorage
   },
+  getters: {
+    isLoggedIn(): boolean {
+      return this.token.length > 0
+    }
+  },
   actions: {
     setToken(token: string) {
       this.token = token;
     },
     setUser(user: User) {
       this.user = user;
-    },
-    isLoggedIn(): boolean {
-      return this.token.length > 0;
     }
   }
 });
