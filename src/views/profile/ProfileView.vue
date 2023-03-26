@@ -11,7 +11,7 @@ export default {
 
 <template>
   <div></div>
-  <main v-if="this.authStore.isLoggedIn()">
+  <main v-if="this.authStore.isLoggedIn">
     <h1>Din profil</h1>
     <div class="profile-page">
       <div class="profile">
@@ -27,7 +27,7 @@ export default {
         <button><a href="/profile/edit">Rediger profilen</a></button>
         <button><a href="/profile/my-items" >Mine annonser</a></button>
         <button><a href="/profile/bookmarks">Mine bokmerker</a></button>
-        <button @click="authStore.logout()"><a href="/">Logg ut</a></button>
+        <button id="logout-button" @click="authStore.logout()"><a href="/">Logg ut</a></button>
       </div>
     </div>
   </main>

@@ -85,7 +85,7 @@ export namespace API {
     ): Promise<void> {
 
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
@@ -105,7 +105,7 @@ export namespace API {
 
     export async function deleteUser(id: number): Promise<void> {
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
@@ -124,7 +124,7 @@ export namespace API {
       request: CreateItemRequest,
     ): Promise<Item> {
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
@@ -148,7 +148,7 @@ export namespace API {
     ): Promise<void> {
 
       const authStore = useAuthStore();
-      if (!authStore.isLoggedIn()) {
+      if (!authStore.isLoggedIn) {
         throw new Error();
       }
 
