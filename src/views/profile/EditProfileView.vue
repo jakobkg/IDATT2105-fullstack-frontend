@@ -34,7 +34,7 @@
 </template>
 
 
-<script lang="ts">
+<script>
 
 import { mapState } from "pinia";
 import { useAuthStore } from "@/store/authStore";
@@ -72,7 +72,7 @@ export default {
         email:this.updatedUser.mail,
         streetAddress:this.updatedUser.address,
         postCode:this.updatedUser.postcode,
-        city: this.updatedUser.city} as UpdateUserRequest).then(()=>{
+        city: this.updatedUser.city}).then(()=>{
         router.push("/profile");
       }).catch((Error)=> {
         console.log("feil ved oppdatering av bruker")
