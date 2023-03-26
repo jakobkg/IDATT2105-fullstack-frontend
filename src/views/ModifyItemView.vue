@@ -53,8 +53,8 @@ export default {
     },
     submit(){
         const img = this.itemText;
-        const categoryId = this.category.categoryId;
-        console.log(categoryId);
+        //const categoryId = this.category.categoryId;
+        //console.log(categoryId);
         const today = new Date();
 
         let latLong = API.Location.cityToCoords(this.address).toString().split(" ");
@@ -75,7 +75,7 @@ export default {
           images: img,
 
         })
-          .then((item:Item) => {
+          .then(()=> {
             router.push("/item/"+itemId);
           })
           .catch(() => {

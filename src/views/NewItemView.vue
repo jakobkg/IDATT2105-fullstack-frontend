@@ -35,8 +35,8 @@ export default {
     },
     submit(){
       const img = this.itemText;
-      const categoryId = this.category.categoryId;
-      console.log(categoryId);
+      //const categoryId = this.category.categoryId;
+      //console.log(categoryId);
       const today = new Date();
       const long = "66";
       const lat = "99";
@@ -48,12 +48,13 @@ export default {
         price: this.price,
         latitude: long,
         longitude: lat,
-        categoryId: categoryId,
+        date: today.toString(),
+        categoryId: 4,
         images: img,
-        id: userID,
+        userId: userID,
       })
-        .then((item:Item) => {
-          router.push("/item/"+item.id);
+        .then(() => {
+          router.push("/");
         })
         .catch(() => {
           console.log("feil ved opprettelse av annonse");
