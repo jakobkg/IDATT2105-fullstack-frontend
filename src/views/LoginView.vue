@@ -7,7 +7,7 @@ export default {
         return {
             email: "",
             password: "",
-            errormsg: ""
+            errormsg: "",
         }
     },
     methods: {
@@ -23,25 +23,27 @@ export default {
     }
 }
 </script>
-
 <template>
     <main>
         <div class="login-container">
             <h2>Logg inn</h2>
-
+          <form @submit.prevent="login">
             <div class="field-container">
-                <label for="email">E-post</label>
-                <input id="email-input" type="text" v-model="email">
+              <label for="email">E-post</label>
+              <input id="email-input" name="email" type="text" v-model="email" />
             </div>
-
+            <br>
             <div class="field-container">
-                <label for="passord">Passord</label>
-                <input id="password-input" type="password" v-model="password">
+              <label for="password">Passord</label>
+              <input id="password-input" name="password" type="password" v-model="password" />
             </div>
+            <br>
+            <br>
 
             <p id="error-message">{{ errormsg }}</p>
 
             <button id="login-button" @click="() => { login() }">LOGG INN</button>
+          </form>
 
             <p><RouterLink to="/newuser">Ny bruker</RouterLink> - <a href="#">Glemt passord?</a></p>
         </div>
