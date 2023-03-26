@@ -7,13 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  CI:
-
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set uo Node 18
+    - name: Set up Node 18
       uses: actions/setup-node@v3
       with:
         node-version: 18
@@ -22,5 +21,35 @@ jobs:
       run: npm ci
     - name: Build
       run: npm run build
+  
+  test-unit:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - name: Fetch dependencies
+      run: npm ci
     - name: Run unit tests
       run: npm run test:unit
+  
+  test-e2e:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node 18
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - name: Fetch dependencies
+      run: npm ci
+    - name: Run unit tests
+      run: npm run test:e2e
