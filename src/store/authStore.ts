@@ -20,6 +20,9 @@ export const useAuthStore = defineStore("auth", {
     },
     setUser(user: User) {
       this.user = user;
+    },
+    logout() {
+      this.$reset();
     }
   }
 });
