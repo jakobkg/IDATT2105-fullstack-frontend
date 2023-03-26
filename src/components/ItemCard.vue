@@ -10,12 +10,12 @@
             <h4>{{ location }} - {{ date }}</h4>
         </div>
         <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-          <a href="" class="edit-link"><img src="..\..\public\static\Icons\pencil.svg" alt="edit"></a>
+          <a :href="'/item/edit/'+itemId" class="edit-link"><img src="..\..\public\static\Icons\pencil.svg" alt="edit"></a>
         </div>
 
-      <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-        <a href="" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-      </div>
+      <!-- <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+        <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+      </div>-->
 
         <div class="bookmark">
             <img v-if="!isBookmarked" class="bookmark-img" src="..\..\public\static\Icons\bookmark.svg" alt="bookmark">
@@ -79,6 +79,7 @@ export default {
       height: 25px;
       display: inline-block;
       cursor: pointer;
+      margin-right: 5px;
       img {
         width: 25px;
         height: 25px;
