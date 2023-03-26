@@ -50,7 +50,6 @@ export default {
           longitude: lat,
           categoryId: categoryId,
           images: img,
-          date: today.toString(),
           id: userID,
         })
           .then((item:Item) => {
