@@ -55,7 +55,7 @@
 
         <button>Filter</button>
       </div>
-      <Map v-if="showMap" :items=this.items />
+      <Map v-if="showMap" :items=items />
       <div v-if="!(items.length > 0)" class="items">
         <p>Loading...</p>
       </div>
