@@ -83,6 +83,12 @@ export namespace API {
       id: number,
       request: UpdateUserRequest,
     ): Promise<void> {
+
+      const authStore = useAuthStore();
+      if (!authStore.isLoggedIn()) {
+        throw new Error();
+      }
+
       return axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/user/${id}`,
         request,
@@ -127,6 +133,33 @@ export namespace API {
       }).catch(() => {
         throw new Error();
       });
+    }
+
+    /**
+     * API method for updating item
+     * @param id
+     * @param UpdateItemRequest
+     */
+    export async function updateItem(
+      id: number,
+      request: UpdateItemRequest,
+    ): Promise<void> {
+
+      const authStore = useAuthStore();
+      if (!authStore.isLoggedIn()) {
+        throw new Error();
+      }
+
+      return axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/item/${id}`,
+        request,
+      )
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
     }
 
     export async function getCategories(): Promise<Category[]> {
