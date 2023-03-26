@@ -12,6 +12,9 @@ export default {
 
   data() {
     return {
+      itemId: this.$route.params.id,
+      item: [] as any,
+
       itemImages: [] as any[],
       itemText:'',
       itemTitle: "",
@@ -27,7 +30,22 @@ export default {
     ...mapState(useAuthStore, ['user']),
 
   },
+  mounted() {
+    this.loadData();
+    this.loadImages();
+  },
   methods: {
+    async loadData() {
+      const response = await API.Loftet.getItem(Number(this.$route.params.id));
+      this.item = response;
+
+      this.itemText = this.item.images;
+      this.itemTitle= this.item.title;
+      this.description= this.item.description;
+      this.price= this.item.price;
+      this.category= this.item.images;
+      this.address= "test";
+    },
     loadImages(){
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
@@ -42,7 +60,7 @@ export default {
         const lat = "99";
         const userID = this.user.id;
 
-        API.Loftet.createItem({
+        API.Loftet.UpdateItem({
           title: this.itemTitle,
           description: this.description,
           price: this.price,
@@ -75,7 +93,7 @@ export default {
 
     <form @submit.prevent="submit">
       <label for="title">Annonsetittel:</label><br>
-      <input type="text" v-model="itemTitle" id="title" name="title"  required><br>
+      <input type="text" v-model="itemTitle" id="title" name="title" required><br>
 
       <label for="description">Beskrivelse:</label><br>
       <textarea id="description" v-model= "description" name="desctiption" required></textarea>

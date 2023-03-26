@@ -41,7 +41,7 @@ const router = createRouter({
       component: MyItemsView
     },
     {
-      path: '/item/:id/edit',
+      path: '/item/edit/:id',
       name: 'edit item',
       component: ModifyItemView
     },
