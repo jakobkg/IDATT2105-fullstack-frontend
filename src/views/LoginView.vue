@@ -1,15 +1,23 @@
 <script lang="ts">
 import router from '@/router';
 import { API } from '@/util/API';
+import {Form, Field, ErrorMessage} from "vee-validate";
+
+
 
 export default {
     data() {
         return {
             email: "",
             password: "",
-            errormsg: ""
+            errormsg: "",
         }
     },
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
     methods: {
         login() {
             API.Loftet.login({email: this.email, password: this.password} as LoginRequest)
@@ -25,23 +33,32 @@ export default {
 </script>
 
 <template>
+
+
+
     <main>
         <div class="login-container">
             <h2>Logg inn</h2>
-
+          <form @submit.prevent="login">
             <div class="field-container">
-                <label for="email">E-post</label>
-                <input type="text" v-model="email">
+              <label for="email">E-post</label>
+              <ErrorMessage name="email"></ErrorMessage>
+              <Field name="email" type="text" v-model="email" ></Field>
             </div>
-
+            <br>
             <div class="field-container">
-                <label for="passord">Passord</label>
-                <input type="password" v-model="password">
+              <label for="password">Passord</label>
+              <ErrorMessage name="password"></ErrorMessage>
+              <Field name="password" type="password" v-model="password"></Field>
             </div>
+            <br>
+
+            <br>
 
             <p>{{ errormsg }}</p>
 
             <button @click="() => { login() }">LOGG INN</button>
+          </form>
 
             <p><RouterLink to="/newuser">Ny bruker</RouterLink> - <a href="#">Glemt passord?</a></p>
         </div>
