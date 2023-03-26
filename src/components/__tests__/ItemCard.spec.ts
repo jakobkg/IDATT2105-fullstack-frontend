@@ -16,15 +16,17 @@ describe("ItemCard", () => {
               })],
             },
             props: {
-                image: "https://masteringjs.io/assets/images/vue/vue-spelled-out.jpg",
-                label: KEYWORD,
+              item: {
+                id: 9999999,
+                title: KEYWORD,
+                images: "https://masteringjs.io/assets/images/vue/vue-spelled-out.jpg",
                 price: "100",
                 location: "Trondheim",
                 latitude: "",
                 longitude: "",
                 date: "25.03.2022",
-                itemId: 9999999,
-                isBookmarked: false
+              } as Item,
+              isBookmarked: true
             }
           })
         
