@@ -1,5 +1,5 @@
-import { defineStore } from "pinia";
 import { API } from "@/util/API";
+import { defineStore } from "pinia";
 
 export const useCategoryStore = defineStore("category", {
   state: () => {
@@ -8,15 +8,14 @@ export const useCategoryStore = defineStore("category", {
     };
   },
   persist: {
-    storage: localStorage
+    storage: localStorage,
   },
   actions: {
     populate() {
       API.Loftet.getCategories()
-        .then((categories:Array<Category>)=>{
-        this.categories=categories;
-        console.log("weeeeeewwww")
-      })
+        .then((categories: Array<Category>) => {
+          this.categories = categories;
+        });
     },
-  }
+  },
 });
