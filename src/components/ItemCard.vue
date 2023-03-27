@@ -3,22 +3,17 @@
     <div @click="goToItem(item.id)" class="clickable">
 
       <div class="image">
-        <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="image">
+        <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="item image">
       </div>
 
       <div class="info">
         <h3 class="label">{{ item.title }}</h3>
-        <h3> {{ item.price }}</h3>
+        <h3> {{ item.price }}kr</h3>
         <h4>{{ item.location }} - {{ item.date }}</h4>
       </div>
-      
-      <!--
-        Delete button - needs frontend api
-        <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-          <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-        </div>-->
-        
-      </div>
+
+    </div>
+
       
       <div v-if="authStore.isLoggedIn && user.id === item.userId">
         <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>

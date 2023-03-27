@@ -2,7 +2,7 @@
   <li>
     <RouterLink :to="pageLink ? pageLink : '/'">
       <div>
-        <img :src=imageLink alt="">
+        <img :src=imageLink alt="icon image">
         <p class = "navtext">{{navText}}</p>
       </div>
     </RouterLink>
