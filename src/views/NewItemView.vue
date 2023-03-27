@@ -34,21 +34,20 @@ export default {
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
-    getCoordinates(address:string): string[]{
-      console.log(API.Location.cityToCoords(address).toString().split(" "));
-      return API.Location.cityToCoords(address).toString().split(" ");
-    },
     submit(){
       const imageList = this.itemText;
 
       //fetches category from select
       const selectedCategoryId = this.category.split(":")[0];
 
+      let long: string;
+      let lat: string;
       //finds coordinates from address
-      const longLat = this.getCoordinates(this.address);
-      //console.log(longLat[0].toString())
-      const long = longLat[0].toString();
-      const lat = longLat[1].toString();
+      const coordinates = API.Location.cityToCoords(this.address)
+        .then((coordinates) => {
+          long = coordinates.longitude;
+          lat = coordinates.latitude;
+        })
 
       const userID = this.user.id;
 
