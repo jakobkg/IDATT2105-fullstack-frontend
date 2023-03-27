@@ -14,6 +14,7 @@
                 <p class="date-text"> {{ item.date }} </p>
                 <h2 class="title"> {{ item.title }}</h2>
                 <h2 class="price"> {{ item.price }}kr</h2>
+                <h3 class="location">{{ item.location }}</h3>
             </div>
             <div class="right">
                 <button v-if=!isBookmarked class="bookmark" @click=addToBookmarks><img src="\static\Icons\bookmark.svg" class="bookmark-image">Bokmerke</button>
@@ -40,10 +41,10 @@
         data() {
             return {
                 id: this.$route.params.id,
-                item: [] as any,
-                image: "",
-                seller: [] as any,
-                images: [] as any,
+                item: {} as Item,
+                image: "" as string | undefined,
+                seller: {} as User,
+                images: [] as string[],
                 imageIndex: 1,
                 totalImages: -1,
                 previous: "Forrige",

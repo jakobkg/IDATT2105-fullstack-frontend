@@ -1,16 +1,16 @@
 <template>
   <div class="content">
     <div class="image">
-      <img class="thumbnail" :src="thumbnail" alt="image">
+      <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="image">
     </div>
 
     <div class="info">
-      <h3 class="label">{{ label }}</h3>
-      <h3> {{ price }}</h3>
-      <h4>{{ location }} - {{ date }}</h4>
+      <h3 class="label">{{ item.title }}</h3>
+      <h3> {{ item.price }}</h3>
+      <h4>{{ item.location }} - {{ item.date }}</h4>
     </div>
-    <div v-if="authStore.isLoggedIn && user.id === userId">
-      <a :href="'/item/edit/'+itemId" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
+    <div v-if="authStore.isLoggedIn && user.id === item.userId">
+      <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
     </div>
 
       <!--
@@ -27,10 +27,9 @@
     </div>
 
 </template>
-<script lang="ts">
+<script>
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
-import { API } from '@/util/API';
 
 export default {
   name: "ItemCard",
@@ -44,43 +43,15 @@ export default {
 
   },
   props: {
-    userId: {
-      type: Number,
-      required: false,
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: String,
-      required: true
-    },
-    latitude: {
-      type: String,
-      required: true
-    },
-    longitude: {
-      type: String,
-      required: true
-    },
-    date: {
-      type: String,
-      required: true
-    },
-    itemId: {
-      type: Number,
+    item: {
+      type: Object,
       required: true
      }
   },
 
     data() {
         return {
-            thumbnail: this.image.split(",").shift(),
+            thumbnail: this.item.images.split(",").shift(),
             location: "",
             isBookmarked: false,
         }

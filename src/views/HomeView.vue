@@ -1,7 +1,5 @@
 <script lang="ts">
   import ItemCard from '@/components/ItemCard.vue';
-  import { useCategoryStore } from '@/store/categoryStore';
-  import { mapState } from 'pinia';
   import { API } from '@/util/API';
   import Map from "@/components/Map.vue";
 
@@ -13,7 +11,7 @@
         input: "",
         mapButtonText: "Vis kart",
         searchPlaceholder: "Søk etter annonser...",
-        items: [] as any,
+        items: [] as Item[],
         dataLoaded: false
       }
     },
@@ -21,9 +19,6 @@
       Map,
       ItemCard,
     },
-    //  computed: {
-    //   ...mapState(useCategoryStore, ['categories']),
-    // }, 
 
     methods: {
       async loadData() {
@@ -33,6 +28,17 @@
       goToItem(id: number) {
         API.Loftet.goToItem(id);
       },
+      async search(searchterm: string) {
+        if (searchterm.length === 0) {
+          API.Loftet.listItems(1).then((items: Item[]) => {
+            this.items = items;
+          })
+        } else {
+          API.Loftet.searchItems(searchterm).then((searchresult: Item[]) => {
+            this.items = searchresult;
+          });
+        }
+      }
     },
     mounted() {
       this.loadData();
@@ -44,7 +50,7 @@
   <main>    
     <div class="content">
       <div class="search-wrapper">
-        <input class="search-bar" type="text" v-model="input" :placeholder=searchPlaceholder />
+        <input class="search-bar" type="text" v-model="input" @change="search(input)" :placeholder=searchPlaceholder />
       </div>
 
       <div class="filter">
@@ -60,17 +66,9 @@
         <p>Loading...</p>
       </div>
       <div v-else class="items">
-        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)" id="hallo">
+        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
         
-          <ItemCard
-            :image = "item.images"
-            :label = "item.title"
-            :price = "item.price + 'kr'"
-            :latitude = "item.latitude"
-            :longitude = "item.longitude"
-            :date = "item.date"
-            :itemId = "item.id"
-          />
+          <ItemCard :item="item" />
         </li>
 
       </div>

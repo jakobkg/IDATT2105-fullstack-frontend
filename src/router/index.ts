@@ -7,6 +7,8 @@ import MyItemsView from "@/views/profile/MyItemsView.vue";
 import ItemView from "@/views/ItemView.vue";
 import EditProfileView from "@/views/profile/EditProfileView.vue";
 
+import ModifyItemView from "@/views/ModifyItemView.vue";
+import NewItemView from "@/views/NewItemView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -40,6 +42,17 @@ const router = createRouter({
       name: 'my items',
       component: MyItemsView
     },
+    {
+      path: '/item/edit/:id',
+      name: 'edit item',
+      component: ModifyItemView
+    },
+    {
+      path: '/newItem',
+      name: 'new item',
+      component: NewItemView
+    },
+
     {
       path: '/profile/edit',
       name: 'updateUser',

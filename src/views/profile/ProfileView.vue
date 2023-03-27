@@ -58,10 +58,6 @@ main {
           opacity: 0;
         }
       }
-
-      .details {
-
-      }
     }
 
     .buttons {
