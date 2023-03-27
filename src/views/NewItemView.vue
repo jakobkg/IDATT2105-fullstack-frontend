@@ -1,11 +1,12 @@
 
 <script lang="ts">
 import Album from "@/components/Album.vue";
-import { API } from '@/util/API';
+import {API} from '@/util/API';
 import router from "@/router";
-import { mapState } from "pinia";
-import { useCategoryStore } from "@/store/categoryStore";
-import { useAuthStore } from "@/store/authStore";
+import {mapState} from "pinia";
+import {useCategoryStore} from "@/store/categoryStore";
+import {useAuthStore} from "@/store/authStore";
+
 export default {
   name: "NewItemView",
   components: { Album },
@@ -36,6 +37,9 @@ export default {
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
+    getCoordinates(city:string): string[]{
+      return API.Location.cityToCoords(this.address).toString().split(" ");
+    },
     submit(){
       const img = this.itemText;
 
@@ -46,9 +50,11 @@ export default {
       const date = new Date();
       const today = date.toLocaleDateString('de-DE');
 
+      //finds coordinates from address
+      const longLat = this.getCoordinates(this.address);
+      const long = longLat[0];
+      const lat = longLat[0];
 
-      const long = "66";
-      const lat = "99";
       const userID = this.user.id;
 
       API.Loftet.createItem({
