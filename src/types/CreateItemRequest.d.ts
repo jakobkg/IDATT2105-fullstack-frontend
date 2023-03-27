@@ -1,7 +1,7 @@
 declare type CreateItemRequest = {
     title: string;
     description: string;
-    date: string;
+    location:string;
     latitude: string;
     longitude: string;
     price: string;
