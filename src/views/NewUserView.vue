@@ -1,6 +1,5 @@
 <script lang="ts">
 import router from '@/router';
-import { useAuthStore } from '@/store/authStore';
 import { API } from '@/util/API';
 
 export default {
