@@ -76,8 +76,8 @@ export namespace API {
 
     /**
      * API method for updating user
-     * @param id
-     * @param request
+     * @param id ID of the user to update
+     * @param request Partial user data object to overlay onto the existing user
      */
     export async function updateUser(
       id: number,
@@ -103,6 +103,11 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to delete a user account
+     * @param id ID of user to delete
+     * @returns a Promise that resolves if the deletion was successful, and rejects otherwise
+     */
     export async function deleteUser(id: number): Promise<void> {
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) {
@@ -120,6 +125,11 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to create a new item for sale
+     * @param request CreateItemRequest object containing info about the item to create
+     * @returns a promise that resolves to the created Item if creations was successful, and rejects otherwise
+     */
     export async function createItem(
       request: CreateItemRequest,
     ): Promise<Item> {
@@ -166,6 +176,11 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to delete an item
+     * @param id ID of item to delete
+     * @returns a Promise that resolves if deletion was successful, and rejects otherwise
+     */
     export async function deleteItem(id: number): Promise<void> {
       const authStore = useAuthStore();
 
@@ -182,6 +197,10 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to get a list of all categories
+     * @returns a Promise that resolves to a list of all categories if the server responds, and rejects otherwise (should not happen barring network issues)
+     */
     export async function getCategories(): Promise<Category[]> {
       return axios.get(`${import.meta.env.VITE_BACKEND_URL}/category`)
         .then((response: AxiosResponse<Category[]>) => {
@@ -210,6 +229,30 @@ export namespace API {
     }
 
     /**
+     * API method to upload files
+     * @param file a file Blob to upload
+     * @returns a Promise that resolves to the URL of the uploaded file if upload succeeded, and rejects otherwise
+     */
+    export async function uploadFile(file: Blob): Promise<string> {
+      const authStore = useAuthStore();
+      let fd = new FormData();
+      fd.append("file", file);
+      
+      return axios.post(`${import.meta.env.VITE_BACKEND_URL}/files`, fd, 
+      {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`,
+        }
+      })
+      .then((response: AxiosResponse<string>) => {
+        return response.data;
+      })
+      .catch(() => {
+        throw new Error();
+      })
+    }
+
+    /**
      * Goes to a detailed view of an item
      * @param id the id of the item
      */
@@ -220,7 +263,7 @@ export namespace API {
     /**
      * Gets information about a specified item
      * @param id the id of the item
-     * @returns the item or an error if it fails
+     * @returns a Promuse that resolves to the desired item if it exists, and rejects otherwise
      */
     export async function getItem(id: number): Promise<Item> {
       return axios.get(import.meta.env.VITE_BACKEND_URL + "/item/" + id)
@@ -295,6 +338,12 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to bookmark an item
+     * Requires user to be logged in
+     * @param itemId ID of the Item to bookmark
+     * @returns a Promise that resolves if the bookmark was added successfully, and rejects otherwise
+     */
     export async function addToBookmarks(itemId: number): Promise<void> {
       const authStore = useAuthStore();
 
@@ -315,6 +364,12 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to un-bookmark an item
+     * Requires user to be logged in
+     * @param itemId ID of the Item to un-bookmark
+     * @returns a Promise that resolves if the bookmark was removed successfully, and rejects otherwise
+     */
     export async function deleteBookmark(itemId: number): Promise<void> {
       const authStore = useAuthStore();
 
@@ -334,6 +389,12 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to check whether an item is bookmarked by the current user
+     * Requires user to be logged in
+     * @param itemId ID of the Item to check if the user has bookmarked
+     * @returns a Promise that resolves if the bookmark was added successfully, and rejects otherwise
+     */
     export async function isBookmarked(itemId: number): Promise<boolean> {
       const authStore = useAuthStore();
 
@@ -351,6 +412,11 @@ export namespace API {
         });
     }
 
+    /**
+     * API method to get all the bookmarks of the current user
+     * Requires user to be logged in
+     * @returns a Promise that resolves to a lost of bookmarks if the user is logged in, or rejects otherwise
+     */
     export async function getBookmarks(): Promise<any[]> {
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) throw new Error();
