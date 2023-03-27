@@ -21,14 +21,12 @@ export default {
       price: "",
       category: "",
       address: "",
+      hei:"",
     };
   },
   computed: {
     ...mapState(useCategoryStore,["categories"]),
     ...mapState(useAuthStore, ['user']),
-    getSelectedCategory(): string {
-      return this.category.id;
-    }
   },
   methods: {
     loadImages(){ //Updates the "Album" component and displays the images from in "itemText" field
@@ -37,20 +35,24 @@ export default {
       this.itemImages.forEach((item: any) => console.log(item))
     },
     getCoordinates(address:string): string[]{
+      console.log(API.Location.cityToCoords(address).toString().split(" "));
       return API.Location.cityToCoords(address).toString().split(" ");
     },
     submit(){
       const imageList = this.itemText;
 
       //fetches category from select
-      const selectedCategoryId = this.getSelectedCategory;
+      const selectedCategoryId = this.category.split(":")[0];
 
       //formats date
+      //TODO: remove
       const date = new Date();
       const today = date.toLocaleDateString('de-DE');
+      console.log("dag: " + today)
 
       //finds coordinates from address
       const longLat = this.getCoordinates(this.address);
+      //console.log(longLat[0].toString())
       const long = longLat[0].toString();
       const lat = longLat[1].toString();
 
@@ -60,9 +62,9 @@ export default {
         title: this.itemTitle,
         description: this.description,
         price: this.price,
-        latitude: lat,
-        longitude: long,
-        location: this.address, //todo
+        latitude: "22",
+        longitude: "33",
+        location: this.address,
         //date: today,
         categoryId: selectedCategoryId,
         images: imageList,
@@ -110,8 +112,8 @@ export default {
 
       <label for="category">Kategori:</label><br>
       <select id="category" v-model="category" name="category">
-        <option v-for="category in categories" v-bind:value="category.id">
-          {{ category.categoryName }}
+        <option v-for="category in categories">
+          {{category.id +":" + category.categoryName }}
         </option>
       </select><br>
 
