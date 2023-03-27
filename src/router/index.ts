@@ -6,6 +6,7 @@ import ProfileView from '@/views/profile/ProfileView.vue';
 import MyItemsView from "@/views/profile/MyItemsView.vue";
 import ItemView from "@/views/ItemView.vue";
 import EditProfileView from "@/views/profile/EditProfileView.vue";
+import MyBookmarksView from "@/views/profile/MyBookmarksView.vue";
 
 import ModifyItemView from "@/views/ModifyItemView.vue";
 import NewItemView from "@/views/NewItemView.vue";
@@ -58,6 +59,11 @@ const router = createRouter({
       name: 'updateUser',
       component: EditProfileView
     },
+    {
+      path: '/profile/bookmarks',
+      name: 'my bookmarks',
+      component: MyBookmarksView
+    }
   ]
 })
 

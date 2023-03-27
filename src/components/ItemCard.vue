@@ -1,38 +1,46 @@
 <template>
   <div class="content">
-    <div class="image">
-      <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="image">
-    </div>
+    <div @click="goToItem(item.id)" class="clickable">
 
-    <div class="info">
-      <h3 class="label">{{ item.title }}</h3>
-      <h3> {{ item.price }}</h3>
-      <h4>{{ item.location }} - {{ item.date }}</h4>
-    </div>
-    <div v-if="authStore.isLoggedIn && user.id === item.userId">
-      <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
-    </div>
-
-      <!--
-      Delete button - needs frontend api
-      <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-        <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-      </div>-->
-
-      <div class="bookmark">
-          <img v-if="!isBookmarked" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
-          <img v-else class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
+      <div class="image">
+        <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="image">
       </div>
 
+      <div class="info">
+        <h3 class="label">{{ item.title }}</h3>
+        <h3> {{ item.price }}</h3>
+        <h4>{{ item.location }} - {{ item.date }}</h4>
+      </div>
+      
+      <!--
+        Delete button - needs frontend api
+        <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
+          <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
+        </div>-->
+        
+      </div>
+      
+      <div v-if="authStore.isLoggedIn && user.id === item.userId">
+        <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
+      </div>
+      <div class="bookmark">
+          <img v-if="!isBookmarked" @click="addToBookmarks" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
+          <img v-else @click="deleteFromBookmarks" class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
+      </div>
     </div>
 
 </template>
-<script>
+<script lang="ts">
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
+import { API } from '@/util/API'
 
 export default {
   name: "ItemCard",
+  mounted() {
+    API.Location.coordsToCity(this.item.latitude,this.item.longitude).then((location)=>{this.item.location = location});
+    API.Loftet.isBookmarked(this.item.id).then((response) => {this.isBookmarked = response});
+  },
   computed: {
     ...mapStores(useAuthStore),
     ...mapState(useAuthStore, ['user']),
@@ -42,20 +50,38 @@ export default {
     item: {
       type: Object,
       required: true
-    },
-    isBookmarked: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+     }
   },
 
     data() {
         return {
             thumbnail: this.item.images.split(",").shift(),
-            location: ""
+            location: "",
+            isBookmarked: false,
         }
-    }
+    },
+    methods: {
+      async isItemBookmarked(itemId: number): Promise<boolean> {
+          const response = await API.Loftet.isBookmarked(Number(itemId));
+          console.log(response);
+          return response;
+      },
+      async addToBookmarks() {
+          const bookmarkResponse = await API.Loftet.addToBookmarks((Number(this.item.id)));
+          console.log(bookmarkResponse);
+          this.isBookmarked = true;
+      },
+
+      async deleteFromBookmarks() {
+          const bookmarkResponse = await API.Loftet.deleteBookmark((Number(this.item.id)));
+          console.log(bookmarkResponse);
+          this.isBookmarked = false;
+      },
+
+      goToItem(id: number) {
+        API.Loftet.goToItem(id);
+      }
+  }
 }
 </script>
 
@@ -133,6 +159,24 @@ export default {
   }
 }
 
+  .clickable {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    min-height: 130px;
+    min-width: 270px;
+    /* max-height: 180px; */
+    max-width: 100%;
+    border-radius: 5px;
+    padding-bottom:15px;
+    overflow: hidden;
+    text-align: left;
+    margin-right: 35px;
+
+  }
+
     .image {
         /* width: 120px; */
         min-width: 150px;
@@ -189,7 +233,12 @@ h4 {
   max-width: 100%;
   width: 25px;
 
-  padding: 5px
+  padding: 5px;
+
+  cursor: pointer;
+
+
+
 
 }
 
