@@ -42,9 +42,9 @@ export default {
       //fetches category from select
       const selectedCategoryId = this.getSelectedCategory();
 
-      const today = new Date().getDay();
-
-
+      //formats date
+      const date = new Date();
+      const today = date.toLocaleDateString('de-DE');
 
 
       const long = "66";
@@ -57,9 +57,9 @@ export default {
         price: this.price,
         latitude: long,
         longitude: lat,
-        date: today.toString(),
-        //categoryId: 4,
-        categoryId: 4,
+        //address: this.address,
+        date: today,
+        categoryId: selectedCategoryId,
         images: img,
         userId: userID,
       })
