@@ -1,6 +1,6 @@
 # IDATT2105-fullstack-frontend
 
-[Backend her](https://github.com/jakobkg/IDATT2105-fullstack-backend/)
+[Backend here](https://github.com/jakobkg/IDATT2105-fullstack-backend/)
 
 
 ## Recommended IDE Setup
@@ -45,6 +45,12 @@ npm run build
 ```sh
 npm run test:unit
 ```
+
+### Run Tests with [Cypress](https://www.cypress.io/) 
+```sh
+npx cypress open
+```
+Select E2E testing and run specs
 
 ### Lint with [ESLint](https://eslint.org/)
 
