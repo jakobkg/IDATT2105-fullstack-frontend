@@ -8,7 +8,7 @@
 
       <div class="info">
         <h3 class="label">{{ item.title }}</h3>
-        <h3> {{ item.price }} kroner</h3>
+        <h3> {{ item.price }} kr</h3>
         <h4>{{ item.location }} - {{ item.date }}</h4>
       </div>
       
