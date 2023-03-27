@@ -310,7 +310,7 @@ export namespace API {
      */
     export async function cityToCoords(
       address: string
-    ): Promise<string> {
+    ): Promise<GPSCoordinates> {
       return axios.get(
         `https://nominatim.openstreetmap.org/search?q=${address}&format=json`,
         {
@@ -320,7 +320,7 @@ export namespace API {
         }
       )
         .then((response: AxiosResponse) => {
-          return `${response.data[0].lat} ${response.data[0].lon}`;
+          return {latitude: `${response.data[0].lat}`, longitude: `${response.data[0].lon}`};
         })
         .catch(() => {
           throw new Error();
