@@ -55,7 +55,7 @@
 
       <div class="filter">
         <button @click="()=> {showMap = !showMap}" class="map-button">
-          <img src='\static\Icons\marker.svg'/>
+          <img src='\static\Icons\marker.svg' alt="marker"/>
           <p>{{ mapButtonText }}</p>
         </button>
 
