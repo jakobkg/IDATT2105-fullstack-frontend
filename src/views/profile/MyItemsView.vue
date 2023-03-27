@@ -22,7 +22,10 @@ export default {
     async loadData() {
       const response = await API.Loftet.listItemsBasedOnUserId(1, this.user.id);
       this.items = response;
-    }
+    },
+    goToItem(id) {
+        API.Loftet.goToItem(id);
+      }
   },
   mounted() {
     this.loadData();
@@ -38,18 +41,9 @@ export default {
       <p>Loading...</p>
     </div>
     <div v-else class="items">
-      <li style="list-style-type: none" v-for="item in items">
+      <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
 
-        <ItemCard
-          :image = "item.images"
-          :label = "item.title"
-          :price = "item.price + 'kr'"
-          :latitude = "item.latitude"
-          :longitude = "item.longitude"
-          :date = "item.date"
-          :itemId = "item.id"
-          :userId= "item.userId"
-        />
+        <ItemCard :item="item" />
       </li>
 
     </div>

@@ -27,15 +27,16 @@
     </div>
 
 </template>
-<script>
+<script lang="ts">
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
+import { API } from '@/util/API'
 
 export default {
   name: "ItemCard",
   mounted() {
-    API.Location.coordsToCity(this.latitude,this.longitude).then((location)=>{this.location = location});
-    API.Loftet.isBookmarked(this.itemId).then((response) => {this.isBookmarked = response});
+    API.Location.coordsToCity(this.item.latitude,this.item.longitude).then((location)=>{this.item.location = location});
+    API.Loftet.isBookmarked(this.item.id).then((response) => {this.isBookmarked = response});
   },
   computed: {
     ...mapStores(useAuthStore),
