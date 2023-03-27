@@ -6,6 +6,7 @@ import router from "@/router";
 import { mapState } from "pinia";
 import { useCategoryStore } from "@/store/categoryStore";
 import { useAuthStore } from "@/store/authStore";
+
 export default {
   name: "NewItemView",
   components: { Album },
@@ -13,9 +14,8 @@ export default {
   data() {
     return {
       itemImages: [] as any[],
-      itemText:'',
+      itemText: '',
       itemTitle: "",
-      itemName:"",
       description: "",
       price: "",
       category: "",
@@ -25,91 +25,100 @@ export default {
   computed: {
     ...mapState(useCategoryStore,["categories"]),
     ...mapState(useAuthStore, ['user']),
-
   },
   methods: {
-    loadImages(){
+    loadImages(){ //Updates the "Album" component and displays the images from in "itemText" field
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
     submit(){
-      const img = this.itemText;
-      //const categoryId = this.category.categoryId;
-      //console.log(categoryId);
-      const today = new Date();
-      const long = "66";
-      const lat = "99";
-      const userID = this.user.id;
+      const imageList = this.itemText;
 
-      API.Loftet.createItem({
-        title: this.itemTitle,
-        description: this.description,
-        price: this.price,
-        latitude: long,
-        longitude: lat,
-        date: today.toString(),
-        categoryId: 4,
-        images: img,
-        userId: userID,
-      })
+      //fetches category from select
+      const selectedCategoryId = this.category.split(":")[0];
+
+      let long: string;
+      let lat: string;
+
+      //finds coordinates from address
+      const userID = this.user.id;
+      const coordinates = API.Location.cityToCoords(this.address)
+        .then((coordinates) => {
+          long = coordinates.longitude;
+          lat = coordinates.latitude;
+        })
+        .then(() => {
+          API.Loftet.createItem({
+            title: this.itemTitle,
+            description: this.description,
+            price: this.price,
+            latitude: lat,
+            longitude: long,
+            location: this.address,
+            categoryId: Number.parseInt(selectedCategoryId),
+            images: imageList,
+            userId: userID,
+          })
+        })
         .then(() => {
           router.push("/");
         })
         .catch(() => {
           console.log("feil ved opprettelse av annonse");
-          alert("Det oppsto en feil ved endring av annonsen")
+          alert("Det oppsto en feil ved opprettelse av annonsen")
         });
-
     },
   }
 }
-
 </script>
 
 <template>
-  <div id = "wrapper">
-    <h1>OPPRETT ANNONSE</h1>
+  <main>
+      <h1>OPPRETT ANNONSE</h1>
 
-    <Album :album-images= itemImages />
+      <Album :album-images= itemImages />
 
-    <form @submit.prevent="submit">
-      <label for="title">Annonsetittel:</label><br>
-      <input type="text" v-model="itemTitle" id="title" name="title"  required><br>
+      <form @submit.prevent="submit">
+        <label for="title">Annonsetittel:</label><br>
+        <input type="text" v-model="itemTitle" id="title" name="title"  required><br>
 
-      <label for="description">Beskrivelse:</label><br>
-      <textarea id="description" v-model= "description" name="desctiption" required></textarea>
+        <label for="description">Beskrivelse:</label><br>
+        <textarea id="description" v-model= "description" name="desctiption" required></textarea>
 
-      <label for="price">Pris:</label><br>
-      <input type="number" id="price" v-model="price" name="price" min="0" required><br>
+        <label for="price">Pris:</label><br>
+        <input type="number" id="price" v-model="price" name="price" min="0" required><br>
 
-      <label for="category">Kategori:</label><br>
-      <select id="category" v-model="category" name="category">
-        <option v-for="category in categories">
-          {{ category.categoryName }}
-        </option>
-      </select><br>
+        <label for="category">Kategori:</label><br>
+        <select id="category" v-model="category" name="category">
+          <option v-for="category in categories">
+            {{category.id +":" + category.categoryName }}
+          </option>
+        </select><br>
 
-      <label for="address">Adresse:</label><br>
-      <input type="text" id="address" v-model="address" name="address" required><br>
+        <label for="address">Adresse:</label><br>
+        <input type="text" id="address" v-model="address" name="address" required placeholder="Adresse gatenr postnr by"><br>
 
-      <label for="images">Legg inn komma-separerte bildelenker:</label><br>
-      <input v-model="itemText" type="text" id="images" name="images"><br><br>
-      <button type="button" id="update" @click="loadImages">Oppdater bilder</button>
-      <br><br>
+        <label for="images">Legg inn komma-separerte bildelenker:</label><br>
+        <input v-model="itemText" type="text" id="images" name="images"><br><br>
+        <button type="button" id="update" @click="loadImages">Oppdater bilder</button>
+        <br><br>
 
-      <input type="submit" value="Lagre">
-    </form>
+        <input type="submit" value="Opprett">
+      </form>
+  </main>
 
-  </div>
 
 </template>
 
 
 <style scoped lang="scss">
-#wrapper {
+main {
   text-align: left;
+  width: 90%;
 }
+
+
 
 form{
   align-content: end;
@@ -122,7 +131,7 @@ input[type="text"],input[type="select"],input[type="number"] {
 }
 
 textarea{
-  min-width: 100%;
+  width: 100%;
   resize: vertical;
   padding: .5em;
 }
