@@ -109,8 +109,8 @@ export default {
 
       <label for="category">Kategori:</label><br>
       <select id="category" v-model="category" name="category">
-        <option v-for="category in categories" v-bind:value="category.id">
-          {{ category.categoryName }}
+        <option v-for="category in categories">
+          {{category.id +":" + category.categoryName }}
         </option>
       </select><br>
 
