@@ -1,11 +1,10 @@
 declare type UpdateItemRequest = {
-  title: String,
-  description: String,
-
-  latitude: String,
-  longitude: String,
-  location: String,
-  price: String,
-  categoryId: Number,
-  images: String
+  title: string | null;
+  description: string | null,
+  latitude: string | null,
+  longitude: string | null,
+  location: string | null,
+  price: string | null,
+  categoryId: number | null,
+  images: string | null
 }
