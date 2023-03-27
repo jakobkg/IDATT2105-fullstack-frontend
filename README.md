@@ -2,6 +2,11 @@
 
 [Backend here](https://github.com/jakobkg/IDATT2105-fullstack-backend/)
 
+Note: This app uses the REST API provided by the linked backend. For documentation of the endpoints of this API, please see the documentation:
+Items: https://documenter.getpostman.com/view/26423805/2s93RQTZWe
+Bookmarks: https://documenter.getpostman.com/view/26423805/2s93RQTZWg
+Users: https://documenter.getpostman.com/view/26423805/2s93RQTZax
+Categories: https://documenter.getpostman.com/view/26423805/2s93RQTZay
 
 ## Recommended IDE Setup
 
