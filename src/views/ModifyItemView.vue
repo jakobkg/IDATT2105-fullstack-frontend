@@ -99,7 +99,7 @@ export default {
 </script>
 
 <template>
-  <div id = "wrapper">
+  <main>
     <h1>REDIGER ANNONSE</h1>
 
     <Album :album-images= itemImages />
@@ -132,16 +132,16 @@ export default {
       <input type="submit" value="Lagre">
     </form>
 
-  </div>
+  </main>
 
 </template>
 
 
 <style scoped lang="scss">
-#wrapper {
+main {
   text-align: left;
+  width: 90%;
 }
-
 form{
   align-content: end;
 }
