@@ -28,6 +28,9 @@ export default {
   computed: {
     ...mapState(useCategoryStore,["categories"]),
     ...mapState(useAuthStore, ['user']),
+    getSelectedCategory(): string {
+      return this.category.id;
+    }
 
   },
   mounted() {
@@ -43,26 +46,32 @@ export default {
       this.itemTitle= this.item.title;
       this.description= this.item.description;
       this.price= this.item.price;
-      this.category= this.item.images;
+      this.category = this.item.categoryId;
       this.address= "test";
+      //this.address= this.item.address; //todo
     },
-    loadImages(){
+    loadImages(){//Updates the "Album" component and displays the images from in "itemText"
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
+    getCoordinates(city:string): string[]{
+      return API.Location.cityToCoords(this.address).toString().split(" ");
+    },
     submit(){
-        const img = this.itemText;
-        //const categoryId = this.category.categoryId;
-        //console.log(categoryId);
-        const today = new Date();
+        const imageList = this.itemText;
 
+        //fetches category from select
+        const selectedCategoryId = this.getSelectedCategory();
 
-        //TODO
-        let latLong = API.Location.cityToCoords(this.address).toString().split(" ");
+        //formats date
+        const date = new Date();
+        const today = date.toLocaleDateString('de-DE');
 
-        const lat = latLong[0];
-        const long = latLong[1];
+        //finds coordinates from address
+        const longLat = this.getCoordinates(this.address);
+        const long = longLat[0];
+        const lat = longLat[0];
 
         const itemId = this.item.id;
 
@@ -71,24 +80,22 @@ export default {
           description: this.description,
           price: this.price,
           latitude: lat,
-          date:today.toString(),
           longitude: long,
-          categoryId: 3,//TODO
-          images: img,
+          date:today,
+          categoryId: selectedCategoryId,
+          images: imageList,
 
         })
           .then(()=> {
             router.push("/item/"+itemId);
           })
           .catch(() => {
-            console.log("feil ved opprettelse av annonse");
-            alert("Det oppsto en feil ved endring av annonsen")
+            console.log("feil ved oppdatering av annonse");
+            alert("Det oppsto en feil ved oppdatering av annonsen")
           });
-
     },
   }
 }
-
 </script>
 
 <template>
@@ -109,7 +116,7 @@ export default {
 
       <label for="category">Kategori:</label><br>
       <select id="category" v-model="category" name="category">
-        <option v-for="category in categories">
+        <option v-for="category in categories" v-bind:value="category.id">
           {{ category.categoryName }}
         </option>
       </select><br>

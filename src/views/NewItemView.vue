@@ -29,10 +29,9 @@ export default {
     getSelectedCategory(): string {
       return this.category.id;
     }
-
   },
   methods: {
-    loadImages(){
+    loadImages(){ //Updates the "Album" component and displays the images from in "itemText" field
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
@@ -41,7 +40,7 @@ export default {
       return API.Location.cityToCoords(this.address).toString().split(" ");
     },
     submit(){
-      const img = this.itemText;
+      const imageList = this.itemText;
 
       //fetches category from select
       const selectedCategoryId = this.getSelectedCategory();
@@ -63,10 +62,10 @@ export default {
         price: this.price,
         latitude: long,
         longitude: lat,
-        //address: this.address,
+        //address: this.address, //todo
         date: today,
         categoryId: selectedCategoryId,
-        images: img,
+        images: imageList,
         userId: userID,
       })
         .then(() => {
@@ -74,13 +73,11 @@ export default {
         })
         .catch(() => {
           console.log("feil ved opprettelse av annonse");
-          alert("Det oppsto en feil ved endring av annonsen")
+          alert("Det oppsto en feil ved opprettelse av annonsen")
         });
-
     },
   }
 }
-
 </script>
 
 <template>
@@ -114,7 +111,7 @@ export default {
       <button type="button" id="update" @click="loadImages">Oppdater bilder</button>
       <br><br>
 
-      <input type="submit" value="Lagre">
+      <input type="submit" value="Opprett">
     </form>
 
   </div>
