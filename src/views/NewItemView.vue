@@ -20,6 +20,7 @@ export default {
       price: "",
       category: "",
       address: "",
+      errormsg: ""
     };
   },
   computed: {
@@ -29,7 +30,6 @@ export default {
   methods: {
     loadImages(){ //Updates the "Album" component and displays the images from in "itemText" field
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
-      console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
     submit(){
@@ -65,8 +65,7 @@ export default {
           router.push("/");
         })
         .catch(() => {
-          console.log("feil ved opprettelse av annonse");
-          alert("Det oppsto en feil ved opprettelse av annonsen")
+          this.errormsg = "Det oppsto en feil ved opprettelse av annonsen. Er adressen angitt korrekt?"
         });
     },
   }
@@ -105,6 +104,7 @@ export default {
         <br><br>
 
         <input type="submit" value="Opprett">
+        <p> {{ errormsg }} </p>
       </form>
   </main>
 
