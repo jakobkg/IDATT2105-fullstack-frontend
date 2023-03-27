@@ -44,12 +44,6 @@ export default {
       //fetches category from select
       const selectedCategoryId = this.category.split(":")[0];
 
-      //formats date
-      //TODO: remove
-      const date = new Date();
-      const today = date.toLocaleDateString('de-DE');
-      console.log("dag: " + today)
-
       //finds coordinates from address
       const longLat = this.getCoordinates(this.address);
       //console.log(longLat[0].toString())
@@ -65,7 +59,6 @@ export default {
         latitude: "22",
         longitude: "33",
         location: this.address,
-        //date: today,
         categoryId: selectedCategoryId,
         images: imageList,
         userId: userID,
