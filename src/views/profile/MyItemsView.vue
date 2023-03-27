@@ -8,6 +8,7 @@ export default {
   data() {
     return {
       items: [],
+      loading: true,
     }
   },
   components: {
@@ -23,12 +24,10 @@ export default {
       const response = await API.Loftet.listItemsBasedOnUserId(1, this.user.id);
       this.items = response;
     },
-    goToItem(id) {
-        API.Loftet.goToItem(id);
-      }
   },
   mounted() {
     this.loadData();
+    this.loading = false;
   }
 }
 </script>
@@ -37,11 +36,14 @@ export default {
   <main v-if="this.authStore.isLoggedIn">
     <h1>Mine annonser</h1>
     <a href="/profile">Gå tilbake til profilsiden</a>
+    <div v-if=loading class="items">
+      <p>Laster inn...</p>
+    </div>
     <div v-if="!(items.length > 0)" class="items">
-      <p>Loading...</p>
+      <p>Ingen resultater</p>
     </div>
     <div v-else class="items">
-      <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
+      <li style="list-style-type: none" v-for="item in items">
 
         <ItemCard :item="item" />
       </li>
@@ -56,6 +58,8 @@ export default {
 
 <style scoped lang="scss">
 
-
+    .items {
+      width: 100%;
+    }
 
 </style>

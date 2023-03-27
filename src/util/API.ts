@@ -318,6 +318,20 @@ export namespace API {
         }).catch(() => {
           return false;
         })
+    }
+
+    export async function getBookmarks(): Promise<any[]> {
+      const authStore = useAuthStore();
+      if (!authStore.isLoggedIn) throw new Error();
+
+      return axios.get((import.meta.env.VITE_BACKEND_URL + "/bookmark"), {
+        headers: { Authorization: "Bearer " + authStore.token}
+      })
+      .then (response => {
+        return response.data;
+      }).catch(() => {
+        throw new Error();
+      })
 
     }
 
