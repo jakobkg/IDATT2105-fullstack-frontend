@@ -35,7 +35,8 @@ import { API } from '@/util/API';
 export default {
   name: "ItemCard",
   mounted() {
-    API.Location.coordsToCity(this.latitude,this.longitude).then((location)=>{this.location = location})
+    API.Location.coordsToCity(this.latitude,this.longitude).then((location)=>{this.location = location});
+    API.Loftet.isBookmarked(this.itemId).then((response) => {this.isBookmarked = response});
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -74,20 +75,24 @@ export default {
     itemId: {
       type: Number,
       required: true
-    },
-    isBookmarked: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+     }
   },
 
     data() {
         return {
             thumbnail: this.image.split(",").shift(),
-            location: ""
+            location: "",
+            isBookmarked: false,
         }
-    }
+    },
+    methods: {
+      async isItemBookmarked(itemId: number): Promise<boolean> {
+          const response = await API.Loftet.isBookmarked(Number(itemId));
+          console.log(response);
+          return response;
+
+      }
+  }
 }
 </script>
 

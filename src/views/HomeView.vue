@@ -32,7 +32,7 @@
       },
       goToItem(id: number) {
         API.Loftet.goToItem(id);
-      }
+      },
     },
     mounted() {
       this.loadData();
