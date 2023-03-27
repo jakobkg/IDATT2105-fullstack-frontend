@@ -8,7 +8,7 @@
     </div>
     <div v-else id="imageAlbum">
       <div id="img" v-for="imageLink in albumImages" >
-          <img :src="imageLink" alt="">
+          <img :src="imageLink" alt="listing image">
       </div>
     </div>
   </div>
