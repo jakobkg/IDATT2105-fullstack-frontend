@@ -1,7 +1,7 @@
 <template>
     <div class="content">
-        <div class="images">
-            <img :src=image alt="image">
+            <div class="images">
+                <img :src=image alt="item image">
             <div class="under-image">
                 <button class="previous-btn" @click="previousImage">{{ previous }}</button>
                 <p class="imageCount">({{ imageIndex }}/{{ totalImages }})</p>
@@ -17,10 +17,8 @@
                 <h3 class="location">{{ item.location }}</h3>
             </div>
             <div class="right">
-                <button v-if=!isBookmarked class="bookmark" @click=addToBookmarks><img src="\static\Icons\bookmark.svg"
-                        class="bookmark-image">Bokmerke</button>
-                <button v-else class="is-bookmarked" @click=deleteFromBookmarks><img src="\static\Icons\bookmark-dark.svg"
-                        class="bookmark-image">Bokmerke</button>
+                <button v-if=!isBookmarked class="bookmark" @click=addToBookmarks><img src="\static\Icons\bookmark.svg" class="bookmark-image" alt="tomt bokmerke">Bokmerke</button>
+                <button v-else class="is-bookmarked" @click=deleteFromBookmarks><img src="\static\Icons\bookmark-dark.svg" class="bookmark-image" alt="markert bokmere">Bokmerke</button>
                 <button class="contact" @click=mailSeller>Kontakt selger</button>
             </div>
         </div>
