@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { useAuthStore } from "@/store/authStore";
 import { mapState, mapStores } from "pinia";
 import { API } from '@/util/API';
@@ -7,7 +7,7 @@ import ItemCard from "@/components/ItemCard.vue";
 export default {
   data() {
     return {
-      items: [],
+      items: [] as Array<Item>,
       loading: true,
     }
   },
@@ -33,7 +33,7 @@ export default {
 </script>
 <template>
   <div></div>
-  <main v-if="this.authStore.isLoggedIn">
+  <main v-if="authStore.isLoggedIn">
     <h1>Mine annonser</h1>
     <a href="/profile">Gå tilbake til profilsiden</a>
     <div v-if=loading class="items">
