@@ -9,10 +9,14 @@
       return {
         showMap: false,
         input: "",
-        mapButtonText: "Vis kart",
         searchPlaceholder: "Søk etter annonser...",
         items: [] as Item[],
         dataLoaded: false
+      }
+    },
+    computed: {
+      mapButtonText() {
+        return this.showMap ? "Skjul kart" : "Vis kart"
       }
     },
     components: {

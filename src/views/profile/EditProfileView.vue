@@ -72,9 +72,7 @@ export default {
         useAuthStore().setUser(savedUser);
         router.push("/profile");
       })
-      .catch((Error)=> {
-        console.log("feil ved oppdatering av bruker")
-        console.log(Error.reason);
+      .catch((_)=> {
       });
     },
     validateString(value) {

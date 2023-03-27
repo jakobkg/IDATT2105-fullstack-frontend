@@ -8,11 +8,11 @@ export default {
 </script>
 
 <template>
-  <NavBar/>
+  <NavBar />
   <div class="content-wrapper">
     <RouterView />
   </div>
-  <Footer/>
+  <Footer />
 </template>
 
 <style lang="scss">
