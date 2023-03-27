@@ -76,7 +76,7 @@ export default {
           latitude: lat,
           longitude: long,
           location: this.address,
-          categoryId: selectedCategoryId,
+          categoryId: Number.parseInt(selectedCategoryId),
           images: imageList,
         })
       }).then(()=> {
