@@ -36,8 +36,8 @@ export default {
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
-    getCoordinates(city:string): string[]{
-      return API.Location.cityToCoords(this.address).toString().split(" ");
+    getCoordinates(address:string): string[]{
+      return API.Location.cityToCoords(address).toString().split(" ");
     },
     submit(){
       const imageList = this.itemText;
@@ -51,8 +51,8 @@ export default {
 
       //finds coordinates from address
       const longLat = this.getCoordinates(this.address);
-      const long = longLat[0];
-      const lat = longLat[0];
+      const long = longLat[0].toString();
+      const lat = longLat[1].toString();
 
       const userID = this.user.id;
 
@@ -60,13 +60,25 @@ export default {
         title: this.itemTitle,
         description: this.description,
         price: this.price,
-        latitude: long,
-        longitude: lat,
-        //address: this.address, //todo
-        date: today,
+        latitude: lat,
+        longitude: long,
+        location: this.address, //todo
+        //date: today,
         categoryId: selectedCategoryId,
         images: imageList,
         userId: userID,
+        /*
+        title: this.itemTitle,
+        description: this.description,
+        price: this.price,
+        latitude: long,
+        longitude: lat,
+        location: this.address, //todo
+        //date: today,
+        categoryId: selectedCategoryId,
+        images: imageList,
+        userId: userID,
+         */
       })
         .then(() => {
           router.push("/");
