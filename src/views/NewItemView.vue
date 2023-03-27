@@ -25,6 +25,9 @@ export default {
   computed: {
     ...mapState(useCategoryStore,["categories"]),
     ...mapState(useAuthStore, ['user']),
+    getSelectedCategory(): string {
+      return this.category.id;
+    }
 
   },
   methods: {
@@ -35,8 +38,9 @@ export default {
     },
     submit(){
       const img = this.itemText;
-      //const categoryId = this.category.categoryId;
-      //console.log(categoryId);
+
+      //fetches category from select
+      const selectedCategoryId = this.getSelectedCategory();
 
       const today = new Date().getDay();
 
@@ -91,7 +95,7 @@ export default {
 
       <label for="category">Kategori:</label><br>
       <select id="category" v-model="category" name="category">
-        <option v-for="category in categories">
+        <option v-for="category in categories" v-bind:value="category.id">
           {{ category.categoryName }}
         </option>
       </select><br>
