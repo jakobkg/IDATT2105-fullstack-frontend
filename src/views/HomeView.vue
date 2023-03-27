@@ -66,7 +66,7 @@
         <p>Loading...</p>
       </div>
       <div v-else class="items">
-        <li style="list-style-type: none" v-for="item in items" @click="goToItem(item.id)">
+        <li style="list-style-type: none" v-for="item in items" >
         
           <ItemCard :item="item" />
         </li>

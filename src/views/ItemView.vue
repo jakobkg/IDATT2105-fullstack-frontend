@@ -17,7 +17,8 @@
                 <h3 class="location">{{ item.location }}</h3>
             </div>
             <div class="right">
-                <button class="bookmark">Bokmerke</button>
+                <button v-if=!isBookmarked class="bookmark" @click=addToBookmarks><img src="\static\Icons\bookmark.svg" class="bookmark-image">Bokmerke</button>
+                <button v-else class="is-bookmarked" @click=deleteFromBookmarks><img src="\static\Icons\bookmark-dark.svg" class="bookmark-image">Bokmerke</button>
                 <button class="contact" @click=mailSeller>Kontakt selger</button>
             </div>
         </div>
@@ -48,6 +49,7 @@
                 totalImages: -1,
                 previous: "Forrige",
                 next: "Neste",
+                isBookmarked: false,
 
             }
         },
@@ -65,6 +67,9 @@
                 const userResponse = await API.Loftet.getUser(this.item.userId);
                 this.seller = userResponse;
 
+                this.isItemBookmarked();
+
+
             
             },
 
@@ -73,7 +78,7 @@
                     this.image = this.images[0];
                     this.imageIndex = 1;
                 } else {
-                    this.image = this.images[this.imageIndex]; //index + 1 også oppdater index
+                    this.image = this.images[this.imageIndex];
                     this.imageIndex += 1;
                 }
 
@@ -84,7 +89,7 @@
                     this.image = this.images[this.images.length - 1];
                     this.imageIndex = this.images.length;
                 } else {
-                    this.image = this.images[this.imageIndex - 2]; //index + 1 også oppdater index
+                    this.image = this.images[this.imageIndex - 2];
                     this.imageIndex -= 1;
                 }
             },
@@ -92,11 +97,29 @@
             mailSeller() {
                 console.log("mailto:" + this.seller.email);
                 return location.href="mailto:" + this.seller.email;
+            },
+
+            async addToBookmarks() {
+                const bookmarkResponse = await API.Loftet.addToBookmarks((Number(this.id)));
+                console.log(bookmarkResponse);
+                this.isBookmarked = true;
+            },
+
+            async deleteFromBookmarks() {
+                const bookmarkResponse = await API.Loftet.deleteBookmark((Number(this.id)));
+                console.log(bookmarkResponse);
+                this.isBookmarked = false;
+            },
+
+            async isItemBookmarked() {
+                this.isBookmarked = await API.Loftet.isBookmarked(Number(this.id));
             }
+
         },
 
         mounted() {
             this.loadData();
+
         }
     }
 </script>
@@ -178,6 +201,23 @@
     }
     .bookmark {
         width: 155px;
+    }
+
+    .bookmark-image {
+        
+        
+        width: 20px;
+        float: left;
+        margin-right: 5px;
+        margin-top: -2px;
+ 
+    }
+
+    .is-bookmarked {
+        width: 155px;
+        border: 1px solid base.$indigo;
+        
+        
     }
 
     .contact {
