@@ -16,12 +16,10 @@ export default {
       itemImages: [] as any[],
       itemText: '',
       itemTitle: "",
-      itemName: "",
       description: "",
       price: "",
       category: "",
       address: "",
-      hei:"",
     };
   },
   computed: {

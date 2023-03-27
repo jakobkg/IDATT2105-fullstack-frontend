@@ -18,7 +18,6 @@ export default {
       itemImages: [] as any[],
       itemText:'',
       itemTitle: "",
-      itemName:"",
       description: "",
       price: "",
       category: "",
@@ -28,10 +27,6 @@ export default {
   computed: {
     ...mapState(useCategoryStore,["categories"]),
     ...mapState(useAuthStore, ['user']),
-    getSelectedCategory(): string {
-      return this.category.id;
-    }
-
   },
   mounted() {
     this.loadData();
@@ -47,46 +42,44 @@ export default {
       this.description= this.item.description;
       this.price= this.item.price;
       this.category = this.item.categoryId;
-      this.address= "test";
-      //this.address= this.item.address; //todo
+      this.address= this.item.location;
     },
     loadImages(){//Updates the "Album" component and displays the images from in "itemText"
       this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
       console.log("la inn bilder: ");
       this.itemImages.forEach((item: any) => console.log(item))
     },
-    getCoordinates(city:string): string[]{
-      return API.Location.cityToCoords(this.address).toString().split(" ");
+    getCoordinates(address:string): string[]{
+      return API.Location.cityToCoords(address).toString().split(" ");
     },
     submit(){
         const imageList = this.itemText;
 
         //fetches category from select
-        const selectedCategoryId = this.getSelectedCategory;
+        const selectedCategoryId = this.category.split(":")[0];
 
-        //formats date
-        const date = new Date();
-        const today = date.toLocaleDateString('de-DE');
+      let long: string;
+      let lat: string;
 
-        //finds coordinates from address
-        const longLat = this.getCoordinates(this.address);
-        const long = longLat[0];
-        const lat = longLat[0];
+      const itemId = this.item.id;
 
-        const itemId = this.item.id;
-
-        API.Loftet.updateItem(itemId, {
+      //finds coordinates from address
+        const coordinates = API.Location.cityToCoords(this.address)
+          .then((coordinates) => {
+            long = coordinates.longitude;
+            lat = coordinates.latitude;
+          }).then(()=> {
+        API.Loftet.updateItem(itemId,{
           title: this.itemTitle,
           description: this.description,
           price: this.price,
           latitude: lat,
           longitude: long,
-          date:today,
+          location: this.address,
           categoryId: selectedCategoryId,
           images: imageList,
-
         })
-          .then(()=> {
+      }).then(()=> {
             router.push("/item/"+itemId);
           })
           .catch(() => {
