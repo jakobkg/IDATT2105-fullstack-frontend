@@ -62,7 +62,7 @@ export default {
         const imageList = this.itemText;
 
         //fetches category from select
-        const selectedCategoryId = this.getSelectedCategory();
+        const selectedCategoryId = this.getSelectedCategory;
 
         //formats date
         const date = new Date();
