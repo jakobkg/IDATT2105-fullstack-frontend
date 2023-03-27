@@ -24,9 +24,9 @@ export default {
       </div>
 
       <div class="buttons">
-        <button><a href="/profile/edit">Rediger profilen</a></button>
-        <button><a href="/profile/my-items" >Mine annonser</a></button>
-        <button><a href="/profile/bookmarks">Mine bokmerker</a></button>
+        <button><RouterLink to="/profile/edit">Rediger profilen</RouterLink></button>
+        <button><RouterLink to="/profile/my-items" >Mine annonser</RouterLink></button>
+        <button><RouterLink to="/profile/bookmarks">Mine bokmerker</RouterLink></button>
         <button id="logout-button" @click="authStore.logout()"><a href="/">Logg ut</a></button>
       </div>
     </div>

@@ -83,7 +83,6 @@ export namespace API {
       id: number,
       request: UpdateUserRequest,
     ): Promise<User> {
-
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) {
         throw new Error();
@@ -91,9 +90,10 @@ export namespace API {
 
       return axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/user/${id}`,
-        request, {
+        request,
+        {
           headers: { Authorization: `Bearer ${authStore.token}` },
-        }
+        },
       )
         .then((response: AxiosResponse<User>) => {
           return response.data;
@@ -146,7 +146,6 @@ export namespace API {
       id: number,
       request: UpdateItemRequest,
     ): Promise<void> {
-
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) {
         throw new Error();
@@ -154,10 +153,27 @@ export namespace API {
 
       return axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/item/${id}`,
-        request, {
+        request,
+        {
           headers: { Authorization: `Bearer ${authStore.token}` },
-        }
+        },
       )
+        .then(() => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
+    }
+
+    export async function deleteItem(id: number): Promise<void> {
+      const authStore = useAuthStore();
+
+      return axios.delete(`${import.meta.env.VITE_BACKEND_URL}/item/${id}`, {
+        headers: {
+          Authorization: `Bearer ${authStore.token}`,
+        },
+      })
         .then(() => {
           return;
         })
@@ -182,7 +198,7 @@ export namespace API {
      * @param category id (optional)
      * @returns an array of item objects from specified list
      */
-    export async function listItems(pageNumber: number=1): Promise<any[]> {
+    export async function listItems(pageNumber: number = 1): Promise<any[]> {
       return axios.get(
         import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber,
       )
@@ -227,7 +243,8 @@ export namespace API {
       userId: number,
     ): Promise<any[]> {
       return axios.get(
-        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber + "&userId=" + userId,
+        import.meta.env.VITE_BACKEND_URL + "/item?page=" + pageNumber +
+          "&userId=" + userId,
       )
         .then((response: AxiosResponse) => {
           return response.data;
@@ -263,81 +280,90 @@ export namespace API {
      * @param pagenumber the page in the search results to retreive
      * @returns a list of items baserd on the provided parameters
      */
-    export async function searchItems(searchterm: string, pagenumber: number = 1): Promise<Item[]> {
-      return axios.get(`${import.meta.env.VITE_BACKEND_URL}/item/search/${searchterm}?page=${pagenumber}`)
-      .then((response: AxiosResponse<Item[]>) => {
-        return response.data;
-      })
-      .catch(() => {
-        throw new Error();
-      })
+    export async function searchItems(
+      searchterm: string,
+      pagenumber: number = 1,
+    ): Promise<Item[]> {
+      return axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/item/search/${searchterm}?page=${pagenumber}`,
+      )
+        .then((response: AxiosResponse<Item[]>) => {
+          return response.data;
+        })
+        .catch(() => {
+          throw new Error();
+        });
     }
 
-
-    export async function addToBookmarks(itemId: number): Promise<any[]> {
+    export async function addToBookmarks(itemId: number): Promise<void> {
       const authStore = useAuthStore();
 
       if (!authStore.isLoggedIn) throw new Error();
-      
-      return axios.post((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), '', {
-        headers: { Authorization: "Bearer " + authStore.token},
-      })
-      .then(response => {
-        return response.data;
-      })
-      .catch(() => {
-        throw new Error();
-      });
+
+      return axios.post(
+        import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId,
+        "",
+        {
+          headers: { Authorization: "Bearer " + authStore.token },
+        },
+      )
+        .then((response) => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
     }
 
-    export async function deleteBookmark(itemId: number): Promise<any[]> {
+    export async function deleteBookmark(itemId: number): Promise<void> {
       const authStore = useAuthStore();
 
       if (!authStore.isLoggedIn) throw new Error();
-      
-      return axios.delete((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
-        headers: { Authorization: "Bearer " + authStore.token},
-      })
-      .then(response => {
-        return response.data;
-      })
-      .catch(() => {
-        throw new Error();
-      });
+
+      return axios.delete(
+        import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId,
+        {
+          headers: { Authorization: "Bearer " + authStore.token },
+        },
+      )
+        .then((response) => {
+          return;
+        })
+        .catch(() => {
+          throw new Error();
+        });
     }
 
     export async function isBookmarked(itemId: number): Promise<boolean> {
-        const authStore = useAuthStore();
+      const authStore = useAuthStore();
 
-        if (!authStore.isLoggedIn) return false;
-        return axios.get((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
-          headers: { Authorization: "Bearer " + authStore.token}
-        })
-        .then (() => {
-          return true;
+      if (!authStore.isLoggedIn) return false;
+      return axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId,
+        {
+          headers: { Authorization: "Bearer " + authStore.token },
+        },
+      )
+        .then((response: AxiosResponse<boolean>) => {
+          return response.data;
         }).catch(() => {
           return false;
-        })
+        });
     }
 
     export async function getBookmarks(): Promise<any[]> {
       const authStore = useAuthStore();
       if (!authStore.isLoggedIn) throw new Error();
 
-      return axios.get((import.meta.env.VITE_BACKEND_URL + "/bookmark"), {
-        headers: { Authorization: "Bearer " + authStore.token}
+      return axios.get(import.meta.env.VITE_BACKEND_URL + "/bookmark", {
+        headers: { Authorization: "Bearer " + authStore.token },
       })
-      .then (response => {
-        return response.data;
-      }).catch(() => {
-        throw new Error();
-      })
-
+        .then((response) => {
+          return response.data;
+        }).catch(() => {
+          throw new Error();
+        });
     }
-
-
-
-
   }
   export namespace Location {
     /**
@@ -355,9 +381,9 @@ export namespace API {
         `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
         {
           headers: {
-            "User-Agent": "loftet.no v1" // Header added to allow OSM to keep stats/limit uasge if needed
-          }
-        }
+            "User-Agent": "loftet.no v1", // Header added to allow OSM to keep stats/limit uasge if needed
+          },
+        },
       )
         .then((response: AxiosResponse<CityLookupResponse>) => {
           return `${response.data.address.postcode} ${response.data.address.city}`;
@@ -368,25 +394,27 @@ export namespace API {
     }
 
     /**
-     * Uses an external OpenStreetMap API to perform a GPS lookup and get the city name/postcode
-     * of a given location
-     * @param latitude GPS latitude of the place to look up (represented as a string to avoid floating point shenanigans)
-     * @param longitude GPS longitude of the place to look up (represented as a string)
-     * @returns the city and post code of the location, in the format "1234 Cityville"
+     * Uses an external OpenStreetMap API to perform a GPS search and get the coordinates of an address
+     *
+     * @param address the address to find GPS coordinates for
+     * @returns the GPS coordinates of the address. If there are multiple potential hits, the most likely one is chosen
      */
     export async function cityToCoords(
-      address: string
+      address: string,
     ): Promise<GPSCoordinates> {
       return axios.get(
         `https://nominatim.openstreetmap.org/search?q=${address}&format=json`,
         {
           headers: {
-            "User-Agent": "loftet.no v1" // Header added to allow OSM to keep stats/limit usage if needed
-          }
-        }
+            "User-Agent": "loftet.no v1", // Header added to allow OSM to keep stats/limit usage if needed
+          },
+        },
       )
         .then((response: AxiosResponse) => {
-          return {latitude: `${response.data[0].lat}`, longitude: `${response.data[0].lon}`};
+          return {
+            latitude: `${response.data[0].lat}`,
+            longitude: `${response.data[0].lon}`,
+          };
         })
         .catch(() => {
           throw new Error();

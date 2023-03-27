@@ -1,4 +1,3 @@
-
 <script lang="ts">
 import Album from "@/components/Album.vue";
 import { API } from '@/util/API';
@@ -6,6 +5,7 @@ import router from "@/router";
 import { mapState } from "pinia";
 import { useCategoryStore } from "@/store/categoryStore";
 import { useAuthStore } from "@/store/authStore";
+
 export default {
   name: "ModifyItemView",
   components: { Album },
@@ -13,78 +13,64 @@ export default {
   data() {
     return {
       itemId: this.$route.params.id,
-      item: [] as any,
+      item: {} as Item,
 
-      itemImages: [] as any[],
-      itemText:'',
-      itemTitle: "",
-      description: "",
-      price: "",
-      category: "",
-      address: "",
+      itemImages: [] as string[],
+      imageList: '',
+      
+      category: {} as Category,
+      categoryName: "",
     };
   },
   computed: {
-    ...mapState(useCategoryStore,["categories"]),
+    ...mapState(useCategoryStore, ["categories"]),
     ...mapState(useAuthStore, ['user']),
   },
   mounted() {
-    this.loadData();
-    this.loadImages();
+    API.Loftet.getItem(Number(this.$route.params.id))
+      .then((item: Item) => {
+        this.item = item;
+
+        this.imageList = item.images;
+        this.category = this.categories.filter((category) => { return category.id == item.categoryId;})[0];
+        this.categoryName = this.category.categoryName;
+        this.updateImages();
+      });
   },
   methods: {
-    async loadData() {
-      const response = await API.Loftet.getItem(Number(this.$route.params.id));
-      this.item = response;
-
-      this.itemText = this.item.images;
-      this.itemTitle= this.item.title;
-      this.description= this.item.description;
-      this.price= this.item.price;
-      this.category = this.item.categoryId;
-      this.address= this.item.location;
+    updateImages() {
+      this.itemImages = this.imageList.split(",").map((itemText: string) => itemText.trim());
     },
-    loadImages(){//Updates the "Album" component and displays the images from in "itemText"
-      this.itemImages = this.itemText.split(",").map((itemText: string) => itemText.trim());
-      console.log("la inn bilder: ");
-      this.itemImages.forEach((item: any) => console.log(item))
-    },
-    getCoordinates(address:string): string[]{
-      return API.Location.cityToCoords(address).toString().split(" ");
-    },
-    submit(){
-        const imageList = this.itemText;
-
-        //fetches category from select
-        const selectedCategoryId = this.category.split(":")[0];
+    submit() {
+      const imageList = this.imageList;
 
       let long: string;
       let lat: string;
 
       const itemId = this.item.id;
 
-        const coordinates = API.Location.cityToCoords(this.address)
-          .then((coordinates) => {
-            long = coordinates.longitude;
-            lat = coordinates.latitude;
-          }).then(()=> {
-        API.Loftet.updateItem(itemId,{
-          title: this.itemTitle,
-          description: this.description,
-          price: this.price,
-          latitude: lat,
-          longitude: long,
-          location: this.address,
-          categoryId: Number.parseInt(selectedCategoryId),
-          images: imageList,
+      API.Location.cityToCoords(this.item.location)
+        .then((coordinates) => {
+          long = coordinates.longitude;
+          lat = coordinates.latitude;
         })
-      }).then(()=> {
-            router.push("/item/"+itemId);
+        .then(() => {
+          return API.Loftet.updateItem(itemId, {
+            title: this.item.title,
+            description: this.item.description,
+            price: this.item.price,
+            latitude: long,
+            longitude: lat,
+            location: this.item.location,
+            categoryId: this.categories.filter((category) => {return category.categoryName === this.categoryName})[0].id,
+            images: imageList,
           })
-          .catch(() => {
-            console.log("feil ved oppdatering av annonse");
-            alert("Det oppsto en feil ved oppdatering av annonsen")
-          });
+        }).then(() => {
+          router.push("/item/" + itemId);
+        })
+        .catch(() => {
+          alert("Det oppsto en feil ved oppdatering av annonsen! Sjekk at adressen er korrekt angitt")
+        });
     },
   }
 }
@@ -94,38 +80,35 @@ export default {
   <main>
     <h1>REDIGER ANNONSE</h1>
 
-    <Album :album-images= itemImages />
+    <Album :album-images=itemImages />
 
     <form @submit.prevent="submit">
       <label for="title">Annonsetittel:</label><br>
-      <input type="text" v-model="itemTitle" id="title" name="title" required><br>
+      <input type="text" v-model="item.title" id="title" name="title" required><br>
 
       <label for="description">Beskrivelse:</label><br>
-      <textarea id="description" v-model= "description" name="desctiption" required></textarea>
+      <textarea id="description" v-model="item.description" name="desctiption" required></textarea>
 
       <label for="price">Pris:</label><br>
-      <input type="number" id="price" v-model="price" name="price" min="0" required><br>
+      <input type="number" id="price" v-model="item.price" name="price" min="0" required><br>
 
       <label for="category">Kategori:</label><br>
-      <select id="category" v-model="category" name="category">
+      <select id="category" v-model="categoryName" name="category">
         <option v-for="category in categories">
-          {{category.id +":" + category.categoryName }}
+          {{ category.categoryName }}
         </option>
       </select><br>
 
       <label for="address">Adresse:</label><br>
-      <input type="text" id="address" v-model="address" name="address" required><br>
+      <input type="text" id="address" v-model="item.location" name="address" required><br>
 
       <label for="images">Legg inn komma-separerte bildelenker:</label><br>
-      <input v-model="itemText" type="text" id="images" name="images"><br><br>
-      <button type="button" id="update" @click="loadImages">Oppdater bilder</button>
-      <br><br>
+      <input v-model="imageList" type="text" id="images" name="images" @keyup="updateImages()">
 
       <input type="submit" value="Lagre">
     </form>
 
   </main>
-
 </template>
 
 
@@ -134,23 +117,27 @@ main {
   text-align: left;
   width: 90%;
 }
-form{
+
+form {
   align-content: end;
 }
 
-input[type="text"],input[type="select"],input[type="number"] {
-  width:100%;
+input[type="text"],
+input[type="select"],
+input[type="number"] {
+  width: 100%;
   padding: .5em;
   outline-color: base.$pink;
 }
 
-textarea{
+textarea {
   min-width: 100%;
   resize: vertical;
   padding: .5em;
 }
 
-input:focus-visible, textarea:focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   outline: 2px solid base.$pink;
   border-radius: 3px;
 }

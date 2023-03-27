@@ -3,7 +3,9 @@
     <div @click="goToItem(item.id)" class="clickable">
 
       <div class="image">
-        <img class="thumbnail" :src="thumbnail ? thumbnail : ''" alt="image">
+        <img class="thumbnail"
+          :src="thumbnail ? (thumbnail.length > 0 ? thumbnail : '/static/Icons/placeholder.png') : '/static/Icons/placeholder.png'"
+          alt="image">
       </div>
 
       <div class="info">
@@ -11,35 +13,34 @@
         <h3> {{ item.price }} kr</h3>
         <h4>{{ item.location }} - {{ item.date }}</h4>
       </div>
-      
-      <!--
-        Delete button - needs frontend api
-        <div v-if="this.authStore.isLoggedIn() && this.user.id === userId">
-          <a href="/item/delete" class="delete-link"><img src="..\..\public\static\Icons\trash.svg" alt="delete"></a>
-        </div>-->
-        
-      </div>
-      
-      <div v-if="authStore.isLoggedIn && user.id === item.userId">
-        <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
-      </div>
-      <div class="bookmark">
-          <img v-if="!isBookmarked" @click="addToBookmarks" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
-          <img v-else @click="deleteFromBookmarks" class="bookmark-img" src="\static\Icons\bookmark-dark.svg" alt="bookmark">
-      </div>
+
+    </div>
+    <div class="delete-btn" v-if="authStore.isLoggedIn && (user.id === item.userId || user.type === 'ADMIN')">
+      <img @click="deleteItem" src="/static/Icons/trash.svg" alt="delete">
     </div>
 
+
+    <div v-if="authStore.isLoggedIn && (user.id === item.userId || user.type == 'ADMIN')">
+      <a :href="`/item/edit/${item.id}`" class="edit-link"><img src="\static\Icons\pencil.svg" alt="edit"></a>
+    </div>
+    <div class="bookmark">
+      <img v-if="isBookmarked" @click="deleteFromBookmarks" class="bookmark-img" src="\static\Icons\bookmark-dark.svg"
+        alt="bookmark">
+      <img v-else @click="addToBookmarks" class="bookmark-img" src="\static\Icons\bookmark.svg" alt="bookmark">
+    </div>
+  </div>
 </template>
 <script lang="ts">
 import { mapState, mapStores } from "pinia";
 import { useAuthStore } from "@/store/authStore";
 import { API } from '@/util/API'
+import type { PropType } from "vue";
+import router from "@/router";
 
 export default {
   name: "ItemCard",
   mounted() {
-    API.Location.coordsToCity(this.item.latitude,this.item.longitude).then((location)=>{this.item.location = location});
-    API.Loftet.isBookmarked(this.item.id).then((response) => {this.isBookmarked = response});
+    API.Loftet.isBookmarked(this.item.id).then((response) => { this.isBookmarked = response });
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -48,39 +49,47 @@ export default {
   },
   props: {
     item: {
-      type: Object,
+      type: Object as PropType<Item>,
       required: true
-     }
+    }
   },
 
-    data() {
-        return {
-            thumbnail: this.item.images.split(",").shift(),
-            location: "",
-            isBookmarked: false,
-        }
+  data() {
+    return {
+      thumbnail: this.item.images.split(",").shift(),
+      location: "",
+      isBookmarked: false,
+    }
+  },
+  methods: {
+    async isItemBookmarked(itemId: number): Promise<boolean> {
+      const response = await API.Loftet.isBookmarked(Number(itemId));
+      return response;
     },
-    methods: {
-      async isItemBookmarked(itemId: number): Promise<boolean> {
-          const response = await API.Loftet.isBookmarked(Number(itemId));
-          console.log(response);
-          return response;
-      },
-      async addToBookmarks() {
-          const bookmarkResponse = await API.Loftet.addToBookmarks((Number(this.item.id)));
-          console.log(bookmarkResponse);
-          this.isBookmarked = true;
-      },
+    addToBookmarks() {
+      API.Loftet.addToBookmarks((Number(this.item.id)))
+      .then(() => {
+        this.isBookmarked = true;
+      })
+    },
 
-      async deleteFromBookmarks() {
-          const bookmarkResponse = await API.Loftet.deleteBookmark((Number(this.item.id)));
-          console.log(bookmarkResponse);
-          this.isBookmarked = false;
-      },
+    deleteFromBookmarks() {
+      API.Loftet.deleteBookmark((Number(this.item.id)))
+      .then(() => {
+        this.isBookmarked = false;
+      })
+    },
 
-      goToItem(id: number) {
-        API.Loftet.goToItem(id);
-      }
+    deleteItem() {
+      API.Loftet.deleteItem(this.item.id)
+        .then(() => {
+          router.go(0); // refresh page to show user the listing was deleted, as listing exists in parent state
+        })
+    },
+
+    goToItem(id: number) {
+      API.Loftet.goToItem(id);
+    }
   }
 }
 </script>
@@ -113,7 +122,7 @@ export default {
 }
 
 
-.delete-link {
+.delete-btn {
   width: 25px;
   height: 25px;
   display: inline-block;
@@ -127,17 +136,16 @@ export default {
   padding: 5px;
 
   img {
-    width: 25px;
-    height: 25px;
+    max-width: 25px;
+    max-height: 25px;
     padding: 5px;
 
     position: absolute;
     top: 0px;
     right: 0px;
-    max-height: 100%;
-    max-width: 100%;
   }
 }
+
 .content {
   position: relative;
   border-bottom: solid 1px #999;
@@ -149,44 +157,45 @@ export default {
   /* max-height: 180px; */
   max-width: 100%;
   border-radius: 5px;
-  padding-bottom:15px;
+  padding-bottom: 15px;
   overflow: hidden;
   text-align: left;
   // padding-right: 35px;
   margin-right: 35px;
+
   &:hover {
     background-color: #e4e2de;
   }
 }
 
-  .clickable {
-    position: relative;
+.clickable {
+  position: relative;
 
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    min-height: 130px;
-    min-width: 270px;
-    /* max-height: 180px; */
-    max-width: 100%;
-    border-radius: 5px;
-    padding-bottom:15px;
-    overflow: hidden;
-    text-align: left;
-    margin-right: 35px;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  min-height: 130px;
+  min-width: 270px;
+  /* max-height: 180px; */
+  max-width: 100%;
+  border-radius: 5px;
+  padding-bottom: 15px;
+  overflow: hidden;
+  text-align: left;
+  margin-right: 35px;
 
-  }
+}
 
-    .image {
-        /* width: 120px; */
-        min-width: 150px;
-        width: 150px;
-        height: 150px;
-        height: 100%;
-        margin-left: 15px;
-        margin-top: 15px;
-        
-    }
+.image {
+  /* width: 120px; */
+  min-width: 150px;
+  width: 150px;
+  height: 150px;
+  height: 100%;
+  margin-left: 15px;
+  margin-top: 15px;
+
+}
 
 
 .thumbnail {
@@ -243,14 +252,13 @@ h4 {
 }
 
 .edit-link {
-    position: absolute;
-    top: 0px;
-    right: 35px;
-    max-height: 100%;
-    max-width: 100%;
-    width: 25px;
-    padding: 5px
-
+  position: absolute;
+  top: 0px;
+  right: 35px;
+  max-height: 100%;
+  max-width: 100%;
+  width: 25px;
+  padding: 5px
 }
 
 @media (max-width: base.$phone) {
@@ -261,11 +269,10 @@ h4 {
 
     margin-top: 15px;
   }
+
   .thumbnail {
     min-width: 100%;
     min-height: 100%;
 
   }
-}
-
-</style>
+}</style>
