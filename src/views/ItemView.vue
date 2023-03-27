@@ -172,7 +172,6 @@ img {
     flex-direction: column;
     text-align: right;
     gap: 40px;
-    // padding-right: 150px;
 }
 
 .left {
@@ -181,7 +180,6 @@ img {
     text-align: left;
     width: 80%;
     padding-right: 20px;
-    // padding-left: 150px;
 }
 
 .date-text {
