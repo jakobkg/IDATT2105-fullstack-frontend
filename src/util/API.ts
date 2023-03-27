@@ -309,7 +309,7 @@ export namespace API {
     export async function isBookmarked(itemId: number): Promise<boolean> {
         const authStore = useAuthStore();
 
-        if (!authStore.isLoggedIn) throw new Error();
+        if (!authStore.isLoggedIn) return false;
         return axios.get((import.meta.env.VITE_BACKEND_URL + "/bookmark/" + itemId), {
           headers: { Authorization: "Bearer " + authStore.token}
         })
