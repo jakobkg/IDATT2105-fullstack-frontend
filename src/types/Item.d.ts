@@ -5,6 +5,7 @@ declare type Item = {
     date: string;
     latitude: string;
     longitude: string;
+    location: string;
     price: string;
     categoryId: number;
     images: string;
