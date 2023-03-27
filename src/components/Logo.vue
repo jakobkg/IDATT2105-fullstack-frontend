@@ -1,7 +1,7 @@
 <template>
-  <a href="/">
+  <RouterLink to="/">
     <img src="/static/Icons/home.svg" alt="Website logo">
-  </a>
+  </RouterLink>
 </template>
 
 <script lang="ts">
