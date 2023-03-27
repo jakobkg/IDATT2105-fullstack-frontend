@@ -1,11 +1,11 @@
 <template>
   <li>
-    <a :href=pageLink>
+    <RouterLink :to="pageLink ? pageLink : '/'">
       <div>
         <img :src=imageLink alt="">
         <p class = "navtext">{{navText}}</p>
       </div>
-    </a>
+    </RouterLink>
   </li>
 </template>
 
