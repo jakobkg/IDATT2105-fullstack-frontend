@@ -63,7 +63,6 @@ export default {
 
       const itemId = this.item.id;
 
-      //finds coordinates from address
         const coordinates = API.Location.cityToCoords(this.address)
           .then((coordinates) => {
             long = coordinates.longitude;
